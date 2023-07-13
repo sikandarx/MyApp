@@ -76,7 +76,7 @@ if($_POST)
 }
 ?>
 <h1 class="p-4 text-center text-white bg-success">Enter Course Info</h1>
-<div class="container mt-5">
+<div class="container my-5">
     <form name ="bio" method="POST" action="course_info.php">
         <div class="form-group">
             <label for="course_title">Course Title<span class="text-danger"> *</span></label>
@@ -123,9 +123,6 @@ if($_POST)
         </div>
         <button type="submit" class="btn btn-success" >Submit</button>
     </form>
-    <a href="course_info_table.php" target="_blank">
-        <button class="btn btn-secondary my-3">Course Data Table</button>
-    </a>
 </div>
 </body>
 </html>

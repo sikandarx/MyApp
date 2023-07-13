@@ -78,7 +78,7 @@ if($_POST)
 
 <h1 class="p-4 text-center text-white bg-primary">Enter Student Info</h1>
 
-<div class="container mt-5">
+<div class="container my-5">
     <form name ="bio" method="POST" action="student_info.php">
         <div class="form-group">
             <label for="name">Name<span class="text-danger"> *</span></label>
@@ -120,15 +120,7 @@ if($_POST)
         </div>
         <button type="submit" class="btn btn-primary" >Submit</button>
     </form>
-    <a href="student_info_table.php" target="_blank">
-        <button class="btn btn-secondary my-3">Student Data Table</button>
-    </a>
 
 </div>
 </body>
 </html>
-
-
-
-
-

@@ -83,7 +83,7 @@ if($_POST)
 }
 ?>
 <h1 class="p-4 text-center text-white bg-secondary">Course Enrollment</h1>
-<div class="container mt-5">
+<div class="container my-5">
     <form name ="bio" method="POST" action="enroll.php">
         <div class="form-group">
             <label for="course_id">Course Title<span class="text-danger"> *</span></label>
@@ -108,16 +108,6 @@ if($_POST)
         </div>
         <button type="submit" class="btn btn-secondary" >Enroll</button>
     </form>
-    <a href="enroll_info_table.php" target="_blank">
-        <button class="btn btn-dark mt-3">Enrollment Data Table</button>
-    </a><br>
-    <a href="student_info_table.php" target="_blank">
-        <button class="btn btn-primary mt-3">Student Data Table</button>
-    </a><br>
-    <a href="course_info_table.php" target="_blank">
-        <button class="btn btn-success mt-3">Course Data Table</button>
-    </a>
-</div>
 <script>
 
 </script>
