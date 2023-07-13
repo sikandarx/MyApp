@@ -25,12 +25,12 @@ else{
 }
 }
 
-/*if(isset($_POST['delete'])) {
+if(isset($_POST['delete'])) {
 
     $id = $_POST['delete'];
     $db->delete_enroll($id);  // Delete item
 
-}*/
+}
 ?>
      <div class="container mt-5">
     <form name ="course_name" method="POST" action="enroll_info_table.php">
@@ -87,7 +87,7 @@ else{
 <?php } } ?>
 
 <script>
-    const form = document.getElementById("myForm");
+/*    const form = document.getElementById("myForm");
     const table = document.getElementById("myTable");
     const btn = document.getElementById("delete");
 
@@ -110,7 +110,7 @@ else{
     function refreshTable() {
         let tableHTML = table.innerHTML;
         table.innerHTML = tableHTML;
-    }
+    }*/
 </script>
 
 </body>
