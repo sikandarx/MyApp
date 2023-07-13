@@ -19,6 +19,9 @@
         .navbar{
             padding: 0;
         }
+        .bg-primary{
+            background-color: #976fd7!important;
+        }
     </style>
 </head>
 <body>

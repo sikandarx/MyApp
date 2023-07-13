@@ -24,11 +24,11 @@ class application
         $result = mysqli_query($this->conn, $sql);
         if(!$result)
         {
-            echo "<p class='p-2 text-white bg-success text-center' >There is some issue with record creation</p>";
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >There is some issue with record creation</p>";
         }
         else
         {
-            echo "<p class='mt-4 p-2 text-white text-center bg-success'>Data submitted</p>";
+            echo "<p class='p-2 mx-5 text-white text-center bg-success'>Data submitted</p>";
         }
     }
     public function get_data_student()
@@ -51,11 +51,11 @@ class application
         $result = mysqli_query($this->conn, $sql);
         if(!$result)
         {
-            echo "<p class='p-2 text-white bg-success text-center' >There is some issue with record creation</p>";
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >There is some issue with record creation</p>";
         }
         else
         {
-            echo "<p class='p-2 text-white bg-success text-center' >Data submitted</p>";
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Data submitted</p>";
         }
     }
     public function get_data_course()
@@ -75,11 +75,11 @@ class application
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
-            echo "<p class='p-2 text-white bg-danger text-center' >There is some issue with record creation</p>";
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
         }
         else
         {
-            echo "<p class='p-2 text-white bg-success text-center' >Enrollment Successfull</p>";
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >Enrollment Successfull</p>";
         }
     }
     public function delete_enroll($id) {

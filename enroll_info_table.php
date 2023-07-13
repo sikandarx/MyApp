@@ -21,7 +21,9 @@
         .navbar{
             padding: 0;
         }
-
+        .bg-primary{
+            background-color: #976fd7!important;
+        }
     </style>
 </head>
 <body>
@@ -56,7 +58,7 @@
     </ul>
 </nav>
 
-<h1 class="p-4 text-center text-white bg-secondary">Course Info Table</h1>
+<h1 class="p-4 text-center text-white bg-primary">Course Info Table</h1>
 
 <?php
 require 'application.php';

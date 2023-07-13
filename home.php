@@ -16,6 +16,7 @@
         }
 
         .active{
+            background-color: #976fd7!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -25,6 +26,9 @@
         }
         .navbar{
             padding: 0;
+        }
+        .bg-primary{
+            background-color: #976fd7!important;
         }
     </style>
 </head>
@@ -60,5 +64,7 @@
         </li>
     </ul>
 </nav>
+<h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
+
 </body>
 </html>

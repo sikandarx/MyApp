@@ -17,6 +17,7 @@
         }
 
         .active{
+            background-color: #976fd7!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -26,6 +27,9 @@
         }
         .navbar{
             padding: 0;
+        }
+        .bg-primary{
+            background-color: #976fd7!important;
         }
     </style>
 </head>
@@ -41,7 +45,7 @@
             <a class="nav-link" href="student_info.php">Student</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active bg-success" href="course_info.php">Course</a>
+            <a class="nav-link active" href="course_info.php">Course</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="enroll.php">Enroll</a>
@@ -60,6 +64,7 @@
         </li>
     </ul>
 </nav>
+<h1 class="p-4 text-center text-white bg-primary">Enter Course Info</h1>
 
 <?php
 require 'application.php';
@@ -76,7 +81,6 @@ if($_POST)
     }
 }
 ?>
-<h1 class="p-4 text-center text-white bg-success">Enter Course Info</h1>
 <div class="container my-5">
     <form name ="bio" method="POST" action="course_info.php">
         <div class="form-group">
@@ -122,7 +126,7 @@ if($_POST)
             <label for="course_info">Course Info</label>
             <textarea class="form-control" id="course_info" name="course_info" rows="4" placeholder="Enter additional course info"></textarea>
         </div>
-        <button type="submit" class="btn btn-success" >Submit</button>
+        <button type="submit" class="btn btn-primary" >Submit</button>
     </form>
 </div>
 </body>

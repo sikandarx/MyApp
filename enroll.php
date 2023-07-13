@@ -17,6 +17,7 @@
         }
 
         .active{
+            background-color: #976fd7!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -26,6 +27,9 @@
         }
         .navbar{
             padding: 0;
+        }
+        .bg-primary{
+            background-color: #976fd7!important;
         }
     </style>
 </head>
@@ -44,7 +48,7 @@
             <a class="nav-link" href="course_info.php">Course</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active bg-secondary" href="enroll.php">Enroll</a>
+            <a class="nav-link active" href="enroll.php">Enroll</a>
         </li>
 
         <!-- Dropdown -->
@@ -60,7 +64,7 @@
         </li>
     </ul>
 </nav>
-
+<h1 class="p-4 text-center text-white bg-primary">Course Enrollment</h1>
 <?php
 require 'application.php';
 $db = new application();
@@ -82,7 +86,7 @@ if($_POST)
     }
 }
 ?>
-<h1 class="p-4 text-center text-white bg-secondary">Course Enrollment</h1>
+
 <div class="container my-5">
     <form name ="bio" method="POST" action="enroll.php">
         <div class="form-group">

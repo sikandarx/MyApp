@@ -15,6 +15,7 @@
             padding-left:20px!important;
         }
         .active{
+            background-color: #976fd7!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -25,7 +26,9 @@
         .navbar{
             padding: 0;
         }
-
+        .bg-primary{
+            background-color: #976fd7!important;
+        }
     </style>
 </head>
 <body>
@@ -37,7 +40,7 @@
             <a class="nav-link " href="home.php">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active bg-primary" href="student_info.php">Student</a>
+            <a class="nav-link active" href="student_info.php">Student</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="course_info.php">Course</a>
@@ -59,6 +62,7 @@
         </li>
     </ul>
 </nav>
+<h1 class="p-4 text-center text-white bg-primary">Enter Student Info</h1>
 
 <?php
 require 'application.php';
@@ -77,7 +81,6 @@ if($_POST)
 }
 ?>
 
-<h1 class="p-4 text-center text-white bg-primary">Enter Student Info</h1>
 
 <div class="container my-5">
     <form name ="bio" method="POST" action="student_info.php">
