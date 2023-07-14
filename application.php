@@ -89,7 +89,7 @@ class application
     public function get_enroll_data($course_id)
     {
         $data = array();
-        $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number' FROM student_course c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
+        $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
         $result = $this->conn->query($sql);
         return $result;
     }
@@ -98,5 +98,12 @@ class application
         $result = $this->conn->query("SELECT course_title FROM `course` WHERE course_id=".$id);
          return $result;
     }
+    public function get_data_login($username,$password)
+    {
+        $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");
+        return $result;
+    }
+
+
 }
 ?>

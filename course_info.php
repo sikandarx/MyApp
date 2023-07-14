@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,25 +9,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .nav-item{
-            margin: auto 0!important;
-            padding-right:20px!important;
-            padding-left:20px!important;
+            margin: auto!important;
         }
-
+        .nav-link{
+            padding: 8px 0!important;
+            margin-right: 20px!important;
+            margin-left: 20px!important;
+        }
+        .nav-link.active{
+            margin: 0!important;
+        }
         .active{
-            background-color: #976fd7!important;
+            background-color: #800080!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
         .dropdown-toggle{
-            padding: 16px 20px!important;
+            background-color: transparent!important;
+            padding: 8px 0!important;
             border-radius: 0!important;
         }
         .navbar{
             padding: 0;
         }
         .bg-primary{
-            background-color: #976fd7!important;
+            background-color: #800080!important;
+        }
+        .btn.logout{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .logout{
+
+            color: white!important;
+            background-color: dodgerblue!important;
+            padding: 8px 12px!important;
+            margin: 7px 40PX;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -37,7 +54,7 @@
 <nav class="navbar nav-pills navbar-expand-sm bg-dark navbar-dark">
 
     <!-- Links -->
-    <ul class="navbar-nav">
+    <ul class="navbar-nav ml-5">
         <li class="nav-item">
             <a class="nav-link" href="home.php">Home</a>
         </li>
@@ -62,11 +79,18 @@
                 <a class="dropdown-item" href="enroll_info_table.php">Enrollment</a>
             </div>
         </li>
+        <form method="POST" action="home.php">
+            <input type="hidden" name="test">
+            <button type="submit" class="btn logout" >Log Out</button>
+        </form>
     </ul>
 </nav>
 <h1 class="p-4 text-center text-white bg-primary">Enter Course Info</h1>
 
 <?php
+require 'session.php';
+$session=new session();
+
 require 'application.php';
 if($_POST)
 {
