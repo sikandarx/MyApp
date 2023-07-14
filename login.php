@@ -42,15 +42,9 @@
             $db = new application();
             $result = $db->get_data_login($username, $password);
 
-            if ($result->num_rows > 0) {
-                session_start();
-                $_SESSION['username'] = $username;
-                $_SESSION['type'] = $result->fetch_row()[3];
-                header("Location: home.php");
-            }
-            else {
-                echo "<p class='p-2 text-white bg-danger opacity text-center ' >Incorrect credentials!!</p>";
-            }
+            require 'session.php';
+            $session= new session();
+            $session->login($result,$username);
         }
     ?>
     <button type="submit" class="btn btn-primary">Login</button>

@@ -103,6 +103,11 @@ class application
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");
         return $result;
     }
+    public function get_username_info($username)
+    {
+        $result = $this->conn->query("SELECT * FROM `student` WHERE email = '$username'");
+        return $result;
+    }
 
 
 }

@@ -43,6 +43,9 @@
             margin: 7px 40PX;
             border-radius: 4px;
         }
+        .img{
+            max-width: 20px;
+        }
     </style>
 </head>
 <body>
@@ -51,16 +54,16 @@
     <!-- Links -->
     <ul class="navbar-nav ml-5">
         <li class="nav-item">
-            <a class="nav-link " href="home.php">Home</a>
+            <a class="nav-link " href="admin_home.php">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="student_info.php">Student</a>
+            <a class="nav-link" href="admin_student_info.php">Student</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="course_info.php">Course</a>
+            <a class="nav-link" href="admin_course_info.php">Course</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="enroll.php">Enroll</a>
+            <a class="nav-link" href="admin_enroll.php">Enroll</a>
         </li>
 
         <!-- Dropdown -->
@@ -69,14 +72,16 @@
                 Data Tables
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="student_info_table.php">Students</a>
-                <a class="dropdown-item" href="course_info_table.php">Courses</a>
-                <a class="dropdown-item" href="enroll_info_table.php">Enrollment</a>
+                <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
+                <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
+                <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
             </div>
         </li>
-        <form method="POST" action="home.php">
-            <input type="hidden" name="test">
-            <button type="submit" class="btn logout" >Log Out</button>
+        <form method="POST" action="admin_home.php">
+            <input type="hidden" name="logout">
+            <button type="submit" class="btn logout" >
+                <img src="icons/logout_icon.png" alt="Power Sign" class="img">
+                Log Out</button>
         </form>
     </ul>
 </nav>
@@ -86,7 +91,12 @@
 <?php
 require 'session.php';
 $session=new session();
-
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
 require 'application.php';
 $db = new application();
 $result = $db->get_data_student();
@@ -99,7 +109,7 @@ if(isset($_POST['delete']))
 
     $db->delete_student($id);  // Delete item
 
-    header("Location: student_info_table.php");  // Then redirect page
+    header("Location: admin_student_info_table.php");  // Then redirect page
 }
 ?>
 <div class="container">
