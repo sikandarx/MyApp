@@ -109,7 +109,7 @@ if($_POST)
     if($_POST['email'] != "" && $_POST['number'] != "" && $_POST['batch'] != ""&& $_POST['email'] != ""&& $_POST['gender'] != "")
     {
         $connection = new application();
-        $connection->insert_student($_POST['name'], $_POST['number'], $_POST['batch'],$_POST['email'], $_POST['gender'], $_POST['about_yourself']);
+        $connection->insert_student($_POST['name'], $_POST['number'], $_POST['batch'],$_POST['email'], $_POST['gender']);
     }
     else{
         echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
@@ -154,10 +154,6 @@ if($_POST)
                 <option value="female">Female</option>
                 <option value="other">Other</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="about-yourself">About yourself</label>
-            <textarea class="form-control" id="about_yourself" name="about_yourself" rows="4" placeholder="Tell us about yourself"></textarea>
         </div>
         <button type="submit" class="btn btn-primary" >Submit</button>
     </form>

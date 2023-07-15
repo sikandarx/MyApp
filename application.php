@@ -13,14 +13,13 @@ class application
         {
             die("Connection failed: " . $this->conn->connect_error);
         }
-
     }
     //-------------//
     //User Functions
     //-------------//
-    public function insert_student($name, $number,$batch,$email,$gender, $about_yourself)
+    public function insert_student($name, $number,$batch,$email,$gender)
     {
-        $sql = "INSERT INTO student (`name`, `roll_number`,`batch`, `email`,`gender`, `about_yourself`) VALUES ('$name', '$number','$batch','$email','$gender','$about_yourself')";
+        $sql = "INSERT INTO student (`name`, `roll_number`,`batch`, `email`,`gender`) VALUES ('$name', '$number','$batch','$email','$gender')";
         $result = mysqli_query($this->conn, $sql);
         if(!$result)
         {

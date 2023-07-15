@@ -15,6 +15,10 @@
             padding: 25px;
             margin: 200px auto;
         }
+        .line{
+            max-width: 100px;
+            border-top: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +53,7 @@
     ?>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+        <div class="text-center">Or</div>
 </div>
 </div>
 <script>

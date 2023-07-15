@@ -95,7 +95,6 @@ $result=$db->get_username_info($username);
         <div><h2>Batch:</h2><p><?php echo $data[3];?></p></div>
         <div><h2>Email:</h2><p><?php echo $data[4];?></p></div>
         <div><h2>Gender:</h2><p><?php echo $data[5];?></p></div>
-        <div><h2>About Yourself:</h2><p><?php echo $data[6];?></p></div>
     </div>
 
 </div>
