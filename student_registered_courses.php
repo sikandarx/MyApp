@@ -2,6 +2,12 @@
 require 'session.php';
 $session = new session();
 $session->student();
+$username=$_SESSION['username'];
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,16 +27,13 @@ $session->student();
             margin: 0!important;
         }
         .active{
-            background-color: #800080!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
         .navbar{
             padding: 0;
         }
-        .bg-primary{
-            background-color: #800080!important;
-        }
+
         .btn.logout{
             position: absolute;
             top: 0;
@@ -47,6 +50,9 @@ $session->student();
         .img{
             max-width: 20px;
         }
+        .bg-primary{
+            background-color: #7f7fff!important;
+        }
     </style>
 </head>
 <body>
@@ -58,7 +64,7 @@ $session->student();
             <a class="nav-link" href="student_home.php">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="student_registered_courses.php">Registered Courses</a>
+            <a class="nav-link active bg-primary" href="student_registered_courses.php">Registered Courses</a>
         </li>
 
         <form method="POST" action="admin_home.php">
@@ -70,5 +76,6 @@ $session->student();
     </ul>
 </nav>
 <h1 class="p-4 text-center text-white bg-primary">Your Registered Courses</h1>
+
 </body>
 </html>

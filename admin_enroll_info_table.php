@@ -158,7 +158,7 @@ if(isset($_POST['delete'])) {
 
         <h2 class="mt-5"><?=$course?>:</h2>
         <?php
-        foreach($enroll_data as $row): ?>
+        foreach($enroll_data as $row):?>
 
             <tr>
                 <td class="text-nowrap"><?= $row['Student Name'] ?></td>

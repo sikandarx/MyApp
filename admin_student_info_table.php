@@ -123,7 +123,6 @@ if(isset($_POST['delete']))
         <th>Batch Number</th>
         <th>Email</th>
         <th>Gender</th>
-        <th>About Yourself</th>
         <th>Delete Button</th>
     </tr>
 
@@ -136,7 +135,6 @@ if(isset($_POST['delete']))
            <td class="text-nowrap"><?= $row['batch'] ?></td>
            <td class="text-nowrap"><?= $row['email'] ?></td>
            <td class="text-nowrap"><?= $row['gender'] ?></td>
-           <td class="text-nowrap"><?= $row['about_yourself'] ?></td>
            <td class="text-nowrap"><button class="btn btn-danger ml-5" type="submit" name= "delete" value="<?= $row['student_id'] ?>">Delete</button></td>
        </tr>
 

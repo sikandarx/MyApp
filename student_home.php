@@ -3,6 +3,11 @@ require 'session.php';
 $session = new session();
 $session->student();
 $username=$_SESSION['username'];
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
 
 require 'application.php';
 $db= new application();
@@ -30,16 +35,13 @@ $result=$db->get_username_info($username);
             margin: 0!important;
         }
         .active{
-            background-color: #800080!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
         .navbar{
             padding: 0;
         }
-        .bg-primary{
-            background-color: #800080!important;
-        }
+
         .btn.logout{
             position: absolute;
             top: 0;
@@ -62,6 +64,9 @@ $result=$db->get_username_info($username);
         .img{
             max-width: 20px;
         }
+        .bg-primary{
+            background-color: #7f7fff!important;
+        }
     </style>
 </head>
 <body>
@@ -70,7 +75,7 @@ $result=$db->get_username_info($username);
     <!-- Links -->
     <ul class="navbar-nav ml-5">
         <li class="nav-item">
-            <a class="nav-link active" href="student_home.php">Home</a>
+            <a class="nav-link active bg-primary" href="student_home.php">Home</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>

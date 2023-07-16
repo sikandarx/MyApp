@@ -5,26 +5,39 @@
 <head>
     <title>Login Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body{
             background-color: rgba(0, 0, 255, 0.5) !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: height 0.1s ease;
         }
         .login-box{
             background-color: white;
-            max-width: 500px;
             padding: 25px;
-            margin: 200px auto;
+            border-radius: 10px;
+            margin: 20px 0;
         }
-        .line{
-            max-width: 100px;
-            border-top: 1px solid black;
+        .center {
+            display: flex;
+            justify-content: center;
         }
+
+        .btn.dropdown-toggle{
+            border: black solid 1px;
+        }
+
     </style>
 </head>
 <body>
-<div class="container">
-<div class="login-box">
-    <h2 class="text-center">Sign in</h2><br>
+
+<div class="login-box col-md-6">
+    <h2 class="text-center">Log in</h2><br>
 <form method="post" >
     <div class="form-group">
         <label for="username">Username:</label>
@@ -51,11 +64,43 @@
             $session->login($result,$username);
         }
     ?>
+    <div class="center">
     <button type="submit" class="btn btn-primary">Login</button>
+    </div>
 </form>
-        <div class="text-center">Or</div>
+        <div class="text-center font-weight-bold mt-3 mb-3">Or</div>
+        <div class="dropdown">
+            <div class="center">
+            <button class="btn dropdown-toggle" type="button" id="signupDropdown" data-toggle="collapse" data-target="#signupForm" aria-expanded="false" aria-controls="signupForm">
+                Create Account
+            </button>
+            </div>
+            <div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
+                <!-- Signup form -->
+                <form method="get">
+                    <h2 class="text-center mt-4">Sign Up</h2>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username"  name="username" placeholder="Enter Username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">New Password:</label>
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"> Confirm New Password:</label>
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
+                        <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
+                        <label for="sPassword">Show Password</label>
+                    </div>
+                    <div class="center">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </div>
-</div>
+
 <script>
     function togglePasswordVisibility() {
         var passwordField = document.getElementById("password");
@@ -67,7 +112,30 @@
             passwordField.type = "password";
         }
     }
+    function sPasswordVisibility() {
+        var newpasswordField = document.getElementById("newpassword");
+        var confirmpasswordField = document.getElementById("confirmpassword");
+        var sPasswordCheckbox = document.getElementById("sPassword");
 
+        if (sPasswordCheckbox.checked) {
+            newpasswordField.type = "text";
+            confirmpasswordField.type = "text";
+        } else {
+            newpasswordField.type = "password";
+            confirmpasswordField.type = "password";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var dropdown = document.querySelector("#signupDropdown");
+        var body = document.body;
+        var isExpanded = false;
+
+        dropdown.addEventListener("click", function(event) {
+            isExpanded = !isExpanded;
+            body.style.height = isExpanded ? "100%" : "100vh";
+        });
+    });
 </script>
 </body>
 </html>
