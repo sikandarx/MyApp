@@ -101,7 +101,6 @@ require 'application.php';
 $db = new application();
 $result = $db->get_data_course();
 
-
 if(isset($_POST['delete'])) {
 
     $id = $_POST['delete'];

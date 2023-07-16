@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        body{
+        body {
             background-color: rgba(0, 0, 255, 0.5) !important;
             display: flex;
             align-items: center;
@@ -17,7 +15,7 @@
             height: 100vh;
             transition: height 0.1s ease;
         }
-        .login-box{
+        .login-box {
             background-color: white;
             padding: 25px;
             border-radius: 10px;
@@ -28,29 +26,38 @@
             justify-content: center;
         }
 
-        .btn.dropdown-toggle{
+        .btn.dropdown-toggle {
             border: black solid 1px;
         }
 
     </style>
 </head>
 <body>
-
-<div class="login-box col-md-6">
-    <h2 class="text-center">Log in</h2><br>
-<form method="post" >
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username"  name="username" placeholder="Enter Username" required>
-    </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-        <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-        <label for="showPassword">Show Password</label>
-    </div>
+<div class="login-box col-md-4">
     <?php
-        if ($_POST) {
+    if (isset($_POST['type'])) {
+        $type=$_POST['type'];
+        $newusername = $_POST['newusername'];
+        $newpassword = $_POST['newpassword'];
+        require 'application.php';
+        $db = new application();
+        $db->signup_users($newusername, $newpassword, $type);
+    }
+    ?>
+    <h2 class="text-center">Log in</h2><br>
+    <form method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
+            <label for="showPassword">Show Password</label>
+        </div>
+        <?php
+        if (isset($_POST['username'])) {
             // Get form values
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -60,45 +67,47 @@
             $result = $db->get_data_login($username, $password);
 
             require 'session.php';
-            $session= new session();
-            $session->login($result,$username);
+            $session = new session();
+            $session->login($result, $username);
         }
-    ?>
-    <div class="center">
-    <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-</form>
-        <div class="text-center font-weight-bold mt-3 mb-3">Or</div>
-        <div class="dropdown">
-            <div class="center">
+        ?>
+        <div class="center">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+    <div class="text-center font-weight-bold mt-3 mb-3">Or</div>
+    <div class="dropdown">
+        <div class="center">
             <button class="btn dropdown-toggle" type="button" id="signupDropdown" data-toggle="collapse" data-target="#signupForm" aria-expanded="false" aria-controls="signupForm">
                 Create Account
             </button>
-            </div>
-            <div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
-                <!-- Signup form -->
-                <form method="get">
-                    <h2 class="text-center mt-4">Sign Up</h2>
-                    <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input type="text" class="form-control" id="username"  name="username" placeholder="Enter Username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">New Password:</label>
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password"> Confirm New Password:</label>
-                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
-                        <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
-                        <label for="sPassword">Show Password</label>
-                    </div>
-                    <div class="center">
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                    </div>
-                </form>
-            </div>
         </div>
+    </div>
+
+<div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
+    <!-- Signup form -->
+    <form method="post">
+        <h2 class="text-center mt-4">Sign Up</h2>
+        <div class="form-group">
+            <label for="newusername">Username:</label>
+            <input type="text" class="form-control" id="newusername" name="newusername" placeholder="Enter Username" required>
+        </div>
+        <div class="form-group">
+            <label for="newpassword">New Password:</label>
+            <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmpassword"> Confirm New Password:</label>
+            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
+            <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
+            <label for="sPassword">Show Password</label>
+        </div>
+        <input type="hidden" name="type" value="student">
+        <div class="center">
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+    </form>
+</div>
 </div>
 
 <script>
@@ -112,6 +121,7 @@
             passwordField.type = "password";
         }
     }
+
     function sPasswordVisibility() {
         var newpasswordField = document.getElementById("newpassword");
         var confirmpasswordField = document.getElementById("confirmpassword");
@@ -126,6 +136,19 @@
         }
     }
 
+
+    function validateForm() {
+        var password = document.getElementById("newpassword").value;
+        var confirmPassword = document.getElementById("confirmpassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+
+        return true;
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         var dropdown = document.querySelector("#signupDropdown");
         var body = document.body;
@@ -135,7 +158,17 @@
             isExpanded = !isExpanded;
             body.style.height = isExpanded ? "100%" : "100vh";
         });
+
+        var signupForm = document.querySelector("#signupForm form");
+        signupForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            if (!validateForm()) {
+                return;
+            }
+            signupForm.submit();
+        });
     });
 </script>
+
 </body>
 </html>

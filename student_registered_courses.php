@@ -1,14 +1,3 @@
-<?php
-require 'session.php';
-$session = new session();
-$session->student();
-$username=$_SESSION['username'];
-if(isset($_POST['logout']))
-{
-    session_destroy();
-    header("Location: login.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,6 +65,42 @@ if(isset($_POST['logout']))
     </ul>
 </nav>
 <h1 class="p-4 text-center text-white bg-primary">Your Registered Courses</h1>
+<div class="container">
+        <table class="table table-striped table-bordered mt-5">
 
+            <tr>
+                <th>Course Title</th>
+                <th>Credit Hours</th>
+                <th>Course Teacher</th>
+                <th>Curriculum</th>
+            </tr>
+
+            <?php
+            require 'session.php';
+            $session = new session();
+            $session->student();
+            $username=$_SESSION['username'];
+            if(isset($_POST['logout']))
+            {
+                session_destroy();
+                header("Location: login.php");
+            }
+            require 'application.php';
+            $db = new application();
+            $result=$db->get_data_student_course($username);
+
+             foreach($result as $row): ?>
+
+                <tr>
+                    <td class="text-nowrap"><?= $row['course_title'] ?></td>
+                    <td class="text-nowrap"><?= $row['credit_hours'] ?></td>
+                    <td class="text-nowrap"><?= $row['course_teacher'] ?></td>
+                    <td class="text-nowrap"><?= $row['curriculum'] ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        </table>
+</div>
 </body>
 </html>

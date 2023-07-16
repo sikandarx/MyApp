@@ -50,7 +50,7 @@ class application
         $result = mysqli_query($this->conn, $sql);
         if(!$result)
         {
-            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >There is some issue with record creation</p>";
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center mx-5' >There is some issue with record creation</p>";
         }
         else
         {
@@ -69,8 +69,7 @@ class application
     }
 
     public function enroll_student($student_id, $course_id) {
-        $sql = "INSERT INTO student_course (student_id, course_id) 
-          VALUES ($student_id, $course_id)";
+        $sql = "INSERT INTO student_course (student_id, course_id) VALUES ($student_id, $course_id)";
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
@@ -108,6 +107,22 @@ class application
         return $result;
     }
 
+    public function get_data_student_course($username){
+        $result = $this->conn->query("SELECT s.student_id, sc.course_id, c.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `course` c ON sc.course_id = c.course_id WHERE s.email = '$username'");
+        return $result;
+    }
 
+    public function signup_users($username,$password,$type){
+        $sql = "INSERT INTO users (`username`,`password`,`type`) VALUES ('$username','$password','$type')";
+        $result = mysqli_query($this->conn, $sql);
+        if(!$result)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center mx-5' >There is some issue with creating account!!</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Account created, Now login below.</p>";
+        }
+    }
 }
 ?>
