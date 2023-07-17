@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+
         body {
             background-color: rgba(0, 0, 255, 0.5) !important;
             display: flex;
@@ -14,6 +15,9 @@
             justify-content: center;
             height: 100vh;
             transition: height 0.1s ease;
+        }
+        hr{
+            margin-top: 30px;
         }
         .login-box {
             background-color: white;
@@ -33,11 +37,48 @@
         .btn.btn-primary{
             font-weight: bold!important;
         }
+        @media screen and (max-width:980px) {
+            body {
+                margin: 60px 0 !important;
+            }
+
+            h2 {
+                font-size: 73px !important;
+            }
+
+            hr{
+                margin-top: 50px!important;
+            }
+
+            .login-box {
+                font-size: 40px !important;
+                border-radius: 50px !important;
+                padding: 50px !important;
+            }
+
+            input[type="text"], [type="password"], [type="email"], ::placeholder {
+                font-size: 40px !important;
+            }
+            input[type="checkbox"] {
+                transform: scale(1.5) !important;
+            }
+            .btn{
+                font-size: 40px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
+            }
+            .btn.btn-primary {
+                margin-top: 30px !important;
+            }
+            .form-group{
+                margin-top: 35px !important;
+            }
+        }
 
     </style>
 </head>
 <body>
-<div class="login-box col-md-4">
+<div class="login-box col-lg-4 col-md-10">
     <?php
     //this is my code
     if (isset($_POST['type']))
@@ -93,6 +134,7 @@
 
 <div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
     <!-- Signup form -->
+    <hr>
     <form method="post">
         <h2 class="text-center mt-4">Sign Up</h2>
         <div class="form-group">
