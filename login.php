@@ -38,12 +38,9 @@
             font-weight: bold!important;
         }
         @media screen and (max-width:980px) {
-            body {
-                margin: 60px 0 !important;
-            }
 
             h2 {
-                font-size: 73px !important;
+                font-size: 80px !important;
             }
 
             hr{
@@ -51,19 +48,21 @@
             }
 
             .login-box {
-                font-size: 40px !important;
+                font-size: 50px !important;
                 border-radius: 50px !important;
                 padding: 50px !important;
+                margin: 50px 0!important;
             }
 
-            input[type="text"], [type="password"], [type="email"], ::placeholder {
-                font-size: 40px !important;
+            input[type="text"], [type="password"], [type="email"] {
+                font-size: 50px !important;
             }
             input[type="checkbox"] {
-                transform: scale(1.5) !important;
+                transform: scale(2) !important;
             }
+
             .btn{
-                font-size: 40px!important;
+                font-size: 50px!important;
                 border-radius: 20px !important;
                 padding: 8px 25px !important;
             }
@@ -71,7 +70,10 @@
                 margin-top: 30px !important;
             }
             .form-group{
-                margin-top: 35px !important;
+                margin-top: 40px !important;
+            }
+            .spass{
+                margin-top: 25px !important;
             }
         }
 
@@ -101,7 +103,7 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
             <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-            <label for="showPassword">Show Password</label>
+            <label class="spass" for="showPassword">Show Password</label>
         </div>
         <?php
         if (isset($_POST['username']))
@@ -149,7 +151,7 @@
             <label for="confirmpassword"> Confirm New Password:</label>
             <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
             <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
-            <label for="sPassword">Show Password</label>
+            <label class="spass" for="sPassword">Show Password</label>
         </div>
         <input type="hidden" name="type" value="student">
         <div class="center">
