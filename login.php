@@ -39,6 +39,7 @@
 <body>
 <div class="login-box col-md-3">
     <?php
+    //this is my code
     if (isset($_POST['type']))
     {
         $type=$_POST['type'];
