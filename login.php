@@ -144,11 +144,11 @@
             <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Your Email" required>
         </div>
         <div class="form-group">
-            <label for="newpassword">New Password:</label>
+            <label for="newpassword">Password:</label>
             <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
         </div>
         <div class="form-group">
-            <label for="confirmpassword"> Confirm New Password:</label>
+            <label for="confirmpassword"> Confirm Password:</label>
             <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
             <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
             <label class="spass" for="sPassword">Show Password</label>
