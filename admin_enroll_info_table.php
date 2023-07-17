@@ -147,7 +147,7 @@ if(isset($_POST['delete'])) {
 <div class="container">
 
     <form method="post" id="myForm" action="admin_enroll_info_table.php">
-    <table class="table table-striped table-bordered mt-5" id="myTable">
+    <table class="table table-striped table-bordered my-5" id="myTable">
 
         <tr>
             <th>Student Name</th>

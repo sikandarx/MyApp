@@ -30,12 +30,17 @@
             border: black solid 1px;
         }
 
+        .btn.btn-primary{
+            font-weight: bold!important;
+        }
+
     </style>
 </head>
 <body>
-<div class="login-box col-md-4">
+<div class="login-box col-md-3">
     <?php
-    if (isset($_POST['type'])) {
+    if (isset($_POST['type']))
+    {
         $type=$_POST['type'];
         $newusername = $_POST['newusername'];
         $newpassword = $_POST['newpassword'];
@@ -47,8 +52,8 @@
     <h2 class="text-center">Log in</h2><br>
     <form method="post">
         <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+            <label for="username">Email:</label>
+            <input type="email" class="form-control" id="username" name="username" placeholder="Enter Email" required>
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
@@ -57,7 +62,8 @@
             <label for="showPassword">Show Password</label>
         </div>
         <?php
-        if (isset($_POST['username'])) {
+        if (isset($_POST['username']))
+        {
             // Get form values
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -89,8 +95,8 @@
     <form method="post">
         <h2 class="text-center mt-4">Sign Up</h2>
         <div class="form-group">
-            <label for="newusername">Username:</label>
-            <input type="text" class="form-control" id="newusername" name="newusername" placeholder="Enter Username" required>
+            <label for="newusername">Email:</label>
+            <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Your Email" required>
         </div>
         <div class="form-group">
             <label for="newpassword">New Password:</label>
@@ -169,6 +175,5 @@
         });
     });
 </script>
-
 </body>
 </html>

@@ -7,7 +7,8 @@ require 'session.php';
         session_destroy();
         header("Location: login.php");
     }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Home Page</title>
@@ -59,6 +60,17 @@ require 'session.php';
         .img{
             max-width: 20px;
         }
+        .course{
+            background-color: #d8d8d8;
+            padding: 20px;
+            margin: 10px 0;
+        }
+        .d-flex{
+            gap: 30px;
+        }
+        .d-flex>*{
+            max-width: 1000px;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +113,25 @@ require 'session.php';
 </nav>
 <h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
 
-<h1 class="mt-5 ml-5">Welcome <?php echo $_SESSION['username']; ?>!</h1>
+<h1 class="mt-5 ml-5">Number of students Registered in each course:</h1>
+
+<div class="container my-5">
+    <div class="d-flex flex-wrap">
+        <?php
+        require 'application.php';
+        $db= new application();
+        $result=$db->get_data_course();
+
+        foreach ($result as $row) {
+            $c=$db->get_course_count($row['course_id']);
+            $count= $c->fetch_row();
+            ?>
+                <div class="course">
+                    <h4><span class="font-weight-light mr-3"><?= $row['course_title'];?>:</span><?= $count[0];?></h4>
+                </div>
+        <?php } ?>
+    </div>
+</div>
 
 <script>
 </script>

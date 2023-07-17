@@ -56,7 +56,8 @@ $result=$db->get_username_info($username);
             border-radius: 4px;
         }
         .d-flex{
-            gap: 100px;
+            gap: 50px;
+            justify-content: space-around;
         }
         .d-flex>*{
             max-width: 1000px;
@@ -90,16 +91,18 @@ $result=$db->get_username_info($username);
     </ul>
 </nav>
 <h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
+<?php
+$data= $result->fetch_row()?>
 
+<h2 class="text-center my-5"><span class="font-weight-light">Welcome </span><?php echo $data[1];?></h2>
 <div class="container my-5">
-    <?php
-    $data= $result->fetch_row()?>
     <div class="d-flex flex-wrap">
-        <div><h2>Name:</h2><p><?php echo $data[1];?></p></div>
-        <div><h2>Roll Number:</h2><p><?php echo $data[2];?></p></div>
-        <div><h2>Batch:</h2><p><?php echo $data[3];?></p></div>
-        <div><h2>Email:</h2><p><?php echo $data[4];?></p></div>
-        <div><h2>Gender:</h2><p><?php echo $data[5];?></p></div>
+        <div><h2>Roll Number: <span class="font-weight-light"><?php echo $data[2];?></span></div>
+        <div><h2>Email: <span class="font-weight-light"><?php echo $data[4];?></span></div>
+    </div>
+    <div class="d-flex flex-wrap mt-5">
+        <div><h2>Batch: <span class="font-weight-light"><?php echo $data[3];?></span></div>
+        <div><h2>Gender: <span class="font-weight-light"><?php echo $data[5];?></span></div>
     </div>
 
 </div>

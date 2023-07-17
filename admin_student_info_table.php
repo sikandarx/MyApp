@@ -114,7 +114,7 @@ if(isset($_POST['delete']))
 ?>
 <div class="container">
 <form method="post">
-  <table class="table table-striped table-bordered mt-5">
+  <table class="table table-striped table-bordered my-5">
 
     <tr>
         <th>ID</th>

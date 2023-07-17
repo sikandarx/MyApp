@@ -59,7 +59,6 @@ class application
     }
     public function get_data_course()
     {
-
         $result = $this->conn->query("SELECT * FROM `course`");
         return $result;
     }
@@ -123,6 +122,11 @@ class application
         {
             echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Account created, Now login below.</p>";
         }
+    }
+
+    public function get_course_count($course_id){
+        $result = $this->conn->query("SELECT COUNT(*) AS count FROM student_course WHERE course_id='$course_id'");
+        return $result;
     }
 }
 ?>

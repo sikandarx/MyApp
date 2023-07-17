@@ -69,10 +69,11 @@
         <table class="table table-striped table-bordered mt-5">
 
             <tr>
+                <th>No.</th>
                 <th>Course Title</th>
-                <th>Credit Hours</th>
                 <th>Course Teacher</th>
                 <th>Curriculum</th>
+                <th>Credit Hours</th>
             </tr>
 
             <?php
@@ -89,16 +90,20 @@
             $db = new application();
             $result=$db->get_data_student_course($username);
 
-             foreach($result as $row): ?>
+            $num=1;
+             foreach($result as $row):
+             ?>
 
                 <tr>
+                    <td class="text-nowrap"><?= $num ?></td>
                     <td class="text-nowrap"><?= $row['course_title'] ?></td>
-                    <td class="text-nowrap"><?= $row['credit_hours'] ?></td>
                     <td class="text-nowrap"><?= $row['course_teacher'] ?></td>
                     <td class="text-nowrap"><?= $row['curriculum'] ?></td>
+                    <td class="text-nowrap"><?= $row['credit_hours'] ?></td>
                 </tr>
 
-            <?php endforeach; ?>
+            <?php $num++;
+             endforeach; ?>
 
         </table>
 </div>
