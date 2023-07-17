@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-<div class="login-box col-md-3">
+<div class="login-box col-md-4">
     <?php
     //this is my code
     if (isset($_POST['type']))
