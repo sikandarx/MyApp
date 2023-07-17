@@ -80,7 +80,7 @@
     </style>
 </head>
 <body>
-<div class="login-box col-lg-4 col-md-10">
+<div class="login-box col-lg-4 col-md-11">
     <?php
     //this is my code
     if (isset($_POST['type']))
