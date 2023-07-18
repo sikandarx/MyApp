@@ -1,3 +1,25 @@
+<?php
+require 'session.php';
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require 'application.php';
+$db = new application();
+$result = $db->get_data_course();
+
+if(isset($_POST['delete'])) {
+
+    $id = $_POST['delete'];
+
+    $db->delete_course($id);  // Delete item
+
+    header("Location: admin_course_info_table.php");  // Then redirect page
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,7 +153,7 @@
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_course_info_table.php.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="icons/logout_icon.png" alt="Power Sign" class="img">
@@ -141,28 +163,7 @@
 
 <h1 class="p-4 text-center text-white bg-primary">Course Info Table</h1>
 
-<?php
-require 'session.php';
-$session=new session();
-$session->admin();
-if(isset($_POST['logout']))
-{
-    session_destroy();
-    header("Location: login.php");
-}
-require 'application.php';
-$db = new application();
-$result = $db->get_data_course();
 
-if(isset($_POST['delete'])) {
-
-    $id = $_POST['delete'];
-
-    $db->delete_course($id);  // Delete item
-
-    header("Location: admin_course_info_table.php");  // Then redirect page
-}
-?>
 <div class="container">
 <form method="post">
     <table class="table table-striped table-bordered my-5">

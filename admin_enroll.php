@@ -1,4 +1,32 @@
+<?php
+require 'session.php';
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require 'application.php';
+$db = new application();
 
+$student_data = $db->get_data_student();
+$course_data = $db->get_data_course();
+
+if($_POST)
+{
+
+    if($_POST['student_id'] != "" && $_POST['course_id'] != "")
+    {
+        $student_id = $_POST['student_id'];
+        $course_id = $_POST['course_id'];
+        $db->enroll_student($student_id, $course_id);
+    }
+    else{
+        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -138,7 +166,7 @@
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_enroll.php.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="icons/logout_icon.png" alt="Power Sign" class="img">
@@ -147,35 +175,7 @@
 
 
 <h1 class="p-4 text-center text-white bg-primary">Course Enrollment</h1>
-<?php
-require 'session.php';
-$session=new session();
-$session->admin();
-if(isset($_POST['logout']))
-{
-    session_destroy();
-    header("Location: login.php");
-}
-require 'application.php';
-$db = new application();
 
-$student_data = $db->get_data_student();
-$course_data = $db->get_data_course();
-
-if($_POST)
-{
-
-    if($_POST['student_id'] != "" && $_POST['course_id'] != "")
-    {
-        $student_id = $_POST['student_id'];
-        $course_id = $_POST['course_id'];
-        $db->enroll_student($student_id, $course_id);
-    }
-    else{
-        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
-    }
-}
-?>
 
 <div class="container my-5">
     <form name ="bio" method="POST" action="admin_enroll.php">

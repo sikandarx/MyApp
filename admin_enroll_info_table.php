@@ -1,3 +1,36 @@
+<?php
+require 'session.php';
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require 'application.php';
+
+$db = new application();
+$course_id= $db->get_data_course();
+
+if(isset($_POST['course_title']))
+{
+    if($_POST['course_title'] != "" && $_POST['course_title'] != "")
+    {
+        $cid = $_POST['course_title'];
+        $enroll_data = $db->get_enroll_data($cid);
+    }
+    else{
+        echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
+    }
+}
+
+if(isset($_POST['delete'])) {
+
+    $id = $_POST['delete'];
+    $db->delete_enroll($id);  // Delete item
+
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,7 +165,7 @@
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_enroll_info_table.php.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="icons/logout_icon.png" alt="Power Sign" class="img">
@@ -141,39 +174,7 @@
 
 <h1 class="p-4 text-center text-white bg-primary">Course Info Table</h1>
 
-<?php
-require 'session.php';
-$session=new session();
-$session->admin();
-if(isset($_POST['logout']))
-{
-    session_destroy();
-    header("Location: login.php");
-}
-require 'application.php';
 
-$db = new application();
-$course_id= $db->get_data_course();
-
-if(isset($_POST['course_title']))
-{
-if($_POST['course_title'] != "" && $_POST['course_title'] != "")
-{
-    $cid = $_POST['course_title'];
-    $enroll_data = $db->get_enroll_data($cid);
-}
-else{
-    echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
-}
-}
-
-if(isset($_POST['delete'])) {
-
-    $id = $_POST['delete'];
-    $db->delete_enroll($id);  // Delete item
-
-}
-?>
      <div class="container mt-5">
     <form name ="course_name" method="POST" action="admin_enroll_info_table.php">
     <div class="form-group">

@@ -1,3 +1,26 @@
+<?php
+require 'session.php';
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require 'application.php';
+if($_POST)
+{
+
+    if($_POST['course_title'] != "" && $_POST['credit_hours'] != ""&& $_POST['semester_number'] != "")
+    {
+        $connection = new application();
+        $connection->insert_course($_POST['course_title'], $_POST['credit_hours'], $_POST['course_teacher'], $_POST['semester_number'], $_POST['curriculum'], $_POST['course_info']);
+    }
+    else{
+        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,7 +159,7 @@
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_course_info.php.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="icons/logout_icon.png" alt="Power Sign" class="img">
@@ -146,29 +169,7 @@
 
 <h1 class="p-4 text-center text-white bg-primary">Enter Course Info</h1>
 
-<?php
-require 'session.php';
-$session=new session();
-$session->admin();
-if(isset($_POST['logout']))
-{
-    session_destroy();
-    header("Location: login.php");
-}
-require 'application.php';
-if($_POST)
-{
 
-    if($_POST['course_title'] != "" && $_POST['credit_hours'] != ""&& $_POST['semester_number'] != "")
-    {
-        $connection = new application();
-        $connection->insert_course($_POST['course_title'], $_POST['credit_hours'], $_POST['course_teacher'], $_POST['semester_number'], $_POST['curriculum'], $_POST['course_info']);
-    }
-    else{
-        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
-    }
-}
-?>
 <div class="container my-5">
     <form name ="bio" method="POST" action="admin_course_info.php">
         <div class="form-group">
