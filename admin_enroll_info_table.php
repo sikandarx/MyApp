@@ -182,7 +182,7 @@ if(isset($_POST['delete'])) {
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_enroll_info_table.php.php">
+<form method="POST" action="admin_enroll_info_table.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">

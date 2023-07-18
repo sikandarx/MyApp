@@ -82,7 +82,7 @@ $result=$db->get_username_info($username);
             <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
         </li>
 
-        <form method="POST" action="admin_home.php">
+        <form method="POST" action="student_home.php">
             <input type="hidden" name="logout">
             <button type="submit" class="btn logout" >
                 <img src="logout_icon.png" alt="Power Sign" class="img">
