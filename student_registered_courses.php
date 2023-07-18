@@ -17,6 +17,9 @@ $result=$db->get_data_student_course($username);
 <head>
     <title>Home</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .nav-item{
             margin: auto!important;
@@ -30,6 +33,7 @@ $result=$db->get_data_student_course($username);
             margin: 0!important;
         }
         .active{
+            background-color: #7f7fff!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -59,15 +63,30 @@ $result=$db->get_data_student_course($username);
         .navbar-nav{
             margin-left: 40px;
         }
+        .table-wrapper {
+            overflow-x: auto;
+        }
         @media screen and (max-width:980px) {
-            .logout{
+
+            .table-wrapper {
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 40px !important;
+                width: 100%;
+            }
+            td{
+                padding-top: 50px !important;
+            }            .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
                 padding: 15px !important;
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 55px!important;
+                max-width: 0px!important;
             }
             h1{
                 font-size: 85px !important;
@@ -78,27 +97,6 @@ $result=$db->get_data_student_course($username);
             h4{
                 font-size: 40px !important;
             }
-            .form-group{
-                margin-top: 50px !important;
-            }
-            form{
-                font-size: 50px !important;
-            }
-            input[type="text"], [type="password"], [type="email"] {
-                font-size: 40px !important;
-            }
-            .sel{
-                font-size: 40px !important;
-            }
-            .sel option{
-                font-size: 12px !important
-            }
-            .btn.btn-primary {
-                margin-top: 30px !important;
-                font-size: 50px!important;
-                border-radius: 20px !important;
-                padding: 8px 25px !important;
-            }
             .navbar-nav{
                 margin: 0!important;
             }
@@ -106,9 +104,6 @@ $result=$db->get_data_student_course($username);
                 margin-left: 0!important;
                 padding: 16px 20px!important;
                 font-size: 40px!important;
-            }
-            .dropdown-item{
-                font-size: 40px !important;
             }
             .navbar-toggler-icon {
                 font-size: 3.5rem;
@@ -170,7 +165,7 @@ $result=$db->get_data_student_course($username);
 </form>
 
 <h1 class="p-4 text-center text-white bg-primary">Your Registered Courses</h1>
-<div class="container">
+<div class="container table-wrapper">
         <table class="table table-striped table-bordered mt-5">
 
             <tr>
