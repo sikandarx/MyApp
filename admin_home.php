@@ -225,6 +225,5 @@ require 'session.php';
     });
     });
 </script>
-</script>
 </body>
 </html>
