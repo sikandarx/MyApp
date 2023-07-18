@@ -11,7 +11,7 @@ require 'application.php';
 if($_POST)
 {
 
-    if($_POST['email'] != "" && $_POST['number'] != "" && $_POST['batch'] != ""&& $_POST['email'] != ""&& $_POST['gender'] != "")
+    if($_POST['name'] != "" && $_POST['number'] != "" && $_POST['batch'] != ""&& $_POST['email'] != ""&& $_POST['gender'] != "")
     {
         $connection = new application();
         $connection->insert_student($_POST['name'], $_POST['number'], $_POST['batch'],$_POST['email'], $_POST['gender']);
