@@ -85,7 +85,7 @@ if($_POST)
                 border-radius: 10px!important;
             }
             .img{
-                max-width: px!important;
+                max-width: 0px!important;
             }
             h1{
                 font-size: 85px !important;
