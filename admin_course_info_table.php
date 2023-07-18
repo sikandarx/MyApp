@@ -72,6 +72,23 @@ if(isset($_POST['delete'])) {
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .logout{
+                font-size: 35px;
+                margin: 20px 40PX!important;
+                border-radius: 10px!important;
+            }
+            .img{
+                max-width: 40px!important;
+            }
+            h1{
+                font-size: 85px !important;
+            }
+            h2{
+                font-size: 50px !important;
+            }
+            h4{
+                font-size: 40px !important;
+            }
             .navbar-nav{
                 margin: 0!important;
             }

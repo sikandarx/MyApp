@@ -85,6 +85,44 @@ if($_POST)
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .logout{
+                font-size: 35px;
+                margin: 20px 40PX!important;
+                border-radius: 10px!important;
+            }
+            .img{
+                max-width: 40px!important;
+            }
+            h1{
+                font-size: 85px !important;
+            }
+            h2{
+                font-size: 50px !important;
+            }
+            h4{
+                font-size: 40px !important;
+            }
+            .form-group{
+                margin-top: 50px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
+            }
+            .btn.btn-secondary {
+                margin-top: 30px !important;
+                font-size: 50px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
+            }
             .navbar-nav{
                 margin: 0!important;
             }
@@ -181,7 +219,7 @@ if($_POST)
     <form name ="bio" method="POST" action="admin_enroll.php">
         <div class="form-group">
             <label for="course_id">Course Title<span class="text-danger"> *</span></label>
-            <select class="form-control" id="course_id" name="course_id">
+            <select class="form-control sel" id="course_id" name="course_id">
                 <option value="">(Select Course's Title)</option>
                 <?php foreach($course_data as $row): ?>
                     <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
@@ -190,7 +228,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="student_id">Student Name<span class="text-danger"> *</span></label>
-            <select class="form-control" data-display="auto" id="student_id" name="student_id">
+            <select class="form-control sel" data-display="auto" id="student_id" name="student_id">
                 <option value="">(Select Student's Name)</option>
                 <?php foreach($student_data as $row): ?>
                     <option value="<?= $row['student_id'] ?>">

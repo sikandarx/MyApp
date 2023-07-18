@@ -79,6 +79,44 @@ if($_POST)
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .logout{
+                font-size: 35px;
+                margin: 20px 40PX!important;
+                border-radius: 10px!important;
+            }
+            .img{
+                max-width: 40px!important;
+            }
+            h1{
+                font-size: 85px !important;
+            }
+            h2{
+                font-size: 50px !important;
+            }
+            h4{
+                font-size: 40px !important;
+            }
+            .form-group{
+                margin-top: 50px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            input[type="text"], [type="password"], [type="email"] {
+                font-size: 40px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            .btn.btn-primary {
+                margin-top: 30px !important;
+                font-size: 50px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
+            }
             .navbar-nav{
                 margin: 0!important;
             }
@@ -186,7 +224,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="batch">Batch<span class="text-danger"> *</span></label>
-            <select class="form-control" id="batch" name="batch">
+            <select class="form-control sel" id="batch" name="batch">
                 <option value="">(Select your Batch)</option>
                 <option value="2018">2018</option>
                 <option value="2019">2019</option>
@@ -203,7 +241,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="gender">Gender<span class="text-danger"> *</span></label>
-            <select class="form-control" id="gender" name="gender">
+            <select class="form-control sel" id="gender" name="gender">
                 <option value="">(Select your Gender)</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>

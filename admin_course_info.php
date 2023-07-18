@@ -78,6 +78,47 @@ if($_POST)
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .logout{
+                font-size: 35px;
+                margin: 20px 40PX!important;
+                border-radius: 10px!important;
+            }
+            .img{
+                max-width: 40px!important;
+            }
+            h1{
+                font-size: 85px !important;
+            }
+            h2{
+                font-size: 50px !important;
+            }
+            h4{
+                font-size: 40px !important;
+            }
+            .form-group{
+                margin-top: 50px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            input[type="text"], [type="password"], [type="email"] {
+                font-size: 40px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
+            }
+            .btn.btn-primary {
+                margin-top: 30px !important;
+                font-size: 50px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
+            }
             .navbar-nav{
                 margin: 0!important;
             }
@@ -178,7 +219,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="credit_hours">Credit Hours<span class="text-danger"> *</span></label>
-            <select class="form-control" id="credit_hours" name="credit_hours">
+            <select class="form-control sel" id="credit_hours" name="credit_hours">
                 <option value="">(Select Credit Hours)</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -191,7 +232,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="semester_number">Semester Number<span class="text-danger"> *</span></label>
-            <select class="form-control" id="semester_number" name="semester_number">
+            <select class="form-control sel" id="semester_number" name="semester_number">
                 <option value="">(Select Semester Number)</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -206,7 +247,7 @@ if($_POST)
         </div>
         <div class="form-group">
             <label for="curriculum">Curriculum</label>
-            <select class="form-control" id="curriculum" name="curriculum">
+            <select class="form-control sel" id="curriculum" name="curriculum">
                 <option value="core">Core</option>
                 <option value="elective">Elective</option>
             </select>

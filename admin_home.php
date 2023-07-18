@@ -75,6 +75,26 @@ require 'session.php';
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .logout{
+                font-size: 35px;
+                margin: 20px 40PX!important;
+                border-radius: 10px!important;
+            }
+            .img{
+                max-width: 40px!important;
+            }
+            .course{
+                width: 800px !important;
+            }
+            h1{
+                font-size: 85px !important;
+            }
+            h2{
+                font-size: 50px !important;
+            }
+            h4{
+                font-size: 40px !important;
+            }
             .navbar-nav{
                 margin: 0!important;
             }
@@ -167,7 +187,7 @@ require 'session.php';
 
 <h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
 
-<h1 class="mt-5 ml-5">Number of students Registered in each course:</h1>
+<h2 class="mt-5 ml-5">Number of students Registered in each course:</h2>
 
 <div class="container my-5">
     <div class="d-flex flex-wrap">
