@@ -207,7 +207,7 @@ if($_POST)
 <form method="POST" action="admin_enroll.php.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
-        <img src="icons/logout_icon.png" alt="Power Sign" class="img">
+        <img src="logout_icon.png" alt="Power Sign" class="img">
         Log Out</button>
 </form>
 
