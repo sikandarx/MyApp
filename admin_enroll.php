@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .nav-item{
-            margin: auto!important;
+            margin: auto 0!important;
         }
         .nav-link{
             padding: 8px 0!important;
@@ -53,45 +53,99 @@
         .img{
             max-width: 20px;
         }
+        .navbar-nav{
+            margin-left: 40px;
+        }
+        @media screen and (max-width:980px) {
+            .navbar-nav{
+                margin: 0!important;
+            }
+            .nav-link{
+                margin-left: 0!important;
+                padding: 16px 20px!important;
+                font-size: 40px!important;
+            }
+            .dropdown-item{
+                font-size: 40px !important;
+            }
+            .navbar-toggler-icon {
+                font-size: 3rem;
+            }
+            .navbar-toggler{
+                margin: 20px;
+            }
+            .nav-item{
+                margin: 20px 0!important;
+            }
+            .navbar-collapse {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 50%;
+                background-color: #343a40; /* Adjust the background color as needed */
+                padding: 1rem;
+                z-index: 1000;
+                transition-duration: 0s;
+                animation: slideIn 0.3s forwards;
+                transform: translateX(-100%);
+            }
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+
+        }
     </style>
 </head>
 <body>
-<nav class="navbar nav-pills navbar-expand-sm bg-dark navbar-dark">
+<nav class="navbar nav-pills navbar-expand-lg bg-dark navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
     <!-- Links -->
-    <ul class="navbar-nav ml-5">
-        <li class="nav-item">
-            <a class="nav-link" href="admin_home.php">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="admin_student_info.php">Student</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="admin_course_info.php">Course</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="admin_enroll.php">Enroll</a>
-        </li>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="admin_home.php">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_student_info.php">Student</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_course_info.php">Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="admin_enroll.php">Enroll</a>
+            </li>
 
-        <!-- Dropdown -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                Data Tables
-            </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
-                <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
-                <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
-            </div>
-        </li>
-        <form method="POST" action="admin_home.php">
-            <input type="hidden" name="logout">
-            <button type="submit" class="btn logout" >
-                <img src="icons/logout_icon.png" alt="Power Sign" class="img">
-                Log Out</button>
-        </form>
-    </ul>
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Data Tables
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
+                    <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
+                    <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
+<form method="POST" action="admin_home.php">
+    <input type="hidden" name="logout">
+    <button type="submit" class="btn logout" >
+        <img src="icons/logout_icon.png" alt="Power Sign" class="img">
+        Log Out</button>
+</form>
+
+
 <h1 class="p-4 text-center text-white bg-primary">Course Enrollment</h1>
 <?php
 require 'session.php';
@@ -148,9 +202,23 @@ if($_POST)
         </div>
         <button type="submit" class="btn btn-secondary" >Enroll</button>
     </form>
-<script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbarToggler = document.querySelector('.navbar-toggler');
+            var navbarCollapse = document.querySelector('.navbar-collapse');
+            var body = document.querySelector('body');
 
-</script>
+            navbarToggler.addEventListener('click', function() {
+                navbarCollapse.classList.toggle('show');
+            });
+
+            body.addEventListener('click', function(e) {
+                if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+        });
+    </script>
 
 
 
