@@ -83,20 +83,55 @@ if(isset($_POST['delete'])) {
         .navbar-nav{
             margin-left: 40px;
         }
+        .table-wrapper {
+            overflow-x: auto;
+        }
         @media screen and (max-width:980px) {
+
+            .table-wrapper {
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 40px !important;
+                width: 100%;
+            }
+            td{
+                padding-top: 50px !important;
+            }
+            .btn.btn-danger, .btn-primary{
+                margin-top: 20px !important;
+                font-size: 40px!important;
+                border-radius: 10px !important;
+                padding: 8px 25px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
+            }
             .logout{
-                font-size: 35px;
-                margin: 20px 40PX!important;
+                font-size: 45px;
+                margin: 25px 40PX!important;
+                padding: 15px !important;
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 40px!important;
+                max-width: 55px!important;
             }
             h1{
                 font-size: 85px !important;
             }
             h2{
-                font-size: 50px !important;
+                font-size: 60px !important;
             }
             h4{
                 font-size: 40px !important;
@@ -113,10 +148,10 @@ if(isset($_POST['delete'])) {
                 font-size: 40px !important;
             }
             .navbar-toggler-icon {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             .navbar-toggler{
-                margin: 20px;
+                margin: 25px;
             }
             .nav-item{
                 margin: 20px 0!important;
@@ -196,7 +231,7 @@ if(isset($_POST['delete'])) {
     <form name ="course_name" method="POST" action="admin_enroll_info_table.php">
     <div class="form-group">
     <label for="course_title">Course Title</label>
-    <select class="form-control" id="course_title" name="course_title">
+    <select class="form-control sel" id="course_title" name="course_title">
         <option value="">Select Course Title</option>
         <?php foreach($course_id as $row): ?>
             <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
@@ -214,7 +249,7 @@ if(isset($_POST['delete'])) {
     $course_name=$db->get_title_course($_POST['course_title']);
     $course = $course_name->fetch_row()[0];
     ?>
-<div class="container">
+<div class="container table-wrapper">
 
     <form method="post" id="myForm" action="admin_enroll_info_table.php">
     <table class="table table-striped table-bordered my-5" id="myTable">

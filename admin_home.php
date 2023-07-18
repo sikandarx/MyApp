@@ -76,12 +76,13 @@ require 'session.php';
         }
         @media screen and (max-width:980px) {
             .logout{
-                font-size: 35px;
-                margin: 20px 40PX!important;
+                font-size: 45px;
+                margin: 25px 40PX!important;
+                padding: 15px !important;
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 40px!important;
+                max-width: 55px!important;
             }
             .course{
                 width: 800px !important;
@@ -107,10 +108,10 @@ require 'session.php';
                 font-size: 40px !important;
             }
             .navbar-toggler-icon {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             .navbar-toggler{
-                margin: 20px;
+                margin: 25px;
             }
             .nav-item{
                 margin: 20px 0!important;

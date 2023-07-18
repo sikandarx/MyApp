@@ -71,14 +71,37 @@ if(isset($_POST['delete'])) {
         .navbar-nav{
             margin-left: 40px;
         }
+        .table-wrapper {
+            overflow-x: auto;
+        }
         @media screen and (max-width:980px) {
+
+            .table-wrapper {
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 40px !important;
+                width: 100%;
+            }
+            td{
+                padding-top: 50px !important;
+            }
+            .btn.btn-danger {
+                margin-top: 20px !important;
+                font-size: 40px!important;
+                border-radius: 10px !important;
+                padding: 8px 25px !important;
+            }
             .logout{
-                font-size: 35px;
-                margin: 20px 40PX!important;
+                font-size: 45px;
+                margin: 25px 40PX!important;
+                padding: 15px !important;
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 40px!important;
+                max-width: 55px!important;
             }
             h1{
                 font-size: 85px !important;
@@ -101,10 +124,10 @@ if(isset($_POST['delete'])) {
                 font-size: 40px !important;
             }
             .navbar-toggler-icon {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             .navbar-toggler{
-                margin: 20px;
+                margin: 25px;
             }
             .nav-item{
                 margin: 20px 0!important;
@@ -181,7 +204,7 @@ if(isset($_POST['delete'])) {
 <h1 class="p-4 text-center text-white bg-primary">Course Info Table</h1>
 
 
-<div class="container">
+<div class="container table-wrapper">
 <form method="post">
     <table class="table table-striped table-bordered my-5">
 
