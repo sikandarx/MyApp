@@ -82,7 +82,7 @@ require 'session.php';
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 55px!important;
+                max-width: 0px!important;
             }
             .course{
                 width: 800px !important;

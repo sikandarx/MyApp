@@ -103,7 +103,7 @@ if(isset($_POST['delete']))
                 border-radius: 10px!important;
             }
             .img{
-                max-width: 55px!important;
+                max-width: 0px!important;
             }
             h1{
                 font-size: 85px !important;
