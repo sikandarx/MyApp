@@ -75,6 +75,9 @@ require 'session.php';
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
             .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
@@ -188,7 +191,7 @@ require 'session.php';
 
 <h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
 
-<h2 class="mt-5 ml-5">Number of students Registered in each course:</h2>
+<h2 class="mt-5 ml-5 mtop">Number of students Registered in each course:</h2>
 
 <div class="container my-5">
     <div class="d-flex flex-wrap">

@@ -79,6 +79,9 @@ if($_POST)
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
             .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
@@ -213,7 +216,7 @@ if($_POST)
 
 
 
-<div class="container my-5">
+<div class="container my-5 mtop">
     <form name ="bio" method="POST" action="admin_student_info.php">
         <div class="form-group">
             <label for="name">Name<span class="text-danger"> *</span></label>

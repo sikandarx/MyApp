@@ -85,6 +85,9 @@ if($_POST)
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
             .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
@@ -216,7 +219,7 @@ if($_POST)
 <h1 class="p-4 text-center text-white bg-primary">Course Enrollment</h1>
 
 
-<div class="container my-5">
+<div class="container my-5 mtop">
     <form name ="bio" method="POST" action="admin_enroll.php">
         <div class="form-group">
             <label for="course_id">Course Title<span class="text-danger"> *</span></label>

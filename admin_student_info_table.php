@@ -77,6 +77,9 @@ if(isset($_POST['delete']))
             overflow-x: auto;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
 
             .table-wrapper {
                 width: 100%;
@@ -206,7 +209,7 @@ if(isset($_POST['delete']))
 <h1 class="p-4 text-center text-white bg-primary">Student Info Table</h1>
 
 
-<div class="container table-wrapper">
+<div class="container table-wrapper mtop">
 <form method="post">
   <table class="table table-striped table-bordered my-5">
 

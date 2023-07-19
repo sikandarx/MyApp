@@ -67,6 +67,9 @@ $result=$db->get_data_student_course($username);
             overflow-x: auto;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
 
             .table-wrapper {
                 width: 100%;
@@ -79,7 +82,8 @@ $result=$db->get_data_student_course($username);
             }
             td{
                 padding-top: 50px !important;
-            }            .logout{
+            }
+            .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
                 padding: 15px !important;
@@ -165,7 +169,7 @@ $result=$db->get_data_student_course($username);
 </form>
 
 <h1 class="p-4 text-center text-white bg-primary">Your Registered Courses</h1>
-<div class="container table-wrapper">
+<div class="container table-wrapper mtop">
         <table class="table table-striped table-bordered mt-5">
 
             <tr>

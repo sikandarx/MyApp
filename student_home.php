@@ -79,6 +79,9 @@ $result=$db->get_username_info($username);
             margin-left: 40px;
         }
         @media screen and (max-width:980px) {
+            .mtop{
+                margin-top: 150px !important;
+            }
             .logout{
                 font-size: 45px;
                 margin: 25px 40PX!important;
@@ -170,7 +173,7 @@ $result=$db->get_username_info($username);
 <?php
 $data= $result->fetch_row()?>
 
-<h2 class="text-center my-5"><span class="font-weight-light">Welcome </span><?php echo $data[1];?></h2>
+<h2 class="text-center my-5 mtop"><span class="font-weight-light">Welcome </span><?php echo $data[1];?></h2>
 <div class="container my-5">
     <div class="d-flex flex-wrap info">
         <div><h2>Roll Number: <span class="font-weight-light"><?php echo $data[2];?></span></div>
