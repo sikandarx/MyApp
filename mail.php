@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Mail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
@@ -10,6 +11,9 @@
         <label for="name">Email</label>
         <input type="text" class="form-control" id="email"  name="email" placeholder="Enter your Email" required>
     </div>
+    <button type="submit" class="btn btn-primary">
+        Submit
+    </button>
 </form>
 </div>
 </body>
