@@ -9,7 +9,9 @@
     <style>
 
         body {
-            background-color: rgba(0, 0, 255, 0.5) !important;
+            background-color: #5940ba
+
+            !important;
             display: flex;
             align-items: center;
             justify-content: center;

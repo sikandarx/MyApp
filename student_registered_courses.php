@@ -33,7 +33,7 @@ $result=$db->get_data_student_course($username);
             margin: 0!important;
         }
         .active{
-            background-color: #7f7fff!important;
+            background-color: #5840ba!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -58,7 +58,7 @@ $result=$db->get_data_student_course($username);
             max-width: 20px;
         }
         .bg-primary{
-            background-color: #7f7fff!important;
+            background-color: #5840ba!important;
         }
         .navbar-nav{
             margin-left: 40px;

@@ -38,7 +38,7 @@ $result=$db->get_username_info($username);
             margin: 0!important;
         }
         .active{
-            background-color: #7f7fff!important;
+            background-color: #5840ba!important;
             padding: 16px 20px!important;
             border-radius: 0!important;
         }
@@ -46,7 +46,7 @@ $result=$db->get_username_info($username);
             padding: 0;
         }
         .bg-primary{
-            background-color: #7f7fff!important;
+            background-color: #5840ba!important;
         }
         .btn.logout{
             position: absolute;
