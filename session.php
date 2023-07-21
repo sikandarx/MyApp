@@ -15,7 +15,6 @@ class session
             {
                 header("Location: student_home.php");
             }
-            $_SESSION['base_url'] = "http://44.217.9.109/";
         }
         else {
             echo "<p class='p-2 text-white bg-danger opacity text-center ' >Incorrect credentials!!</p>";
@@ -41,18 +40,19 @@ class session
         public function student()
         {
             session_start();
-            if(isset($_SESSION['username'])) {
+            if(isset($_SESSION['username']))
+            {
                 if($_SESSION['type']=="admin")
                 {
                     header("Location: login.php");
                     exit;
                 }
             }
-            else{
+            else
+            {
                 header("Location: login.php");
                 exit;
             }
         }
 }
-
 ?>

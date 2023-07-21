@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php'; // If you are not using autoloading, adjust the path accordingly.
 class application
 {
     public $conn;
@@ -100,6 +103,12 @@ class application
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");
         return $result;
     }
+    public function check_email($username)
+    {
+        $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username'");
+        return $result;
+    }
+
     public function get_username_info($username)
     {
         $result = $this->conn->query("SELECT * FROM `student` WHERE email = '$username'");
@@ -128,5 +137,35 @@ class application
         $result = $this->conn->query("SELECT COUNT(*) AS count FROM student_course WHERE course_id='$course_id'");
         return $result;
     }
+
+   public function sendVerificationEmail($toEmail, $verificationToken)
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com'; // Set your SMTP host here
+            $mail->SMTPAuth = true;
+            $mail->Username = 'arhabhb@gmail.com'; // Set your SMTP username here
+            $mail->Password = 'Veryeasy12!'; // Set your SMTP password here
+            $mail->SMTPSecure = 'tls'; // Use 'tls' or 'ssl' based on your SMTP configuration
+            $mail->Port = 587; // Use the appropriate SMTP port
+
+            // Email Content
+            $mail->setFrom('arhab@gmail.com', 'Arhab Habib'); // Set the sender's email and name
+            $mail->addAddress($toEmail); // Set the recipient's email
+            $mail->Subject = 'Email Verification';
+            $mail->Body = "Hello,\n\nPlease click on the link below to verify your email address:\n\nhttps://your-website.com/verify_email.php?token=$verificationToken\n\nThank you!";
+
+            // Send the email
+            $mail->send();
+            echo "Verification email sent successfully!";
+        } catch (Exception $e) {
+            echo "Failed to send the verification email. Error: " . $mail->ErrorInfo;
+        }
+    }
+
+
 }
 ?>

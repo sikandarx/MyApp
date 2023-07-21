@@ -9,9 +9,7 @@
     <style>
 
         body {
-            background-color: #5940ba
-
-            !important;
+            background-color: #5940ba!important;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,18 +81,7 @@
 </head>
 <body>
 <div class="login-box col-lg-4 col-md-11">
-    <?php
-    //this is my code
-    if (isset($_POST['type']))
-    {
-        $type=$_POST['type'];
-        $newusername = $_POST['newusername'];
-        $newpassword = $_POST['newpassword'];
-        require 'application.php';
-        $db = new application();
-        $db->signup_users($newusername, $newpassword, $type);
-    }
-    ?>
+
     <h2 class="text-center">Log in</h2><br>
     <form method="post">
         <div class="form-group">
@@ -135,10 +122,28 @@
             </button>
         </div>
     </div>
+    <?php
+    //this is my code
+    if (isset($_POST['type'])) {
+        $type = $_POST['type'];
+        $newusername = $_POST['newusername'];
+        $newpassword = $_POST['newpassword'];
+        require 'application.php';
+        $db = new application();
+        $check = $db->check_email($newusername);
 
+        if ($check->num_rows > 0) {
+            echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Email Already Exists!!</p>";
+        }
+        else {
+            $db->signup_users($newusername, $newpassword, $type);
+        }
+    }
+    ?>
 <div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
     <!-- Signup form -->
     <hr>
+
     <form method="post">
         <h2 class="text-center mt-4">Sign Up</h2>
         <div class="form-group">
