@@ -74,6 +74,7 @@
             box-sizing: border-box;
         }
         .right{
+            width: 50%;
             padding: 40px;
             overflow: hidden;
         }
@@ -101,7 +102,7 @@
 
     <div class="right">
     <h5>Log in</h5><br>
-        <p style="color: #8b8b8b;">Don't have an account? <a href="signup.php">Create an account</a> It takes less than a minute.</p>
+        <p style="color: #8b8b8b;">Don't have an account? <a href="signup.php">Create an account</a><br>It takes less than a minute.</p>
     <form method="post">
         <div class="form-group">
             <input type="email" class="form-control" id="username" name="username" placeholder="Email" required>
