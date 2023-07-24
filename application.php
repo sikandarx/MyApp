@@ -7,7 +7,7 @@ class application
         $host = "localhost";
         $db_name = "my_app";
         $username = "root";
-        $password = "";
+        $password = "83110";
         $this->conn = new mysqli($host, $username, $password, $db_name);
         if ($this->conn->connect_error)
         {
