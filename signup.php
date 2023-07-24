@@ -50,7 +50,7 @@
             border-bottom: 2px solid #B0B3B9!important;
         }
         .login-box {
-            margin: 0 auto;
+            margin: 30px auto;
             background: white;
             width: 80%;
             border-radius: 10px;

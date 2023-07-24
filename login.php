@@ -1,3 +1,14 @@
+<?php
+if(isset($_COOKIE['username']))
+{
+    $rememberuser=$_COOKIE['username'];
+    $rememberpassword=$_COOKIE['password'];
+}
+else{
+    $rememberuser="";
+    $rememberpassword="";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +58,7 @@
             border-bottom: 2px solid #B0B3B9!important;
         }
         .login-box {
-            margin: 0 auto;
+            margin: 30px auto;
             background: white;
             width: 80%;
             border-radius: 10px;
@@ -78,6 +89,9 @@
             padding: 40px;
             overflow: hidden;
         }
+        .remember{
+            margin-top: 0 !important;
+        }
         .center {
             display: flex;
             justify-content: center;
@@ -105,14 +119,23 @@
         <p style="color: #8b8b8b;">Don't have an account? <a href="signup.php">Create an account</a><br>It takes less than a minute.</p>
     <form method="post">
         <div class="form-group">
-            <input type="email" class="form-control" id="username" name="username" placeholder="Email" required>
+            <input type="email" class="form-control" id="username" name="username" value="<?=$rememberuser?>" placeholder="Email" required>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" name="password" value="<?= $rememberpassword?>" placeholder="Password" required>
             <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
-            <label class="spass" for="showPassword">Show Password</label>
+            <label for="showPassword">Show Password</label>
         </div>
+        <input type="checkbox" id="remember" name="remember" class="remember" >
+        <label for="remember">Remember Me</label>
         <?php
+
+        if(isset($_POST['remember']))
+        {
+            setcookie("username", $_POST['username']);
+            setcookie("password", $_POST['password']);
+        }
+
         if (isset($_POST['username']))
         {
             // Get form values
