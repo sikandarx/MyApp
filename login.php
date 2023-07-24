@@ -3,94 +3,111 @@
 <head>
     <title>Login Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
 
         body {
-            background-color: #5940ba!important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            transition: height 0.1s ease;
+            background-color: #5940ba;
+            font-family: "Open Sans", sans-serif;
+            display: block;
+            margin: 8px;
+        }
+        h1{
+            display: block;
+            font-size: 8vmax;
+            margin-block-start: 0.4em;
+            margin-block-end: 0.4em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+        h5{
+            display: block;
+            font-size: 4.5vmax;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+        p{
+            display: block;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
         }
         hr{
             margin-top: 30px;
         }
+        input{
+            padding: 10px;
+            margin-top: 25px;
+            font-size: 16px;
+            border: none!important;
+            border-bottom: 2px solid #B0B3B9!important;
+        }
         .login-box {
-            background-color: white;
-            padding: 25px;
+            margin: 0 auto;
+            background: white;
+            width: 80%;
             border-radius: 10px;
-            margin: 20px 0;
+            overflow: hidden;
+            display: flex;
+            flex: 1 1 100%;
+            align-items: stretch;
+            justify-content: space-between;
+            box-shadow: 0 0 20px 6px #090b6f85;
+        }
+        .left{
+            color: #FFFFFF;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: url("bg.jpg");
+            overflow: hidden;
+        }
+        .leftoverlay{
+            padding: 30px;
+            width: 100%;
+            height: 100%;
+            background: #5961f9ad;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        .right{
+            padding: 40px;
+            overflow: hidden;
         }
         .center {
             display: flex;
             justify-content: center;
         }
 
-        .btn.dropdown-toggle {
-            border: black solid 1px;
-        }
-
         .btn.btn-primary{
             font-weight: bold!important;
         }
-        @media screen and (max-width:980px) {
 
-            h2 {
-                font-size: 80px !important;
-            }
-
-            hr{
-                margin-top: 50px!important;
-            }
-
-            .login-box {
-                font-size: 50px !important;
-                border-radius: 50px !important;
-                padding: 50px !important;
-                margin: 50px 0!important;
-            }
-
-            input[type="text"], [type="password"], [type="email"] {
-                font-size: 50px !important;
-            }
-            input[type="checkbox"] {
-                transform: scale(2) !important;
-            }
-
-            .btn{
-                font-size: 50px!important;
-                border-radius: 20px !important;
-                padding: 8px 25px !important;
-            }
-            .btn.btn-primary {
-                margin-top: 30px !important;
-            }
-            .form-group{
-                margin-top: 40px !important;
-            }
-            .spass{
-                margin-top: 25px !important;
-            }
-        }
 
     </style>
 </head>
 <body>
-<div class="login-box col-lg-4 col-md-11">
+<div class="login-box">
 
-    <h2 class="text-center">Log in</h2><br>
+    <div class="left">
+        <div class="leftoverlay">
+            <h1>Student Portal</h1>
+            <p>Connecting Education, Empowering Growth: Welcome to Your Student Portal.</p>
+        </div>
+    </div>
+
+    <div class="right">
+    <h5>Log in</h5><br>
+        <p style="color: #8b8b8b;">Don't have an account? <a href="signup.php">Create an account</a> It takes less than a minute.</p>
     <form method="post">
         <div class="form-group">
-            <label for="username">Email:</label>
-            <input type="email" class="form-control" id="username" name="username" placeholder="Enter Email" required>
+            <input type="email" class="form-control" id="username" name="username" placeholder="Email" required>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
             <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
             <label class="spass" for="showPassword">Show Password</label>
         </div>
@@ -114,58 +131,7 @@
             <button type="submit" class="btn btn-primary">Login</button>
         </div>
     </form>
-    <div class="text-center font-weight-bold mt-3 mb-3">Or</div>
-    <div class="dropdown">
-        <div class="center">
-            <button class="btn dropdown-toggle" type="button" id="signupDropdown" data-toggle="collapse" data-target="#signupForm" aria-expanded="false" aria-controls="signupForm">
-                Create Account
-            </button>
-        </div>
     </div>
-    <?php
-    //this is my code
-    if (isset($_POST['type'])) {
-        $type = $_POST['type'];
-        $newusername = $_POST['newusername'];
-        $newpassword = $_POST['newpassword'];
-        require 'application.php';
-        $db = new application();
-        $check = $db->check_email($newusername);
-
-        if ($check->num_rows > 0) {
-            echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Email Already Exists!!</p>";
-        }
-        else {
-            $db->signup_users($newusername, $newpassword, $type);
-        }
-    }
-    ?>
-<div class="collapse" id="signupForm" onmouseleave="restoreBodyHeight()">
-    <!-- Signup form -->
-    <hr>
-
-    <form method="post">
-        <h2 class="text-center mt-4">Sign Up</h2>
-        <div class="form-group">
-            <label for="newusername">Email:</label>
-            <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Your Email" required>
-        </div>
-        <div class="form-group">
-            <label for="newpassword">Password:</label>
-            <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
-        </div>
-        <div class="form-group">
-            <label for="confirmpassword"> Confirm Password:</label>
-            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
-            <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
-            <label class="spass" for="sPassword">Show Password</label>
-        </div>
-        <input type="hidden" name="type" value="student">
-        <div class="center">
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-        </div>
-    </form>
-</div>
 </div>
 
 <script>
@@ -179,53 +145,6 @@
             passwordField.type = "password";
         }
     }
-
-    function sPasswordVisibility() {
-        var newpasswordField = document.getElementById("newpassword");
-        var confirmpasswordField = document.getElementById("confirmpassword");
-        var sPasswordCheckbox = document.getElementById("sPassword");
-
-        if (sPasswordCheckbox.checked) {
-            newpasswordField.type = "text";
-            confirmpasswordField.type = "text";
-        } else {
-            newpasswordField.type = "password";
-            confirmpasswordField.type = "password";
-        }
-    }
-
-
-    function validateForm() {
-        var password = document.getElementById("newpassword").value;
-        var confirmPassword = document.getElementById("confirmpassword").value;
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match.");
-            return false;
-        }
-
-        return true;
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var dropdown = document.querySelector("#signupDropdown");
-        var body = document.body;
-        var isExpanded = false;
-
-        dropdown.addEventListener("click", function(event) {
-            isExpanded = !isExpanded;
-            body.style.height = isExpanded ? "100%" : "100vh";
-        });
-
-        var signupForm = document.querySelector("#signupForm form");
-        signupForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-            if (!validateForm()) {
-                return;
-            }
-            signupForm.submit();
-        });
-    });
 </script>
 </body>
 </html>

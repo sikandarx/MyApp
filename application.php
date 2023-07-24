@@ -7,7 +7,7 @@ class application
         $host = "localhost";
         $db_name = "my_app";
         $username = "root";
-        $password = "83110";
+        $password = "";
         $this->conn = new mysqli($host, $username, $password, $db_name);
         if ($this->conn->connect_error)
         {
@@ -126,7 +126,7 @@ class application
         }
         else
         {
-            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Account created, Now login below.</p>";
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Account created, Now <a href='login.php'>Go to Login Page</a>.</p>";
         }
     }
 
