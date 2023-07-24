@@ -10,7 +10,7 @@
 <body>
 <div class="container mt-5">
     <h2>Upload an Image</h2>
-    <form action="http://44.217.9.109/image.php" method="post" enctype="multipart/form-data">
+    <form action="image.php" method="post" enctype="multipart/form-data">
         <input type="file" id="image" name="image" accept="image/*">
         <br>
         <input class="btn btn-primary mt-3" type="submit" value="Upload Image" name="submit">
