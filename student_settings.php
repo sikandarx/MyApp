@@ -31,17 +31,9 @@ $result=$db->get_username_info($username);
             margin: auto 0!important;
         }
         .nav-link{
-            padding: 8px 0!important;
+            padding: 16px 0!important;
             margin-right: 20px!important;
             margin-left: 20px!important;
-        }
-        .nav-link.active{
-            margin: 0!important;
-        }
-        .active{
-            background-color: #5840ba!important;
-            padding: 16px 20px!important;
-            border-radius: 0!important;
         }
         .navbar{
             padding: 0;
@@ -51,12 +43,6 @@ $result=$db->get_username_info($username);
         }
         .img{
             max-width: 20px;
-        }
-        .img2{
-            max-width: 100px;
-            display: block;
-            margin: 30px auto;
-            border-radius: 50%;
         }
         .info>*{
             background-color: #d8d8d8;
@@ -145,7 +131,7 @@ $result=$db->get_username_info($username);
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="student_home.php">Home</a>
+                <a class="nav-link" href="student_home.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
@@ -155,12 +141,12 @@ $result=$db->get_username_info($username);
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
-             height: 50px;
-             border-radius: 50%;
-             background-image: url(uploads/<?= $username?>.jpg);
-             background-size: cover;
-              background-repeat: no-repeat;
-              background-position:center;"
+                    height: 50px;
+                    border-radius: 50%;
+                    background-image: url(uploads/<?= $username?>.jpg);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position:center;"
                 type="button"
                 class="dropdown-toggle"
                 data-bs-toggle="dropdown">
@@ -181,27 +167,9 @@ $result=$db->get_username_info($username);
 </nav>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
+<h1 class="p-4 text-center text-white bg-primary">Settings</h1>
 
-<?php
-$data= $result->fetch_row()?>
-
-<img src="uploads/<?= $_SESSION['username']?>.jpg" alt="" class="img2">
-
-<h2 class="text-center my-5 mtop"><span class="font-weight-light">Welcome </span><?php echo $data[1];?></h2>
-<div class="container my-5">
-    <div class="d-flex flex-wrap info">
-        <div><h2>Roll Number: <span class="font-weight-light"><?php echo $data[2];?></span></div>
-        <div><h2>Email: <span class="font-weight-light"><?php echo $data[4];?></span></div>
-    </div>
-    <div class="d-flex flex-wrap mt-5 info">
-        <div><h2>Batch: <span class="font-weight-light"><?php echo $data[3];?></span></div>
-        <div><h2>Gender: <span class="font-weight-light"><?php echo $data[5];?></span></div>
-    </div>
-
-</div>
 <script>
-
 </script>
 </body>
 </html>

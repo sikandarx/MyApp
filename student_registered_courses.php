@@ -157,6 +157,9 @@ $result=$db->get_data_student_course($username);
                 data-bs-toggle="dropdown">
         </button>
         <div class="dropdown-menu p-3" style="left: -100px;">
+            <div class="dropdown-item">
+                <button onclick="window.location.href='student_settings.php';" class="btn settings"><img src="settings_icon.png" alt="settings icon" class="img mr-1">Settings</button>
+            </div>
             <form method="POST" action="student_home.php" class="dropdown-item">
                 <input type="hidden" name="logout">
                 <button type="submit" class="btn" >
