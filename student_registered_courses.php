@@ -20,6 +20,7 @@ $result=$db->get_data_student_course($username);
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .nav-item{
             margin: auto!important;
@@ -41,19 +42,6 @@ $result=$db->get_data_student_course($username);
             padding: 0;
         }
 
-        .btn.logout{
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
-        .logout{
-
-            color: white!important;
-            background-color: dodgerblue!important;
-            padding: 8px 12px!important;
-            margin: 7px 40PX;
-            border-radius: 4px;
-        }
         .img{
             max-width: 20px;
         }
@@ -83,12 +71,7 @@ $result=$db->get_data_student_course($username);
             td{
                 padding-top: 50px !important;
             }
-            .logout{
-                font-size: 45px;
-                margin: 25px 40PX!important;
-                padding: 15px !important;
-                border-radius: 10px!important;
-            }
+
             .img{
                 max-width: 0px!important;
             }
@@ -160,13 +143,30 @@ $result=$db->get_data_student_course($username);
             </li>
         </ul>
     </div>
+    <div class="btn-group mr-5" style="position: absolute; right: 0;">
+        <button class="btn-lg"
+                style="width: 50px;
+             height: 50px;
+                        border-radius: 50%;
+                        background-image: url(uploads/<?= $username?>.jpg);
+             background-size: cover;
+              background-repeat: no-repeat;
+              background-position:center;"
+                type="button"
+                class="dropdown-toggle"
+                data-bs-toggle="dropdown">
+        </button>
+        <div class="dropdown-menu p-3" style="left: -100px;">
+            <form method="POST" action="student_home.php" class="dropdown-item">
+                <input type="hidden" name="logout">
+                <button type="submit" class="btn" >
+                    <img src="logout_icon1.png" alt="Power Sign" class="img">
+                    Log Out</button>
+            </form>
+        </div>
+    </div>
 </nav>
-<form method="POST" action="student_registered_courses.php">
-    <input type="hidden" name="logout">
-    <button type="submit" class="btn logout" >
-        <img src="logout_icon.png" alt="Power Sign" class="img">
-        Log Out</button>
-</form>
+
 
 <h1 class="p-4 text-center text-white bg-primary">Your Registered Courses</h1>
 <div class="container table-wrapper mtop">
