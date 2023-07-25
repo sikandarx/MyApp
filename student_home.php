@@ -82,7 +82,7 @@ $result=$db->get_username_info($username);
         .calendar {
             max-width: 450px;
             margin: 0 auto;
-            border-radius: 5px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }

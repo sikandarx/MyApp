@@ -179,6 +179,12 @@ $result=$db->get_username_info($username);
 <h1 class="p-4 text-center text-white bg-primary">Profile</h1>
 
 <img src="uploads/<?=$username?>.jpg" alt="" class="img2">
+<?php $data= $result->fetch_row()?>
+<h2>Name: <?=$data[1]?></h2>
+<h2>Roll Number: <?=$data[2]?></h2>
+<h2>Email: <?=$data[3]?></h2>
+<h2>Batch: <?=$data[4]?></h2>
+<h2>Gender: <?=$data[5]?></h2>
 <script>
 </script>
 </body>
