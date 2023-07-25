@@ -1,3 +1,4 @@
+
 <?php
 require 'session.php';
 $session = new session();
@@ -43,6 +44,13 @@ $result=$db->get_username_info($username);
         }
         .img{
             max-width: 20px;
+        }
+        .img2{
+            max-width: 200px;
+            border: #5840ba 2px solid;
+            border-radius: 50%;
+            display: block;
+            margin: 50px auto;
         }
         .info>*{
             background-color: #d8d8d8;
@@ -166,12 +174,11 @@ $result=$db->get_username_info($username);
             </form>
         </div>
     </div>
-
 </nav>
 
+<h1 class="p-4 text-center text-white bg-primary">Profile</h1>
 
-<h1 class="p-4 text-center text-white bg-primary">Settings</h1>
-
+<img src="uploads/<?=$username?>.jpg" alt="" class="img2">
 <script>
 </script>
 </body>
