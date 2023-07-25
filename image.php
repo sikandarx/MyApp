@@ -42,13 +42,6 @@
         hr{
             margin-top: 30px;
         }
-        input{
-            padding: 10px;
-            margin-top: 25px;
-            font-size: 16px;
-            border: none!important;
-            border-bottom: 2px solid #B0B3B9!important;
-        }
         .login-box {
             margin: 30px auto;
             background: white;
@@ -81,6 +74,12 @@
             padding: 40px;
             overflow: hidden;
         }
+        .imagebox{
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(89, 97, 249, 0.8);
+            color: white;
+        }
         .center {
             display: flex;
             justify-content: center;
@@ -107,9 +106,9 @@
 
         <h5>Sign up</h5><br>
 
-        <h2>Upload your profile photo</h2>
+        <h2 class="mb-5">Upload your profile photo</h2>
         <form action="image.php" method="post" enctype="multipart/form-data">
-            <input type="file" id="image" name="image" accept="image/*">
+            <div class="imagebox"><input type="file" id="image" name="image" accept="image/*"></div>
             <br>
             <input class="btn btn-primary mt-3" type="submit" value="Upload Image" name="submit">
         </form>
