@@ -100,9 +100,14 @@ class application
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");
         return $result;
     }
-    public function check_email($username)
+    public function check_email_repeat($username)
     {
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username'");
+        return $result;
+    }
+    public function check_email($username)
+    {
+        $result = $this->conn->query("SELECT * FROM `student` WHERE email = '$username'");
         return $result;
     }
 

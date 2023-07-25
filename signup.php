@@ -109,7 +109,7 @@
 
         <form method="post">
             <div class="form-group">
-                <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Your Email" required>
+                <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Your Student Email" required>
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
@@ -126,22 +126,26 @@
             if (isset($_POST['type'])) {
                 $type = $_POST['type'];
                 $newusername = $_POST['newusername'];
-                $_SESSION['newusername']=$newusername;
+                $_SESSION['newusername'] = $newusername;
                 $newpassword = $_POST['newpassword'];
                 require 'application.php';
                 $db = new application();
+                $check_repeat = $db->check_email_repeat($newusername);
                 $check = $db->check_email($newusername);
-
                 if ($check->num_rows > 0) {
-                    echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Email Already Exists!!</p>";
+                    if ($check_repeat->num_rows > 0) {
+                        echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Email Already Exists!!</p>";
+                    } else {
+                        $db->signup_users($newusername, $newpassword, $type);
+                    }
                 }
-                else {
-                    $db->signup_users($newusername, $newpassword, $type);
+                else{
+                    echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Student does not exist!!</p>";
                 }
             }
             ?>
             <div class="center">
-                <button type="submit" class="btn btn-primary">Next</button>
+                <button id="submit" type="submit" class="btn btn-primary" >Next</button>
             </div>
         </form>
     </div>
@@ -174,6 +178,12 @@
 
         return true;
     }
+    const submitBtn = document.getElementById('submit');
+    submitBtn.addEventListener('click', function(event){
+        if (!validateForm()) {
+            event.preventDefault();
+        }
+    });
 </script>
 </body>
 </html>
