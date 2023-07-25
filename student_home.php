@@ -64,6 +64,15 @@ $result=$db->get_username_info($username);
         .img{
             max-width: 20px;
         }
+        .img2{
+            max-width: 100px;
+            display: block;
+            margin: 30px auto;
+
+            border-radius: 50%;
+            width: 100%;
+            height: auto;
+        }
         .info>*{
             background-color: #d8d8d8;
             padding: 20px;
@@ -172,6 +181,8 @@ $result=$db->get_username_info($username);
 <h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
 <?php
 $data= $result->fetch_row()?>
+
+<img src="uploads/<?= $_SESSION['username']?>.jpg" alt="" class="img2">
 
 <h2 class="text-center my-5 mtop"><span class="font-weight-light">Welcome </span><?php echo $data[1];?></h2>
 <div class="container my-5">

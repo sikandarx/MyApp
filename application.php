@@ -126,7 +126,8 @@ class application
         }
         else
         {
-            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Account created, Now <a href='login.php'>Go to Login Page</a>.</p>";
+            header("location:image.php");
+            exit;
         }
     }
 

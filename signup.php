@@ -121,10 +121,12 @@
             </div>
             <input type="hidden" name="type" value="student">
             <?php
-            //this is my code
+            session_start();
+
             if (isset($_POST['type'])) {
                 $type = $_POST['type'];
                 $newusername = $_POST['newusername'];
+                $_SESSION['newusername']=$newusername;
                 $newpassword = $_POST['newpassword'];
                 require 'application.php';
                 $db = new application();
@@ -139,7 +141,7 @@
             }
             ?>
             <div class="center">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-primary">Next</button>
             </div>
         </form>
     </div>
