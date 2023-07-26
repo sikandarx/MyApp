@@ -280,9 +280,9 @@ unlink($targetFile); // Delete the existing file
 
 // Move the uploaded file to the target directory
 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-    echo "<p class='p1 m-5 text-white bg-success text-center' >Your Profile Picture has been changed successfully.</p>";
+    echo "<p class='p1 my-5 text-white bg-success text-center' style='margin-right: auto; margin-left: auto;'>Your Profile Picture has been changed successfully.</p>";
 } else {
-    echo "<p class='p-1 m-5 text-white bg-danger text-center' >Sorry, there was an error changing your Profile Picture!!</p>";
+    echo "<p class='p-1 my-5 text-white bg-danger text-center' >Sorry, there was an error changing your Profile Picture!!</p>";
 }
 }
 }
