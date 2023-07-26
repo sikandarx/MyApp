@@ -8,16 +8,11 @@ if(isset($_POST['logout']))
     session_destroy();
     header("Location: login.php");
 }
-
-require 'application.php';
-$db= new application();
-$result=$db->get_username_info($username);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home</title>
+    <title>Settings</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -57,6 +52,14 @@ $result=$db->get_username_info($username);
         }
         .navbar-nav{
             margin-left: 40px;
+        }
+        .mini-container{
+            background-color: #eae5e5;
+            padding: 20px;
+            width: 70%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px auto;
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -166,12 +169,14 @@ $result=$db->get_username_info($username);
             </form>
         </div>
     </div>
-
 </nav>
 
 
 <h1 class="p-4 text-center text-white bg-primary">Settings</h1>
 
+<div class="mini-container">
+
+</div>
 <script>
 </script>
 </body>

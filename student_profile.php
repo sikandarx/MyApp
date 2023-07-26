@@ -18,7 +18,7 @@ $result=$db->get_username_info($username);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -49,8 +49,6 @@ $result=$db->get_username_info($username);
             max-width: 200px;
             border: #5840ba 2px solid;
             border-radius: 50%;
-            display: block;
-            margin: 50px auto;
         }
         .info>*{
             background-color: #d8d8d8;
@@ -65,6 +63,55 @@ $result=$db->get_username_info($username);
         }
         .navbar-nav{
             margin-left: 40px;
+        }
+        .mini-container{
+            background-color: #eae5e5;
+            padding: 20px;
+            width: 45%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        .mini-container>*{
+            text-align: center;
+            color: white;
+            background-color: #5840ba;
+            padding: 15px;
+            border-radius: 5px;
+            margin:20px;
+        }
+        .font-weight-heavy{
+            font-weight: bolder;
+        }
+        .camera-icon {
+            position: absolute;
+            bottom: 0;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .camera-icon img {
+            width: 55px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 5px;
+            background-color: #5840ba;
+            cursor: pointer;
+        }
+        .img-container {
+            position: relative;
+            display: inline-block;
+        }
+        /* Hide the default file input */
+        #fileInput {
+            display: none;
+        }
+        .btn.btn-upload{
+            position: absolute;
+            right: 0!important;
+
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -178,14 +225,87 @@ $result=$db->get_username_info($username);
 
 <h1 class="p-4 text-center text-white bg-primary">Profile</h1>
 
-<img src="uploads/<?=$username?>.jpg" alt="" class="img2">
-<?php $data= $result->fetch_row()?>
-<h2>Name: <?=$data[1]?></h2>
-<h2>Roll Number: <?=$data[2]?></h2>
-<h2>Email: <?=$data[3]?></h2>
-<h2>Batch: <?=$data[4]?></h2>
-<h2>Gender: <?=$data[5]?></h2>
+<div class="center">
+    <div class="img-container">
+    <img src="uploads/<?=$username?>.jpg" alt="" class="img2">
+        <div class="camera-icon">
+            <form action="student_profile.php" method="post" enctype="multipart/form-data">
+                <div><input type="file" id="fileInput" name="image" accept="image/*"></div>
+                <br>
+                <input class="btn btn-upload mt-3" style="display: none;" type="submit" value="" name="submit" id="submitButton">
+                <label for="fileInput">
+                    <img src="camera_icon.png" alt="Change Profile Photo">
+                </label>
+            </form>
+        </div>
+</div>
+</div>
+
+
+<?php
+if (isset($_POST["submit"])) {
+
+$targetDir = "uploads/";
+$originalFileName = $_FILES["image"]["name"];
+$imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+
+$newFileName = $username . "." . $imageFileType;
+$targetFile = $targetDir . $newFileName;
+
+$check = getimagesize($_FILES["image"]["tmp_name"]);
+if ($check === false) {
+echo "File is not an image.";
+$uploadOk = 0;
+} else {
+$uploadOk = 1;
+}
+
+if ($_FILES["image"]["size"] > 500000) {
+echo "Sorry, your file is too large.";
+$uploadOk = 0;
+}
+
+if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+$uploadOk = 0;
+}
+
+if ($uploadOk == 0) {
+echo "Sorry, your file was not uploaded.";
+} else {
+// Check if the file already exists, and if so, delete it
+if (file_exists($targetFile)) {
+unlink($targetFile); // Delete the existing file
+}
+
+// Move the uploaded file to the target directory
+if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+echo "The file has been uploaded successfully.";
+} else {
+echo "Sorry, there was an error uploading your file.";
+}
+}
+}
+
+
+$data= $result->fetch_row()?>
+<h2 class="text-center font-weight-heavy mt-2"><?=$data[1]?></h2>
+<h2 class="text-center font-weight-light mt-1"><?=$data[2]?></h2>
+<div class="mini-container">
+<h5>Batch: <?=$data[3]?></h5>
+<h5>Email: <?=$data[4]?></h5>
+<h5>Gender: <?=$data[5]?></h5>
+</div>
 <script>
+    // Get references to the file input and submit button
+    const fileInput = document.getElementById("fileInput");
+    const submitButton = document.getElementById("submitButton");
+
+    // Listen for the change event on the file input
+    fileInput.addEventListener("change", () => {
+        // Trigger the click event on the submit button
+        submitButton.click();
+    });
 </script>
 </body>
 </html>
