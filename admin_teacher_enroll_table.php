@@ -1,18 +1,19 @@
 <?php
 require 'session.php';
-    $session=new session();
-    $session->admin();
-    if(isset($_POST['logout']))
-    {
-        session_destroy();
-        header("Location: login.php");
-    }
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Home Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>Enrollment Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -28,16 +29,13 @@ require 'session.php';
         .nav-link.active{
             margin: 0!important;
         }
-        .active{
-            background-color: #800080!important;
-            padding: 16px 20px!important;
-            border-radius: 0!important;
-        }
+
         .dropdown-toggle{
             background-color: transparent!important;
-            padding: 8px 0!important;
+            padding: 16px 0!important;
             border-radius: 0!important;
         }
+
         .navbar{
             padding: 0;
         }
@@ -60,23 +58,46 @@ require 'session.php';
         .img{
             max-width: 20px;
         }
-        .course{
-            background-color: #d8d8d8;
-            padding: 20px;
-            margin: 10px 0;
-        }
-        .d-flex{
-            gap: 30px;
-        }
-        .d-flex>*{
-            max-width: 1000px;
-        }
         .navbar-nav{
             margin-left: 40px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
         }
         @media screen and (max-width:980px) {
             .mtop{
                 margin-top: 150px !important;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 40px !important;
+                width: 100%;
+            }
+            td{
+                padding-top: 50px !important;
+            }
+            .btn.btn-danger, .btn-primary{
+                margin-top: 20px !important;
+                font-size: 40px!important;
+                border-radius: 10px !important;
+                padding: 8px 25px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
             }
             .logout{
                 font-size: 45px;
@@ -87,14 +108,11 @@ require 'session.php';
             .img{
                 max-width: 0px!important;
             }
-            .course{
-                width: 800px !important;
-            }
             h1{
                 font-size: 85px !important;
             }
             h2{
-                font-size: 50px !important;
+                font-size: 60px !important;
             }
             h4{
                 font-size: 40px !important;
@@ -145,7 +163,6 @@ require 'session.php';
     </style>
 </head>
 <body>
-
 <nav class="navbar nav-pills navbar-expand-lg bg-dark navbar-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -155,7 +172,7 @@ require 'session.php';
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="admin_home.php">Home</a>
+                <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_student.php">Student</a>
@@ -189,52 +206,111 @@ require 'session.php';
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_teacher_enroll_table.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
         Log Out</button>
 </form>
 
+<h1 class="p-4 text-center text-white bg-primary">Teacher Info Table</h1>
 
-<h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
 
-<h2 class="mt-5 ml-5 mtop">Number of students Registered in each course:</h2>
+<div class="container mt-5 mtop">
+    <form name ="name" method="POST" action="admin_teacher_enroll_table.php">
+        <div class="form-group">
+            <label for="name">Teacher Name</label>
+            <select class="form-control sel" id="name" name="name">
+                <option value="">Select Teacher's Name</option>
+                <?php
+                require 'application.php';
 
-<div class="container my-5">
-    <div class="d-flex flex-wrap">
-        <?php
-        require 'application.php';
-        $db= new application();
-        $result=$db->get_data_course();
+                $db = new application();
+                $teacher_id= $db->get_data_teacher();
 
-        foreach ($result as $row) {
-            $c=$db->get_course_count($row['course_id']);
-            $count= $c->fetch_row();
-            ?>
-                <div class="course">
-                    <h4><span class="font-weight-light mr-3"><?= $row['course_title'];?>:</span><?= $count[0];?></h4>
-                </div>
-        <?php } ?>
-    </div>
+                if(isset($_POST['delete'])) {
+
+                    $id = $_POST['delete'];
+                    $db->delete_teacher_enroll($id);  // Delete item
+
+                }
+
+                foreach($teacher_id as $row): ?>
+                    <option value="<?= $row['teacher_id'] ?>"><?= $row['name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" >Get Data</button>
+    </form>
 </div>
 
+<?php
+if(isset($_POST['name']))
+{
+    if($_POST['name'] != "")
+    {
+        $tid = $_POST['name'];
+        $enroll_data = $db->get_teacher_enroll_data($tid);
+
+        $t_name=$db->get_teacher_name($_POST['name']);
+        $name = $t_name->fetch_row()[0];
+        ?>
+        <div class="container table-wrapper">
+
+            <form method="post" id="myForm" action="admin_student_enroll_table.php">
+                <table class="table table-striped table-bordered my-5" id="myTable">
+
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Credit Hours</th>
+                        <th>Curriculum</th>
+                        <th>Semester Number</th>
+                        <th>Delete Button</th>
+                    </tr>
+
+                    <h2 class="mt-5"><?=$name?>:</h2>
+                    <?php
+                    foreach($enroll_data as $row):?>
+
+                        <tr>
+                            <td class="text-nowrap"><?= $row['Course Title'] ?></td>
+                            <td class="text-nowrap"><?= $row['Credit Hours'] ?></td>
+                            <td class="text-nowrap"><?= $row['Curriculum'] ?></td>
+                            <td class="text-nowrap"><?= $row['Semester Number'] ?></td>
+
+
+                            <td class="text-nowrap"><button class="btn btn-danger ml-5 delete-button" type="submit" id= "delete" name="delete" value="<?= $row['ID'] ?>">Unenroll</button></td>
+
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                </table>
+            </form>
+        </div>
+    <?php }
+    else{
+        echo "<p class='p-2 text-white bg-danger text-center' >Select Teacher's Name</p>";
+    }
+} ?>
+
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         var navbarToggler = document.querySelector('.navbar-toggler');
         var navbarCollapse = document.querySelector('.navbar-collapse');
         var body = document.querySelector('body');
 
         navbarToggler.addEventListener('click', function() {
-        navbarCollapse.classList.toggle('show');
-    });
+            navbarCollapse.classList.toggle('show');
+        });
 
         body.addEventListener('click', function(e) {
-        if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
-        navbarCollapse.classList.remove('show');
-    }
-    });
+            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
     });
 </script>
+
 </body>
 </html>

@@ -8,23 +8,30 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 require 'application.php';
+$db = new application();
+
+$student_data = $db->get_data_student();
+$course_data = $db->get_data_course();
+
 if($_POST)
 {
 
-    if($_POST['course_title'] != "" && $_POST['credit_hours'] != ""&& $_POST['semester_number'] != "")
+    if($_POST['student_id'] != "" && $_POST['course_id'] != "")
     {
-        $connection = new application();
-        $connection->insert_course($_POST['course_title'], $_POST['credit_hours'], $_POST['course_teacher'], $_POST['semester_number'], $_POST['curriculum'], $_POST['course_info']);
+        $student_id = $_POST['student_id'];
+        $course_id = $_POST['course_id'];
+        $db->enroll_student($student_id, $course_id);
     }
     else{
         echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Course</title>
+    <title>Enrollment</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -105,9 +112,6 @@ if($_POST)
             form{
                 font-size: 50px !important;
             }
-            input[type="text"], [type="password"], [type="email"] {
-                font-size: 40px !important;
-            }
             .sel{
                 font-size: 40px !important;
             }
@@ -117,7 +121,7 @@ if($_POST)
             textarea{
                 font-size: 40px !important;
             }
-            .btn.btn-primary {
+            .btn.btn-secondary {
                 margin-top: 30px !important;
                 font-size: 50px!important;
                 border-radius: 20px !important;
@@ -181,13 +185,19 @@ if($_POST)
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_student_info.php">Student</a>
+                <a class="nav-link" href="admin_student.php">Student</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="admin_course_info.php">Course</a>
+                <a class="nav-link" href="admin_teacher.php">Teacher</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_enroll.php">Enroll</a>
+                <a class="nav-link" href="admin_course.php">Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="admin_student_enroll.php">Student Enroll</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_teacher_enroll.php">Teacher Enroll</a>
             </li>
 
             <!-- Dropdown -->
@@ -196,15 +206,17 @@ if($_POST)
                     Data Tables
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
-                    <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
-                    <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
+                    <a class="dropdown-item" href="admin_student_table.php">Students</a>
+                    <a class="dropdown-item" href="admin_teacher_table.php">Teachers</a>
+                    <a class="dropdown-item" href="admin_course_table.php">Courses</a>
+                    <a class="dropdown-item" href="admin_student_enroll_table.php">Student Enrollment</a>
+                    <a class="dropdown-item" href="admin_teacher_enroll_table.php">Teacher Enrollment</a>
                 </div>
             </li>
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_course_info.php">
+<form method="POST" action="admin_student_enroll.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
@@ -212,73 +224,53 @@ if($_POST)
 </form>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Enter Course Info</h1>
+<h1 class="p-4 text-center text-white bg-primary">Student Course Enrollment</h1>
 
 
 <div class="container my-5 mtop">
-    <form name ="bio" method="POST" action="admin_course_info.php">
+    <form name ="bio" method="POST" action="admin_student_enroll.php">
         <div class="form-group">
-            <label for="course_title">Course Title<span class="text-danger"> *</span></label>
-            <input type="text" class="form-control" id="course_title"  name="course_title" placeholder="Enter the course title" required>
-        </div>
-        <div class="form-group">
-            <label for="credit_hours">Credit Hours<span class="text-danger"> *</span></label>
-            <select class="form-control sel" id="credit_hours" name="credit_hours">
-                <option value="">(Select Credit Hours)</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+            <label for="course_id">Course Title<span class="text-danger"> *</span></label>
+            <select class="form-control sel" id="course_id" name="course_id">
+                <option value="">(Select Course's Title)</option>
+                <?php foreach($course_data as $row): ?>
+                    <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group">
-            <label for="course_teacher">Course Teacher<span class="text-danger"> *</span></label>
-            <input type="text" class="form-control" id="course_teacher"  name="course_teacher" placeholder="Enter the name of the course teacher" required>
-        </div>
-        <div class="form-group">
-            <label for="semester_number">Semester Number<span class="text-danger"> *</span></label>
-            <select class="form-control sel" id="semester_number" name="semester_number">
-                <option value="">(Select Semester Number)</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-
+            <label for="student_id">Student Name<span class="text-danger"> *</span></label>
+            <select class="form-control sel" data-display="auto" id="student_id" name="student_id">
+                <option value="">(Select Student's Name)</option>
+                <?php foreach($student_data as $row): ?>
+                    <option value="<?= $row['student_id'] ?>">
+                        <?= $row['name'] ?>
+                        <p><?= $row['roll_number'] ?></p>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
-        <div class="form-group">
-            <label for="curriculum">Curriculum</label>
-            <select class="form-control sel" id="curriculum" name="curriculum">
-                <option value="core">Core</option>
-                <option value="elective">Elective</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="course_info">Course Info</label>
-            <textarea class="form-control" id="course_info" name="course_info" rows="4" placeholder="Enter additional course info"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" >Submit</button>
+        <button type="submit" class="btn btn-secondary" >Enroll</button>
     </form>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var navbarToggler = document.querySelector('.navbar-toggler');
-        var navbarCollapse = document.querySelector('.navbar-collapse');
-        var body = document.querySelector('body');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbarToggler = document.querySelector('.navbar-toggler');
+            var navbarCollapse = document.querySelector('.navbar-collapse');
+            var body = document.querySelector('body');
 
-        navbarToggler.addEventListener('click', function() {
-            navbarCollapse.classList.toggle('show');
-        });
+            navbarToggler.addEventListener('click', function() {
+                navbarCollapse.classList.toggle('show');
+            });
 
-        body.addEventListener('click', function(e) {
-            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
-                navbarCollapse.classList.remove('show');
-            }
+            body.addEventListener('click', function(e) {
+                if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
         });
-    });
-</script>
+    </script>
+
+
+
 </body>
 </html>

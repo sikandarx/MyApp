@@ -1,18 +1,32 @@
 <?php
 require 'session.php';
-    $session=new session();
-    $session->admin();
-    if(isset($_POST['logout']))
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require 'application.php';
+if($_POST)
+{
+
+    if($_POST['course_title'] != "" && $_POST['credit_hours'] != ""&& $_POST['semester_number'] != "")
     {
-        session_destroy();
-        header("Location: login.php");
+        $connection = new application();
+        $connection->insert_course($_POST['course_title'], $_POST['credit_hours'], $_POST['course_teacher'], $_POST['semester_number'], $_POST['curriculum'], $_POST['course_info']);
     }
+    else{
+        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
+    }
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Home Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>Course</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -60,17 +74,6 @@ require 'session.php';
         .img{
             max-width: 20px;
         }
-        .course{
-            background-color: #d8d8d8;
-            padding: 20px;
-            margin: 10px 0;
-        }
-        .d-flex{
-            gap: 30px;
-        }
-        .d-flex>*{
-            max-width: 1000px;
-        }
         .navbar-nav{
             margin-left: 40px;
         }
@@ -87,9 +90,6 @@ require 'session.php';
             .img{
                 max-width: 0px!important;
             }
-            .course{
-                width: 800px !important;
-            }
             h1{
                 font-size: 85px !important;
             }
@@ -98,6 +98,30 @@ require 'session.php';
             }
             h4{
                 font-size: 40px !important;
+            }
+            .form-group{
+                margin-top: 50px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            input[type="text"], [type="password"], [type="email"] {
+                font-size: 40px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
+            }
+            .btn.btn-primary {
+                margin-top: 30px !important;
+                font-size: 50px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
             }
             .navbar-nav{
                 margin: 0!important;
@@ -145,7 +169,6 @@ require 'session.php';
     </style>
 </head>
 <body>
-
 <nav class="navbar nav-pills navbar-expand-lg bg-dark navbar-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -155,7 +178,7 @@ require 'session.php';
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="admin_home.php">Home</a>
+                <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_student.php">Student</a>
@@ -164,7 +187,7 @@ require 'session.php';
                 <a class="nav-link" href="admin_teacher.php">Teacher</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_course.php">Course</a>
+                <a class="nav-link active" href="admin_course.php">Course</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_student_enroll.php">Student Enroll</a>
@@ -189,7 +212,7 @@ require 'session.php';
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="admin_course.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
@@ -197,43 +220,72 @@ require 'session.php';
 </form>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
+<h1 class="p-4 text-center text-white bg-primary">Enter Course Info</h1>
 
-<h2 class="mt-5 ml-5 mtop">Number of students Registered in each course:</h2>
 
-<div class="container my-5">
-    <div class="d-flex flex-wrap">
-        <?php
-        require 'application.php';
-        $db= new application();
-        $result=$db->get_data_course();
+<div class="container my-5 mtop">
+    <form name ="bio" method="POST" action="admin_course.php">
+        <div class="form-group">
+            <label for="course_title">Course Title<span class="text-danger"> *</span></label>
+            <input type="text" class="form-control" id="course_title"  name="course_title" placeholder="Enter the course title" required>
+        </div>
+        <div class="form-group">
+            <label for="credit_hours">Credit Hours<span class="text-danger"> *</span></label>
+            <select class="form-control sel" id="credit_hours" name="credit_hours">
+                <option value="">(Select Credit Hours)</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="course_teacher">Course Teacher<span class="text-danger"> *</span></label>
+            <input type="text" class="form-control" id="course_teacher"  name="course_teacher" placeholder="Enter the name of the course teacher" required>
+        </div>
+        <div class="form-group">
+            <label for="semester_number">Semester Number<span class="text-danger"> *</span></label>
+            <select class="form-control sel" id="semester_number" name="semester_number">
+                <option value="">(Select Semester Number)</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
 
-        foreach ($result as $row) {
-            $c=$db->get_course_count($row['course_id']);
-            $count= $c->fetch_row();
-            ?>
-                <div class="course">
-                    <h4><span class="font-weight-light mr-3"><?= $row['course_title'];?>:</span><?= $count[0];?></h4>
-                </div>
-        <?php } ?>
-    </div>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="curriculum">Curriculum</label>
+            <select class="form-control sel" id="curriculum" name="curriculum">
+                <option value="core">Core</option>
+                <option value="elective">Elective</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="course_info">Course Info</label>
+            <textarea class="form-control" id="course_info" name="course_info" rows="4" placeholder="Enter additional course info"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" >Submit</button>
+    </form>
 </div>
-
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         var navbarToggler = document.querySelector('.navbar-toggler');
         var navbarCollapse = document.querySelector('.navbar-collapse');
         var body = document.querySelector('body');
 
         navbarToggler.addEventListener('click', function() {
-        navbarCollapse.classList.toggle('show');
-    });
+            navbarCollapse.classList.toggle('show');
+        });
 
         body.addEventListener('click', function(e) {
-        if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
-        navbarCollapse.classList.remove('show');
-    }
-    });
+            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
     });
 </script>
 </body>

@@ -8,25 +8,24 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 require 'application.php';
-if($_POST)
+$db = new application();
+$result = $db->get_data_teacher();
+
+
+if(isset($_POST['delete']))
 {
 
-    if($_POST['name'] != "" && $_POST['number'] != "" && $_POST['batch'] != ""&& $_POST['email'] != ""&& $_POST['gender'] != "")
-    {
-        $connection = new application();
-        $connection->insert_student($_POST['name'], $_POST['number'], $_POST['batch'],$_POST['email'], $_POST['gender']);
-    }
-    else{
-        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
-    }
+    $id = $_POST['delete'];
 
+    $db->delete_teacher($id);  // Delete item
+
+    header("Location: admin_student_table.php");  // Then redirect page
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student</title>
-    <!-- Bootstrap CSS -->
+    <title>Student Info</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -43,14 +42,10 @@ if($_POST)
         .nav-link.active{
             margin: 0!important;
         }
-        .active{
-            background-color: #800080!important;
-            padding: 16px 20px!important;
-            border-radius: 0!important;
-        }
+
         .dropdown-toggle{
             background-color: transparent!important;
-            padding: 8px 0!important;
+            padding: 16px 0!important;
             border-radius: 0!important;
         }
         .navbar{
@@ -78,9 +73,31 @@ if($_POST)
         .navbar-nav{
             margin-left: 40px;
         }
+        .table-wrapper {
+            overflow-x: auto;
+        }
         @media screen and (max-width:980px) {
             .mtop{
                 margin-top: 150px !important;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 40px !important;
+                width: 100%;
+            }
+            td{
+                padding-top: 50px !important;
+            }
+            .btn.btn-danger {
+                margin-top: 20px !important;
+                font-size: 40px!important;
+                border-radius: 10px !important;
+                padding: 8px 25px !important;
             }
             .logout{
                 font-size: 45px;
@@ -99,27 +116,6 @@ if($_POST)
             }
             h4{
                 font-size: 40px !important;
-            }
-            .form-group{
-                margin-top: 50px !important;
-            }
-            form{
-                font-size: 50px !important;
-            }
-            input[type="text"], [type="password"], [type="email"] {
-                font-size: 40px !important;
-            }
-            .sel{
-                font-size: 40px !important;
-            }
-            .sel option{
-                font-size: 12px !important
-            }
-            .btn.btn-primary {
-                margin-top: 30px !important;
-                font-size: 50px!important;
-                border-radius: 20px !important;
-                padding: 8px 25px !important;
             }
             .navbar-nav{
                 margin: 0!important;
@@ -167,7 +163,6 @@ if($_POST)
     </style>
 </head>
 <body>
-
 <nav class="navbar nav-pills navbar-expand-lg bg-dark navbar-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -180,13 +175,19 @@ if($_POST)
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="admin_student_info.php">Student</a>
+                <a class="nav-link" href="admin_student.php">Student</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_course_info.php">Course</a>
+                <a class="nav-link" href="admin_teacher.php">Teacher</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_enroll.php">Enroll</a>
+                <a class="nav-link" href="admin_course.php">Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_student_enroll.php">Student Enroll</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_teacher_enroll.php">Teacher Enroll</a>
             </li>
 
             <!-- Dropdown -->
@@ -195,15 +196,17 @@ if($_POST)
                     Data Tables
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
-                    <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
-                    <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
+                    <a class="dropdown-item" href="admin_student_table.php">Students</a>
+                    <a class="dropdown-item" href="admin_teacher_table.php">Teachers</a>
+                    <a class="dropdown-item" href="admin_course_table.php">Courses</a>
+                    <a class="dropdown-item" href="admin_student_enroll_table.php">Student Enrollment</a>
+                    <a class="dropdown-item" href="admin_teacher_enroll_table.php">Teacher Enrollment</a>
                 </div>
             </li>
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_student_info.php">
+<form method="POST" action="admin_teacher_table.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
@@ -211,50 +214,37 @@ if($_POST)
 </form>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Enter Student Info</h1>
+<h1 class="p-4 text-center text-white bg-primary">Teacher Info Table</h1>
 
 
+<div class="container table-wrapper mtop">
+    <form method="post">
+        <table class="table table-striped table-bordered my-5">
 
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Delete Button</th>
+            </tr>
 
-<div class="container my-5 mtop">
-    <form name ="bio" method="POST" action="admin_student_info.php">
-        <div class="form-group">
-            <label for="name">Name<span class="text-danger"> *</span></label>
-            <input type="text" class="form-control" id="name"  name="name" placeholder="Enter your name" required>
-        </div>
-        <div class="form-group">
-            <label for="roll_number">Roll number<span class="text-danger"> *</span></label>
-            <input type="text" class="form-control" id="roll_number" name="number" placeholder="Enter your Roll number" required>
-        </div>
-        <div class="form-group">
-            <label for="batch">Batch<span class="text-danger"> *</span></label>
-            <select class="form-control sel" id="batch" name="batch">
-                <option value="">(Select your Batch)</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="email">Email address<span class="text-danger"> *</span></label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="gender">Gender<span class="text-danger"> *</span></label>
-            <select class="form-control sel" id="gender" name="gender">
-                <option value="">(Select your Gender)</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" >Submit</button>
+            <?php foreach($result as $row): ?>
+
+                <tr>
+                    <td class="text-nowrap"><?= $row['teacher_id'] ?></td>
+                    <td class="text-nowrap"><?= $row['name'] ?></td>
+                    <td class="text-nowrap"><?= $row['number'] ?></td>
+                    <td class="text-nowrap"><?= $row['email'] ?></td>
+                    <td class="text-nowrap"><?= $row['gender'] ?></td>
+                    <td class="text-nowrap"><button class="btn btn-danger ml-5" type="submit" name= "delete" value="<?= $row['teacher_id'] ?>">Delete</button></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        </table>
     </form>
-
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

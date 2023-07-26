@@ -62,6 +62,11 @@ class application
         $result = $this->conn->query("SELECT * FROM `course`");
         return $result;
     }
+    public function get_title_course($id)
+    {
+        $result = $this->conn->query("SELECT course_title FROM `course` WHERE course_id=".$id);
+        return $result;
+    }
     public function delete_course($id) {
         $sql = "DELETE FROM `course` WHERE course_id = $id";
         $this->conn->query($sql);
@@ -79,22 +84,67 @@ class application
             echo "<p class='p-2 mx-5 text-white bg-success text-center' >Enrollment Successfull</p>";
         }
     }
-    public function delete_enroll($id) {
+    public function delete_student_enroll($id) {
         $sql = "DELETE FROM `student_course` WHERE id = $id";
         $this->conn->query($sql);
     }
-    public function get_enroll_data($course_id)
+    public function get_student_enroll_data($course_id)
     {
-        $data = array();
         $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
         $result = $this->conn->query($sql);
         return $result;
     }
-    public function get_title_course($id)
+    public function insert_teacher($name, $number,$email,$gender)
     {
-        $result = $this->conn->query("SELECT course_title FROM `course` WHERE course_id=".$id);
-         return $result;
+        $sql = "INSERT INTO teacher (`name`, `number`, `email`,`gender`) VALUES ('$name', '$number','$email','$gender')";
+        $result = mysqli_query($this->conn, $sql);
+        if(!$result)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >There is some issue with record creation</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white text-center bg-success'>Data submitted</p>";
+        }
     }
+    public function get_data_teacher()
+    {
+
+        $result = $this->conn->query("SELECT * FROM `teacher`");
+        return $result;
+    }
+    public function get_teacher_name($id)
+    {
+        $result = $this->conn->query("SELECT name FROM `teacher` WHERE teacher_id=".$id);
+        return $result;
+    }
+    public function delete_teacher($id) {
+        $sql = "DELETE FROM `teacher` WHERE teacher_id = $id";
+        $this->conn->query($sql);
+    }
+    public function enroll_teacher($teacher_id, $course_id) {
+        $sql = "INSERT INTO teacher_course (teacher_id, course_id) VALUES ($teacher_id, $course_id)";
+        $enroll=$this->conn->query($sql);
+        if(!$enroll)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >Enrollment Successfull</p>";
+        }
+    }
+    public function get_teacher_enroll_data($teacher_id)
+    {
+        $sql="SELECT c.id as 'ID',  a.course_title as 'Course Title', a.credit_hours as 'Credit Hours' , a.semester_number as 'Semester Number', a.curriculum as 'Curriculum' FROM `teacher_course` c JOIN `teacher` b on c.teacher_id = b.teacher_id JOIN course a on c.course_id = a.course_id WHERE b.teacher_id = ". $teacher_id;
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+    public function delete_teacher_enroll($id) {
+        $sql = "DELETE FROM `teacher_course` WHERE id = $id";
+        $this->conn->query($sql);
+    }
+
     public function get_data_login($username,$password)
     {
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");

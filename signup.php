@@ -134,7 +134,7 @@
                 $check = $db->check_email($newusername);
                 if ($check->num_rows > 0) {
                     if ($check_repeat->num_rows > 0) {
-                        echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Email Already Exists!!</p>";
+                        echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Account on this email Already Exists!!</p>";
                     } else {
                         $db->signup_users($newusername, $newpassword, $type);
                     }

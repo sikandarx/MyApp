@@ -8,33 +8,31 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 require 'application.php';
-
 $db = new application();
-$course_id= $db->get_data_course();
 
-if(isset($_POST['course_title']))
+$teacher_data = $db->get_data_teacher();
+$course_data = $db->get_data_course();
+
+if($_POST)
 {
-    if($_POST['course_title'] != "" && $_POST['course_title'] != "")
+
+    if($_POST['teacher_id'] != "" && $_POST['course_id'] != "")
     {
-        $cid = $_POST['course_title'];
-        $enroll_data = $db->get_enroll_data($cid);
+        $teacher_id = $_POST['teacher_id'];
+        $course_id = $_POST['course_id'];
+        $db->enroll_teacher($teacher_id, $course_id);
     }
     else{
-        echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
+        echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
     }
 }
-
-if(isset($_POST['delete'])) {
-
-    $id = $_POST['delete'];
-    $db->delete_enroll($id);  // Delete item
-
-}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Enrollment Info</title>
+    <title>Enrollment</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -51,13 +49,16 @@ if(isset($_POST['delete'])) {
         .nav-link.active{
             margin: 0!important;
         }
-
-        .dropdown-toggle{
-            background-color: transparent!important;
-            padding: 16px 0!important;
+        .active{
+            background-color: #800080!important;
+            padding: 16px 20px!important;
             border-radius: 0!important;
         }
-
+        .dropdown-toggle{
+            background-color: transparent!important;
+            padding: 8px 0!important;
+            border-radius: 0!important;
+        }
         .navbar{
             padding: 0;
         }
@@ -83,43 +84,9 @@ if(isset($_POST['delete'])) {
         .navbar-nav{
             margin-left: 40px;
         }
-        .table-wrapper {
-            overflow-x: auto;
-        }
         @media screen and (max-width:980px) {
             .mtop{
                 margin-top: 150px !important;
-            }
-
-            .table-wrapper {
-                width: 100%;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            table {
-                font-size: 40px !important;
-                width: 100%;
-            }
-            td{
-                padding-top: 50px !important;
-            }
-            .btn.btn-danger, .btn-primary{
-                margin-top: 20px !important;
-                font-size: 40px!important;
-                border-radius: 10px !important;
-                padding: 8px 25px !important;
-            }
-            form{
-                font-size: 50px !important;
-            }
-            .sel{
-                font-size: 40px !important;
-            }
-            .sel option{
-                font-size: 12px !important
-            }
-            textarea{
-                font-size: 40px !important;
             }
             .logout{
                 font-size: 45px;
@@ -134,10 +101,31 @@ if(isset($_POST['delete'])) {
                 font-size: 85px !important;
             }
             h2{
-                font-size: 60px !important;
+                font-size: 50px !important;
             }
             h4{
                 font-size: 40px !important;
+            }
+            .form-group{
+                margin-top: 50px !important;
+            }
+            form{
+                font-size: 50px !important;
+            }
+            .sel{
+                font-size: 40px !important;
+            }
+            .sel option{
+                font-size: 12px !important
+            }
+            textarea{
+                font-size: 40px !important;
+            }
+            .btn.btn-secondary {
+                margin-top: 30px !important;
+                font-size: 50px!important;
+                border-radius: 20px !important;
+                padding: 8px 25px !important;
             }
             .navbar-nav{
                 margin: 0!important;
@@ -197,13 +185,19 @@ if(isset($_POST['delete'])) {
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_student_info.php">Student</a>
+                <a class="nav-link" href="admin_student.php">Student</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_course_info.php">Course</a>
+                <a class="nav-link" href="admin_teacher.php">Teacher</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin_enroll.php">Enroll</a>
+                <a class="nav-link" href="admin_course.php">Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_student_enroll.php">Student Enroll</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="admin_teacher_enroll.php">Teacher Enroll</a>
             </li>
 
             <!-- Dropdown -->
@@ -212,95 +206,70 @@ if(isset($_POST['delete'])) {
                     Data Tables
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="admin_student_info_table.php">Students</a>
-                    <a class="dropdown-item" href="admin_course_info_table.php">Courses</a>
-                    <a class="dropdown-item" href="admin_enroll_info_table.php">Enrollment</a>
+                    <a class="dropdown-item" href="admin_student_table.php">Students</a>
+                    <a class="dropdown-item" href="admin_teacher_table.php">Teachers</a>
+                    <a class="dropdown-item" href="admin_course_table.php">Courses</a>
+                    <a class="dropdown-item" href="admin_student_enroll_table.php">Student Enrollment</a>
+                    <a class="dropdown-item" href="admin_teacher_enroll_table.php">Teacher Enrollment</a>
                 </div>
             </li>
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_enroll_info_table.php">
+<form method="POST" action="admin_teacher_enroll.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
         Log Out</button>
 </form>
 
-<h1 class="p-4 text-center text-white bg-primary">Course Info Table</h1>
+
+<h1 class="p-4 text-center text-white bg-primary">Teacher Course Enrollment</h1>
 
 
-     <div class="container mt-5 mtop">
-    <form name ="course_name" method="POST" action="admin_enroll_info_table.php">
-    <div class="form-group">
-    <label for="course_title">Course Title</label>
-    <select class="form-control sel" id="course_title" name="course_title">
-        <option value="">Select Course Title</option>
-        <?php foreach($course_id as $row): ?>
-            <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
-        <?php endforeach; ?>
-    </select>
-    </div>
-        <button type="submit" class="btn btn-primary" >Get Data</button>
+<div class="container my-5 mtop">
+    <form name ="bio" method="POST" action="admin_teacher_enroll.php">
+        <div class="form-group">
+            <label for="course_id">Course Title<span class="text-danger"> *</span></label>
+            <select class="form-control sel" id="course_id" name="course_id">
+                <option value="">(Select Course's Title)</option>
+                <?php foreach($course_data as $row): ?>
+                    <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="teacher_id">Teacher Name<span class="text-danger"> *</span></label>
+            <select class="form-control sel" data-display="auto" id="teacher_id" name="teacher_id">
+                <option value="">(Select Teacher's Name)</option>
+                <?php foreach($teacher_data as $row): ?>
+                    <option value="<?= $row['teacher_id'] ?>">
+                        <?= $row['name'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary" >Enroll</button>
     </form>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbarToggler = document.querySelector('.navbar-toggler');
+            var navbarCollapse = document.querySelector('.navbar-collapse');
+            var body = document.querySelector('body');
 
-<?php if(isset($_POST['course_title']))
-{
-    if($_POST['course_title'] != "" && $_POST['course_title'] != "")
-    {
-    $course_name=$db->get_title_course($_POST['course_title']);
-    $course = $course_name->fetch_row()[0];
-    ?>
-<div class="container table-wrapper">
+            navbarToggler.addEventListener('click', function() {
+                navbarCollapse.classList.toggle('show');
+            });
 
-    <form method="post" id="myForm" action="admin_enroll_info_table.php">
-    <table class="table table-striped table-bordered my-5" id="myTable">
-
-        <tr>
-            <th>Student Name</th>
-            <th>Roll Number</th>
-            <th>Email</th>
-            <th>Delete Button</th>
-        </tr>
-
-        <h2 class="mt-5"><?=$course?>:</h2>
-        <?php
-        foreach($enroll_data as $row):?>
-
-            <tr>
-                <td class="text-nowrap"><?= $row['Student Name'] ?></td>
-                <td class="text-nowrap"><?= $row['Student Roll Number'] ?></td>
-                <td class="text-nowrap"><?= $row['Student Email'] ?></td>
-
-                <td class="text-nowrap"><button class="btn btn-danger ml-5 delete-button" type="submit" id= "delete" name="delete" value="<?= $row['ID'] ?>">Unenroll</button></td>
-
-            </tr>
-
-        <?php endforeach; ?>
-
-    </table>
-</form>
-</div>
-<?php } } ?>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var navbarToggler = document.querySelector('.navbar-toggler');
-        var navbarCollapse = document.querySelector('.navbar-collapse');
-        var body = document.querySelector('body');
-
-        navbarToggler.addEventListener('click', function() {
-            navbarCollapse.classList.toggle('show');
+            body.addEventListener('click', function(e) {
+                if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
         });
+    </script>
 
-        body.addEventListener('click', function(e) {
-            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
-                navbarCollapse.classList.remove('show');
-            }
-        });
-    });
-</script>
+
 
 </body>
 </html>
