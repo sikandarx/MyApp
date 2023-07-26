@@ -7,6 +7,24 @@ if(isset($_POST['logout']))
     session_destroy();
     header("Location: login.php");
 }
+
+
+    if ($_POST = ['type'] != "" && $_POST = ['newusername'] != "" && $_POST = ['newpassword'] != "") {
+
+        require 'application.php';
+        $db = new application();
+        $check_repeat = $db->check_email_repeat($_POST = ['newusername']);
+
+        if ($check_repeat->num_rows > 0) {
+            echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Account on this email Already Exists!!</p>";
+        } else {
+            $db->admin_signup_users($_POST = ['newusername'], $_POST = ['newusername'], $_POST = ['type']);
+        }
+    } else {
+        echo "<p class='p-2 text-white bg-danger opacity text-center mt-4' >Incomplete Credentials!!</p>";
+
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -192,7 +210,7 @@ if(isset($_POST['logout']))
         </ul>
     </div>
 </nav>
-<form method="POST" action="admin_home.php">
+<form method="POST" action="create_account.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
@@ -202,8 +220,34 @@ if(isset($_POST['logout']))
 
 <h1 class="p-4 text-center text-white bg-primary">Create Account</h1>
 
-
-
+<div class="container my-5 mtop">
+    <form name="bio" method="post" action="create_account.php">
+        <div class="form-group">
+            <label>Email<span class="text-danger"> *</span></label>
+            <input type="email" class="form-control" id="newusername" name="newusername" placeholder="Enter Email" required>
+        </div>
+        <div class="form-group">
+            <label>Type<span class="text-danger"> *</span></label>
+            <select class="form-control" id="type" name="type">
+                <option value="">(Select Account Type)</option>
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>New Password<span class="text-danger"> *</span></label>
+            <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Enter New Password" required>
+        </div>
+        <div class="form-group">
+            <label>Confirm Password<span class="text-danger"> *</span></label>
+            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm New Password" required>
+            <input type="checkbox" id="sPassword" onclick="sPasswordVisibility()">
+            <label class="spass" for="sPassword">Show Password</label>
+        </div>
+            <button id="submit" type="submit" class="btn btn-primary" >Create Account</button>
+    </form>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var navbarToggler = document.querySelector('.navbar-toggler');
@@ -219,6 +263,38 @@ if(isset($_POST['logout']))
                 navbarCollapse.classList.remove('show');
             }
         });
+    });
+    function sPasswordVisibility() {
+        var newpasswordField = document.getElementById("newpassword");
+        var confirmpasswordField = document.getElementById("confirmpassword");
+        var sPasswordCheckbox = document.getElementById("sPassword");
+
+        if (sPasswordCheckbox.checked) {
+            newpasswordField.type = "text";
+            confirmpasswordField.type = "text";
+        } else {
+            newpasswordField.type = "password";
+            confirmpasswordField.type = "password";
+        }
+    }
+
+
+    function validateForm() {
+        var password = document.getElementById("newpassword").value;
+        var confirmPassword = document.getElementById("confirmpassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+
+        return true;
+    }
+    const submitBtn = document.getElementById('submit');
+    submitBtn.addEventListener('click', function(event){
+        if (!validateForm()) {
+            event.preventDefault();
+        }
     });
 </script>
 </body>

@@ -185,6 +185,18 @@ class application
             exit;
         }
     }
+    public function admin_signup_users($username,$password,$type){
+        $sql = "INSERT INTO users (`username`,`password`,`type`) VALUES ('$username','$password','$type')";
+        $result = mysqli_query($this->conn, $sql);
+        if(!$result)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center mx-5' >There is some issue with creating account!!</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >$type Account created.</p>";
+        }
+    }
 
     public function get_course_count($course_id){
         $result = $this->conn->query("SELECT COUNT(*) AS count FROM student_course WHERE course_id='$course_id'");
