@@ -26,9 +26,15 @@ if(isset($_POST['logout']))
             margin: auto 0!important;
         }
         .nav-link{
-            padding: 16px 0!important;
+            padding: 8px 0!important;
             margin-right: 20px!important;
             margin-left: 20px!important;
+        }
+        .active{
+            background-color: #5840ba!important;
+            padding: 16px 20px!important;
+            border-radius: 0!important;
+            margin: 0!important;
         }
         .navbar{
             padding: 0;
@@ -140,7 +146,7 @@ if(isset($_POST['logout']))
                 <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_grades.php">Grades</a>
+                <a class="nav-link active" href="student_grades.php">Grades</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student_assignments.php">Assignments</a>
@@ -178,7 +184,7 @@ if(isset($_POST['logout']))
 </nav>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Settings</h1>
+<h1 class="p-4 text-center text-white bg-primary">Grades</h1>
 
 <div class="mini-container">
 

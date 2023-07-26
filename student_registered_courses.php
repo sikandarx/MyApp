@@ -141,6 +141,12 @@ $result=$db->get_data_student_course($username);
             <li class="nav-item">
                 <a class="nav-link active" href="student_registered_courses.php">Registered Courses</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_grades.php">Grades</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_assignments.php">Assignments</a>
+            </li>
         </ul>
     </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">

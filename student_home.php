@@ -247,6 +247,12 @@ $result=$db->get_username_info($username);
             <li class="nav-item">
                 <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_grades.php">Grades</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_assignments.php">Assignments</a>
+            </li>
         </ul>
     </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
@@ -301,7 +307,7 @@ $data= $result->fetch_row()?>
         </div>
     </div>
     <div class="mini-container">
-        <h5 class="mb-4 font-weight-heavy">Schedule:</h5>
+        <h5 class="mb-4 font-weight-heavy">Deadlines:</h5>
         <div class="calendar">
             <div class="header">
                 <button id="prevBtn">&lt;</button>

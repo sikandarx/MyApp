@@ -46,8 +46,8 @@ $result=$db->get_username_info($username);
             max-width: 20px;
         }
         .img2{
-            max-width: 200px;
-            border: #5840ba 2px solid;
+            max-width: 250px;
+            border: #5840ba 5px solid;
             border-radius: 50%;
         }
         .info>*{
@@ -85,6 +85,7 @@ $result=$db->get_username_info($username);
         }
         .camera-icon {
             position: absolute;
+            left: 20px;
             bottom: 0;
         }
         .center {
@@ -190,6 +191,12 @@ $result=$db->get_username_info($username);
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_grades.php">Grades</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="student_assignments.php">Assignments</a>
             </li>
         </ul>
     </div>
