@@ -271,7 +271,7 @@ $uploadOk = 0;
 }
 
 if ($uploadOk == 0) {
-    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, your file was not uploaded!!</p>";
+    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, there was an error changing your Profile Picture!!</p>";
 } else {
 // Check if the file already exists, and if so, delete it
 if (file_exists($targetFile)) {
@@ -280,7 +280,7 @@ unlink($targetFile); // Delete the existing file
 
 // Move the uploaded file to the target directory
 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-    echo "<p class='p1 text-white bg-success text-center' style='width: 50%; margin: 20px auto;'>Your Profile Picture has been changed successfully.</p>";
+    echo "<p class='p1 text-white bg-success text-center' style='width: 50%; margin: 20px auto;'>Your Profile Picture will be changed after some time.</p>";
 } else {
     echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, there was an error changing your Profile Picture!!</p>";
 }
