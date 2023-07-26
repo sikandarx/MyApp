@@ -180,6 +180,9 @@ if($_POST)
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="create_account.php">Create Account</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" href="admin_student.php">Student</a>
             </li>
             <li class="nav-item">
