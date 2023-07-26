@@ -261,17 +261,17 @@ $uploadOk = 1;
 }
 
 if ($_FILES["image"]["size"] > 500000) {
-echo "Sorry, your file is too large.";
+    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, your file is too large!!</p>";
 $uploadOk = 0;
 }
 
 if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, only JPG, JPEG & PNG files are allowed!!</p>";
 $uploadOk = 0;
 }
 
 if ($uploadOk == 0) {
-echo "Sorry, your file was not uploaded.";
+    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, your file was not uploaded!!</p>";
 } else {
 // Check if the file already exists, and if so, delete it
 if (file_exists($targetFile)) {
