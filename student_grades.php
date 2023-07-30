@@ -8,11 +8,26 @@ if(isset($_POST['logout']))
     session_destroy();
     header("Location: login.php");
 }
+
+require 'application.php';
+$db = new application();
+$result=$db->get_data_student_grades($username);
+
+$folderPath = 'uploads/';
+$fileName = $username.'.jpg';
+$file=$folderPath.$fileName;
+if(file_exists($file))
+{
+    $name= $username;
+}
+else{
+    $name="man";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Settings</title>
+    <title>Grades</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -66,6 +81,12 @@ if(isset($_POST['logout']))
             border-radius: 10px;
             overflow: hidden;
             margin: 20px auto;
+        }
+        .font-weight-medium{
+            font-weight: 350;
+        }
+        .font-weight-heavy{
+            font-weight: 600;
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -158,7 +179,7 @@ if(isset($_POST['logout']))
                 style="width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-image: url(uploads/<?= $username?>.jpg);
+                    background-image: url(uploads/<?= $name?>.jpg);
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position:center;"
@@ -186,9 +207,39 @@ if(isset($_POST['logout']))
 
 <h1 class="p-4 text-center text-white bg-primary">Grades</h1>
 
-<div class="mini-container">
+<div class="container table-wrapper mtop">
+    <table class="table table-striped table-bordered mt-5">
 
+        <tr>
+            <th>No.</th>
+            <th>Course Title</th>
+            <th>Grade</th>
+            <th>Points</th>
+        </tr>
+        <?php
+        $num=1;$index=0;
+        foreach($result as $row):
+            ?>
+
+            <tr>
+                <td class="text-nowrap"><?= $num ?></td>
+                <td class="text-nowrap"><?= $row['course_title'] ?></td>
+            <td class="text-nowrap font-weight-heavy"><?= $row['grade'] ?></td>
+            <?php
+            $percentage=$db->grade_percentage($row['grade']);
+            $array[$index]=$percentage;
+            ?>
+            <td class="text-nowrap"><?= $percentage ?></td>
+            </tr>
+
+            <?php $num++;$index++;
+        endforeach;?>
+        <tr>
+            <th class="text-right mr-3" colspan="4">GPA: <span><?= $db->gpa($array);?></span></th>
+        </tr>
+    </table>
 </div>
+
 <script>
 </script>
 </body>

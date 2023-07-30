@@ -72,8 +72,8 @@ class application
         $this->conn->query($sql);
     }
 
-    public function enroll_student($student_id, $course_id) {
-        $sql = "INSERT INTO student_course (student_id, course_id) VALUES ($student_id, $course_id)";
+    public function enroll_student($student_id, $course_id, $grade) {
+        $sql = "INSERT INTO student_course (student_id, course_id, grade) VALUES ($student_id, $course_id, $grade)";
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
@@ -90,8 +90,12 @@ class application
     }
     public function get_student_enroll_data($course_id)
     {
-        $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
+        $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number', c.grade as 'Grade' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
         $result = $this->conn->query($sql);
+        return $result;
+    }
+    public function get_data_student_grades($username){
+        $result = $this->conn->query("SELECT sc.grade, c.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `course` c ON sc.course_id = c.course_id WHERE s.email = '$username'");
         return $result;
     }
     public function insert_teacher($name, $number,$email,$gender)
@@ -118,6 +122,40 @@ class application
         $result = $this->conn->query("SELECT name FROM `teacher` WHERE teacher_id=".$id);
         return $result;
     }
+    public function get_teacher_id($username)
+    {
+// Assuming $username contains the value you want to search for
+        $sql = "SELECT teacher_id as 'ID' FROM `teacher` WHERE email=?";
+        $stmt = mysqli_prepare($this->conn, $sql);
+
+        if ($stmt) {
+            // Bind the parameter to the prepared statement
+            mysqli_stmt_bind_param($stmt, "s", $username);
+
+            // Execute the prepared statement
+            mysqli_stmt_execute($stmt);
+
+            // Get the result
+            $result = mysqli_stmt_get_result($stmt);
+
+            // Check if the query was successful and if there are any rows returned
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Do something with the result, e.g., fetch data from rows
+                while ($row = mysqli_fetch_assoc($result)) {
+                    return $row['ID'];
+                }
+            } else {
+                // No results found
+                echo "No records found.";
+            }
+
+            // Close the statement
+            mysqli_stmt_close($stmt);
+        } else {
+            // Handle the error if the prepared statement fails
+            echo "Error in the prepared statement: " . mysqli_error($this->conn);
+        }
+    }
     public function delete_teacher($id) {
         $sql = "DELETE FROM `teacher` WHERE teacher_id = $id";
         $this->conn->query($sql);
@@ -136,7 +174,7 @@ class application
     }
     public function get_teacher_enroll_data($teacher_id)
     {
-        $sql="SELECT c.id as 'ID',  a.course_title as 'Course Title', a.credit_hours as 'Credit Hours' , a.semester_number as 'Semester Number', a.curriculum as 'Curriculum' FROM `teacher_course` c JOIN `teacher` b on c.teacher_id = b.teacher_id JOIN course a on c.course_id = a.course_id WHERE b.teacher_id = ". $teacher_id;
+        $sql="SELECT c.id as 'ID', a.course_id as 'Course ID' ,a.course_title as 'Course Title', a.credit_hours as 'Credit Hours' , a.semester_number as 'Semester Number', a.curriculum as 'Curriculum' FROM `teacher_course` c JOIN `teacher` b on c.teacher_id = b.teacher_id JOIN course a on c.course_id = a.course_id WHERE b.teacher_id = ". $teacher_id;
         $result = $this->conn->query($sql);
         return $result;
     }
@@ -144,7 +182,23 @@ class application
         $sql = "DELETE FROM `teacher_course` WHERE id = $id";
         $this->conn->query($sql);
     }
-
+    public function get_teacher_username_info($username)
+    {
+        $result = $this->conn->query("SELECT * FROM `teacher` WHERE email = '$username'");
+        return $result;
+    }
+    public function teacher_grades($grade) {
+        $sql = "INSERT INTO teacher_course (grade) VALUES ($grade)";
+        $enroll=$this->conn->query($sql);
+        if(!$enroll)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >Saved Successfully</p>";
+        }
+    }
     public function get_data_login($username,$password)
     {
         $result = $this->conn->query("SELECT * FROM `users` WHERE username = '$username' AND password = '$password'");
@@ -202,6 +256,72 @@ class application
         $result = $this->conn->query("SELECT COUNT(*) AS count FROM student_course WHERE course_id='$course_id'");
         return $result;
     }
+    public function grade_percentage($grade)
+    {
+        if($grade=='A+')
+        {
+            return 4.0;
+        }
+        if($grade=='A')
+        {
+            return 4.0;
+        }
+        if($grade=='A-')
+        {
+            return 3.7;
+        }
+        if($grade=='B+')
+        {
+            return 3.4;
+        }
+        if($grade=='B')
+        {
+            return 3.0;
+        }
+        if($grade=='B-')
+        {
+            return 2.7;
+        }
+        if($grade=='C+')
+        {
+            return 2.4;
+        }
+        if($grade=='C')
+        {
+            return 2.0;
+        }
+        if($grade=='C-')
+        {
+            return 1.7;
+        }
+        if($grade=='D+')
+        {
+            return 1.4;
+        }
+        if($grade=='D')
+        {
+            return 1.0;
+        }
+        if($grade=='F')
+        {
+            return 0.0;
+        }
 
+    }
+    public function gpa(array $arr)
+    {
+        $sum = 0;
+        $count = count($arr);
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        foreach ($arr as $num) {
+            $sum += $num;
+        }
+
+        return $sum / $count;
+    }
 }
 ?>

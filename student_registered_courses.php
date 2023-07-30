@@ -11,6 +11,17 @@ if(isset($_POST['logout']))
 require 'application.php';
 $db = new application();
 $result=$db->get_data_student_course($username);
+
+$folderPath = 'uploads/';
+$fileName = $username.'.jpg';
+$file=$folderPath.$fileName;
+if(file_exists($file))
+{
+    $name= $username;
+}
+else{
+    $name="man";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,7 +165,7 @@ $result=$db->get_data_student_course($username);
                 style="width: 50px;
              height: 50px;
                         border-radius: 50%;
-                        background-image: url(uploads/<?= $username?>.jpg);
+                        background-image: url(uploads/<?= $name?>.jpg);
              background-size: cover;
               background-repeat: no-repeat;
               background-position:center;"

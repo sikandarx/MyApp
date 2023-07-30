@@ -2,7 +2,7 @@
 <?php
 require 'session.php';
 $session = new session();
-$session->student();
+$session->teacher();
 $username=$_SESSION['username'];
 if(isset($_POST['logout']))
 {
@@ -10,9 +10,6 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 
-require 'application.php';
-$db= new application();
-$result=$db->get_username_info($username);
 
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
@@ -55,12 +52,10 @@ else{
         .img{
             max-width: 20px;
         }
-        .img2 {
-            width: 250px;
-            height: 250px;
+        .img2{
+            max-width: 250px;
             border: #5840ba 5px solid;
             border-radius: 50%;
-            object-fit: cover;
         }
         .info>*{
             background-color: #d8d8d8;
@@ -199,16 +194,16 @@ else{
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="student_home.php">Home</a>
+                <a class="nav-link" href="teacher_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
+                <a class="nav-link" href="teacher_courses.php">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_grades.php">Grades</a>
+                <a class="nav-link" href="teacher_grades.php">Grading</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_assignments.php">Assignments</a>
+                <a class="nav-link" href="teacher_assignments.php">Assignments</a>
             </li>
         </ul>
     </div>
@@ -227,12 +222,12 @@ else{
         </button>
         <div class="dropdown-menu p-3" style="left: -100px;">
             <div class="dropdown-item">
-                <button onclick="window.location.href='student_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
+                <button onclick="window.location.href='teacher_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
             </div>
             <div class="dropdown-item">
-                <button onclick="window.location.href='student_settings.php';" class="btn settings"><img src="settings_icon.png" alt="settings icon" class="img mr-1">Settings</button>
+                <button onclick="window.location.href='teacher_settings.php';" class="btn settings"><img src="settings_icon.png" alt="settings icon" class="img mr-1">Settings</button>
             </div>
-            <form method="POST" action="student_home.php" class="dropdown-item">
+            <form method="POST" action="teacher_profile.php" class="dropdown-item">
                 <input type="hidden" name="logout">
                 <button type="submit" class="btn" >
                     <img src="logout_icon1.png" alt="Power Sign" class="img">
@@ -242,89 +237,13 @@ else{
     </div>
 </nav>
 
-<h1 class="p-4 text-center text-white bg-primary">Profile</h1>
+<h1 class="p-4 text-center text-white bg-primary">Settings</h1>
 
-<div class="center">
-    <div class="img-container">
-    <img src="uploads/<?=$username?>.jpg" alt="" class="img2">
-        <div class="camera-icon">
-            <form action="student_profile.php" method="post" enctype="multipart/form-data">
-                <div><input type="file" id="fileInput" name="image" accept="image/*"></div>
-                <br>
-                <input class="btn btn-upload mt-3" style="display: none;" type="submit" value="" name="submit" id="submitButton">
-                <label for="fileInput">
-                    <img src="camera_icon.png" alt="Change Profile Photo">
-                </label>
-            </form>
-        </div>
-</div>
-</div>
-
-
-<?php
-if (isset($_POST["submit"])) {
-
-$targetDir = "uploads/";
-$originalFileName = $_FILES["image"]["name"];
-$imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-
-$newFileName = $username . "." . $imageFileType;
-$targetFile = $targetDir . $newFileName;
-
-$check = getimagesize($_FILES["image"]["tmp_name"]);
-if ($check === false) {
-echo "File is not an image.";
-$uploadOk = 0;
-} else {
-$uploadOk = 1;
-}
-
-if ($_FILES["image"]["size"] > 500000) {
-    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, your file is too large!!</p>";
-$uploadOk = 0;
-}
-
-if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, only JPG, JPEG & PNG files are allowed!!</p>";
-$uploadOk = 0;
-}
-
-if ($uploadOk == 0) {
-    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, there was an error changing your Profile Picture!!</p>";
-} else {
-// Check if the file already exists, and if so, delete it
-if (file_exists($targetFile)) {
-unlink($targetFile); // Delete the existing file
-}
-
-// Move the uploaded file to the target directory
-if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-    echo "<p class='p1 text-white bg-success text-center' style='width: 50%; margin: 20px auto;'>Your Profile Picture will be changed after some time.</p>";
-} else {
-    echo "<p class='p-1 text-white bg-danger text-center' style='width: 50%; margin: 20px auto;'>Sorry, there was an error changing your Profile Picture!!</p>";
-}
-}
-}
-
-
-$data= $result->fetch_row()?>
-<h2 class="text-center font-weight-heavy mt-2"><?=$data[1]?></h2>
-<h2 class="text-center font-weight-light mt-1"><?=$data[2]?></h2>
 <div class="mini-container">
-<h5>Batch: <?=$data[3]?></h5>
-<h5>Email: <?=$data[4]?></h5>
-<h5>Gender: <?=$data[5]?></h5>
-</div>
-<script>
-    // Get references to the file input and submit button
-    const fileInput = document.getElementById("fileInput");
-    const submitButton = document.getElementById("submitButton");
 
-    // Listen for the change event on the file input
-    fileInput.addEventListener("change", () => {
-        // Trigger the click event on the submit button
-        submitButton.click();
-    });
+</div>
+
+<script>
 </script>
 </body>
 </html>

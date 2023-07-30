@@ -15,6 +15,10 @@ class session
             {
                 header("Location: student_home.php");
             }
+            else if($_SESSION['type']=="teacher")
+            {
+                header("Location: teacher_home.php");
+            }
         }
         else {
             echo "<p class='p-2 text-white bg-danger opacity text-center ' >Incorrect credentials!!</p>";
@@ -25,7 +29,7 @@ class session
     {
         session_start();
         if(isset($_SESSION['username'])) {
-            if($_SESSION['type']=="student")
+            if($_SESSION['type']=="student"|| $_SESSION['type']=="teacher")
             {
                 header("Location: login.php");
                 exit;
@@ -42,7 +46,7 @@ class session
             session_start();
             if(isset($_SESSION['username']))
             {
-                if($_SESSION['type']=="admin")
+                if($_SESSION['type']=="admin"|| $_SESSION['type']=="teacher")
                 {
                     header("Location: login.php");
                     exit;
@@ -54,5 +58,22 @@ class session
                 exit;
             }
         }
+    public function teacher()
+    {
+        session_start();
+        if(isset($_SESSION['username']))
+        {
+            if($_SESSION['type']=="admin"||$_SESSION['type']=="student")
+            {
+                header("Location: login.php");
+                exit;
+            }
+        }
+        else
+        {
+            header("Location: login.php");
+            exit;
+        }
+    }
 }
 ?>

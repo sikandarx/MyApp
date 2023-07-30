@@ -1,7 +1,7 @@
 <?php
 require 'session.php';
 $session = new session();
-$session->student();
+$session->teacher();
 $username=$_SESSION['username'];
 if(isset($_POST['logout']))
 {
@@ -11,7 +11,7 @@ if(isset($_POST['logout']))
 
 require 'application.php';
 $db= new application();
-$result=$db->get_username_info($username);
+$result=$db->get_teacher_username_info($username);
 
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
@@ -297,40 +297,40 @@ else{
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="student_home.php">Home</a>
+                <a class="nav-link active" href="teacher_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_registered_courses.php">Registered Courses</a>
+                <a class="nav-link" href="teacher_courses.php">Courses</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_grades.php">Grades</a>
+                <a class="nav-link" href="teacher_grades.php">Grading</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_assignments.php">Assignments</a>
+                <a class="nav-link" href="teacher_assignments.php">Assignments</a>
             </li>
         </ul>
     </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
-             height: 50px;
-             border-radius: 50%;
-             background-image: url(uploads/<?= $name?>.jpg);
-             background-size: cover;
-              background-repeat: no-repeat;
-              background-position:center;"
+                    height: 50px;
+                    border-radius: 50%;
+                    background-image: url(uploads/<?= $name?>.jpg);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position:center;"
                 type="button"
                 class="dropdown-toggle"
                 data-bs-toggle="dropdown">
         </button>
         <div class="dropdown-menu p-3" style="left: -100px;">
             <div class="dropdown-item">
-                <button onclick="window.location.href='student_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
+                <button onclick="window.location.href='teacher_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
             </div>
             <div class="dropdown-item">
-                <button onclick="window.location.href='student_settings.php';" class="btn"><img src="settings_icon.png" alt="settings icon" class="img mr-1">Settings</button>
+                <button onclick="window.location.href='teacher_settings.php';" class="btn"><img src="settings_icon.png" alt="settings icon" class="img mr-1">Settings</button>
             </div>
-            <form method="POST" action="student_home.php" class="dropdown-item">
+            <form method="POST" action="teacher_home.php" class="dropdown-item">
                 <input type="hidden" name="logout">
                 <button type="submit" class="btn" >
                     <img src="logout_icon1.png" alt="Power Sign" class="img">
@@ -348,17 +348,16 @@ else{
 $data= $result->fetch_row()?>
 
 <div class="container">
-<h3 class=" my-5 mtop font-weight-heavy"><span class="font-weight-light">Hello, </span><?php echo $data[1];?>👋</h3>
+    <h3 class=" my-5 mtop font-weight-heavy"><span class="font-weight-light">Hello, </span><?php echo $data[1];?>👋</h3>
 </div>
 
 <div class="container d-flex flex-wrap my-5">
     <div class="mini-container">
         <h5 class="mb-4 font-weight-heavy">Personal Information:</h5>
         <div class="info">
-        <div><p class="font-weight-heavy">Roll Number: <span class="font-weight-light"><?php echo $data[2];?></span></div>
-        <div><p class="font-weight-heavy">Email: <span class="font-weight-light"><?php echo $data[4];?></span></div>
-        <div><p class="font-weight-heavy">Batch: <span class="font-weight-light"><?php echo $data[3];?></span></div>
-        <div><p class="font-weight-heavy">Gender: <span class="font-weight-light"><?php echo $data[5];?></span></div>
+            <div><p class="font-weight-heavy">Phone Number: <span class="font-weight-light"><?php echo $data[2];?></span></div>
+            <div><p class="font-weight-heavy">Email: <span class="font-weight-light"><?php echo $data[3];?></span></div>
+            <div><p class="font-weight-heavy">Gender: <span class="font-weight-light"><?php echo $data[4];?></span></div>
         </div>
     </div>
     <div class="mini-container">
@@ -387,7 +386,7 @@ $data= $result->fetch_row()?>
     <div class="modal-content">
         <span class="close">&times;</span>
         <div class="modal-con">
-        <p id="modalText"></p>
+            <p id="modalText"></p>
         </div>
     </div>
 </div>

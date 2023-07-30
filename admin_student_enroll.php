@@ -20,7 +20,8 @@ if($_POST)
     {
         $student_id = $_POST['student_id'];
         $course_id = $_POST['course_id'];
-        $db->enroll_student($student_id, $course_id);
+        $grade="-";
+        $db->enroll_student($student_id, $course_id,$grade);
     }
     else{
         echo "<p class='p-2 text-white bg-danger text-center' >Incomplete credentials</p>";
