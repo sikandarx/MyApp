@@ -7,7 +7,7 @@ class application
         $host = "localhost";
         $db_name = "my_app";
         $username = "root";
-        $password = "83110";
+        $password = "";
         $this->conn = new mysqli($host, $username, $password, $db_name);
         if ($this->conn->connect_error)
         {
@@ -187,8 +187,8 @@ class application
         $result = $this->conn->query("SELECT * FROM `teacher` WHERE email = '$username'");
         return $result;
     }
-    public function teacher_grades($grade) {
-        $sql = "INSERT INTO teacher_course (grade) VALUES ($grade)";
+    public function teacher_grades($grade,$id) {
+        $sql = "UPDATE `student_course` SET grade='$grade' WHERE id= '$id'";
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
@@ -262,47 +262,47 @@ class application
         {
             return 4.0;
         }
-        if($grade=='A')
+        elseif($grade=='A')
         {
             return 4.0;
         }
-        if($grade=='A-')
+        elseif($grade=='A-')
         {
             return 3.7;
         }
-        if($grade=='B+')
+        elseif($grade=='B+')
         {
             return 3.4;
         }
-        if($grade=='B')
+        elseif($grade=='B')
         {
             return 3.0;
         }
-        if($grade=='B-')
+        elseif($grade=='B-')
         {
             return 2.7;
         }
-        if($grade=='C+')
+        elseif($grade=='C+')
         {
             return 2.4;
         }
-        if($grade=='C')
+        elseif($grade=='C')
         {
             return 2.0;
         }
-        if($grade=='C-')
+        elseif($grade=='C-')
         {
             return 1.7;
         }
-        if($grade=='D+')
+        elseif($grade=='D+')
         {
             return 1.4;
         }
-        if($grade=='D')
+        elseif($grade=='D')
         {
             return 1.0;
         }
-        if($grade=='F')
+        elseif($grade=='F')
         {
             return 0.0;
         }

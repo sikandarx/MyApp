@@ -235,7 +235,8 @@ else{
             <?php $num++;$index++;
         endforeach;?>
         <tr>
-            <th class="text-right mr-3" colspan="4">GPA: <span><?= $db->gpa($array);?></span></th>
+            <th colspan="3"></th>
+            <th class="mr-3" >GPA: <span><?= $db->gpa($array);?></span></th>
         </tr>
     </table>
 </div>

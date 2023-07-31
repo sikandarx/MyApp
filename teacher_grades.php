@@ -26,6 +26,15 @@ $db = new application();
 $tid = $db->get_teacher_id($username);
 $course_id= $db->get_teacher_enroll_data($tid);
 
+if(isset($_POST['grade']))
+{
+    echo $_POST['grade'];
+    foreach ($grade as $ind => $gradeValue) {
+        $idValue = $id[$ind];
+        $db->teacher_grades($gradeValue, $idValue);
+    }
+}
+
 if(isset($_POST['course_title']))
 {
     if($_POST['course_title'] != "" && $_POST['course_title'] != "")
@@ -42,7 +51,7 @@ if(isset($_POST['course_title']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Profile</title>
+    <title>Grades</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -303,6 +312,7 @@ $course = $course_name->fetch_row()[0];
 
             <h2 class="mt-5"><?=$course?>:</h2>
             <?php
+            $index=0;
             foreach($enroll_data as $row):?>
 
                 <tr>
@@ -311,7 +321,13 @@ $course = $course_name->fetch_row()[0];
                     <td class="text-nowrap"><?= $row['Student Email'] ?></td>
                     <td class="text-nowrap">
                         <input type="text" name="grade" id="grade" value="<?=$row['Grade']?>">
+                        <?php
+                        $grade[$index]=$row['Grade'];
+                        $id[$index]=$row['ID'];
+                        $index++;
+                        ?>
                     </td>
+
                 </tr>
 
             <?php endforeach; ?>
@@ -320,10 +336,7 @@ $course = $course_name->fetch_row()[0];
     <button class="btn btn-primary" type="submit">Save</button>
 </form>
     <?php
-    if(isset($_POST['grade']))
-    {
-        $db->teacher_grades($_POST['grade']);
-    }
+
     ?>
 </div>
 <?php } } ?>
