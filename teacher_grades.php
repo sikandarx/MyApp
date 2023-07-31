@@ -9,7 +9,6 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 
-
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
@@ -26,23 +25,13 @@ $db = new application();
 $tid = $db->get_teacher_id($username);
 $course_id= $db->get_teacher_enroll_data($tid);
 
-if(isset($_POST['grade']))
-{
-    echo $_POST['grade'];
-    foreach ($grade as $ind => $gradeValue) {
-        $idValue = $id[$ind];
-        $db->teacher_grades($gradeValue, $idValue);
-    }
-}
 
-if(isset($_POST['course_title']))
-{
-    if($_POST['course_title'] != "" && $_POST['course_title'] != "")
-    {
+
+if(isset($_POST['course_title'])) {
+    if ($_POST['course_title'] != "" && $_POST['course_title'] != "") {
         $cid = $_POST['course_title'];
         $enroll_data = $db->get_student_enroll_data($cid);
-    }
-    else{
+    } else {
         echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
     }
 }
@@ -57,6 +46,7 @@ if(isset($_POST['course_title']))
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         p{
             font-size: 25px!important;
@@ -289,7 +279,6 @@ if(isset($_POST['course_title']))
         </div>
         <button type="submit" class="btn btn-primary" >Grades</button>
     </form>
-</div>
 
 <?php
 if(isset($_POST['course_title']))
@@ -299,8 +288,7 @@ if($_POST['course_title'] != "" && $_POST['course_title'] != "")
 $course_name=$db->get_title_course($_POST['course_title']);
 $course = $course_name->fetch_row()[0];
 ?>
-<div class="container table-wrapper">
-<form method="post" action="teacher_grades.php" class="my-5">
+<form method="post" class="my-5" id="Table">
         <table class="table table-striped table-bordered my-5" id="myTable">
 
             <tr>
@@ -321,24 +309,34 @@ $course = $course_name->fetch_row()[0];
                     <td class="text-nowrap"><?= $row['Student Email'] ?></td>
                     <td class="text-nowrap">
                         <input type="text" name="grade" id="grade" value="<?=$row['Grade']?>">
-                        <?php
-                        $grade[$index]=$row['Grade'];
-                        $id[$index]=$row['ID'];
-                        $index++;
-                        ?>
                     </td>
-
                 </tr>
 
-            <?php endforeach; ?>
+            <?php
+            $data[$index]=$row['Id'];
+            /*$grade[$index]=$_POST['grade'];*/
+            $index++;
+            endforeach;
+            if(isset($_POST['grade']))
+            {
+                echo"test";
+            }
+            ?>
 
         </table>
-    <button class="btn btn-primary" type="submit">Save</button>
+    <button type="submit" name="save" id="save" class="btn btn-success">Save</button>
 </form>
-    <?php
-
-    ?>
 </div>
 <?php } } ?>
+<script>
+    const form = document.getElementById('Table');
+    const submitButton = document.getElementById('save');
+    form.addEventListener('submit', function(event) {
+
+        event.preventDefault();
+
+    });
+</script>
+
 </body>
 </html>

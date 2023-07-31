@@ -10,6 +10,13 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 
+require 'application.php';
+$db = new application();
+$tid = $db->get_teacher_id($username);
+$course_id= $db->get_teacher_enroll_data($tid);
+
+
+
 
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
@@ -243,8 +250,45 @@ else{
 
 <h1 class="p-4 text-center text-white bg-primary">Assignments</h1>
 
-<div class="mini-container">
+<div class="container">
+<form method="post" action="teacher_assignments.php" class="my-5">
+    <div class="form-group">
+        <label for="course_id">Course Name<span class="text-danger"> *</span></label>
+        <select class="form-control sel" id="course_id" name="course_id">
+            <option value="">Select Course Name</option>
+            <?php foreach($course_id as $row): ?>
+                <option value="<?= $row['Course ID'] ?>"><?= $row['Course Title'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="heading">Title<span class="text-danger"> *</span></label>
+        <input class="form-control" type="text" name="title" id="title" placeholder="Enter the title of the Assignment" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" rows="4" name="description" id="description" placeholder="Enter the Description of the Assignment"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="datePicker" class="form-label">Select a date<span class="text-danger"> *</span></label>
+        <input class="form-control" type="date" name="date" id="date" required>
+    </div>
+    <?php
+    if(isset($_POST['course_id'])){
+    $course_id=$_POST['course_id'];
+    $title=$_POST['title'];
+    $description=$_POST['description'];
+    $date=$_POST['date'];
+    if ($_POST['course_id'] != "" && $_POST['course_id'] != "") {
+    $db->teacher_assignments($course_id,$title,$description,$date);
+    } else {
+    echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
+    }
 
+    }
+    ?>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
 </div>
 
 <script>

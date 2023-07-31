@@ -73,7 +73,7 @@ class application
     }
 
     public function enroll_student($student_id, $course_id, $grade) {
-        $sql = "INSERT INTO student_course (student_id, course_id, grade) VALUES ($student_id, $course_id, $grade)";
+        $sql = "INSERT INTO student_course (student_id, course_id, grade) VALUES ($student_id, $course_id, '$grade')";
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
@@ -90,7 +90,7 @@ class application
     }
     public function get_student_enroll_data($course_id)
     {
-        $sql="SELECT c.id as 'ID',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number', c.grade as 'Grade' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
+        $sql="SELECT c.id as'Id',  b.name as 'Student Name', b.email as 'Student Email' , b.roll_number as 'Student Roll Number', c.grade as 'Grade' FROM `student_course` c JOIN student b on c.student_id = b.student_id JOIN course a on c.course_id = a.course_id WHERE a.course_id = ". $course_id;
         $result = $this->conn->query($sql);
         return $result;
     }
@@ -187,7 +187,7 @@ class application
         $result = $this->conn->query("SELECT * FROM `teacher` WHERE email = '$username'");
         return $result;
     }
-    public function teacher_grades($grade,$id) {
+    public function teacher_grade($grade,$id) {
         $sql = "UPDATE `student_course` SET grade='$grade' WHERE id= '$id'";
         $enroll=$this->conn->query($sql);
         if(!$enroll)
@@ -198,6 +198,21 @@ class application
         {
             echo "<p class='p-2 mx-5 text-white bg-success text-center' >Saved Successfully</p>";
         }
+    }
+    public function teacher_assignments($course_id,$title,$description,$date) {
+        $result=$this->conn->query("INSERT INTO assignments (course_id,title,description,deadline) VALUES($course_id,'$title','$description','$date')");
+        if(!$result)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center' >Saved Successfully</p>";
+        }
+    }
+    public function get_teacher_assignments($username){
+        $result = $this->conn->query("SELECT a.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `assignments` a ON sc.course_id = a.course_id WHERE s.email = '$username'");
+        return $result;
     }
     public function get_data_login($username,$password)
     {

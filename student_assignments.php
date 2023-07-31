@@ -9,6 +9,10 @@ if(isset($_POST['logout']))
     header("Location: login.php");
 }
 
+require "application.php";
+$db=new application();
+$assignments=$db->get_teacher_assignments($username);
+
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
@@ -23,16 +27,13 @@ else{
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Settings</title>
+    <title>Assignments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        p{
-            font-size: 25px!important;
-        }
         .nav-item{
             margin: auto 0!important;
         }
@@ -77,6 +78,16 @@ else{
             border-radius: 10px;
             overflow: hidden;
             margin: 20px auto;
+        }
+        .cont{
+            background-color: #5840ba;
+            border-radius: 10px;
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .font-weight-heavy{
+            font-weight: 600;
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -198,7 +209,25 @@ else{
 <h1 class="p-4 text-center text-white bg-primary">Assignments</h1>
 
 <div class="mini-container">
-
+    <?php
+    foreach($assignments as $row):
+    ?>
+    <div class="cont">
+        <h2>    <?php
+            $course_name=$db->get_title_course($row['course_id']);
+            $course = $course_name->fetch_row()[0];
+            echo $course;
+            ?></h2>
+        <h3>Title: <span class="font-weight-light"><?=$row['title']?></span></h3>
+        <div class="my-4">
+            <p class="font-weight-heavy">Description:</p>
+            <p></p><?=$row['description']?></p>
+        </div>
+        <div class="text-right">
+            <p><span class="font-weight-heavy">Deadline: </span><?=$row['deadline']?></p>
+        </div>
+    </div>
+    <?php endforeach; ?>
 </div>
 <script>
 </script>
