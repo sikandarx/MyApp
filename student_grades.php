@@ -13,6 +13,10 @@ require 'application.php';
 $db = new application();
 $result=$db->get_data_student_grades($username);
 
+$si=$db->get_student_id($username);
+$student_id = $si->fetch_row()[0];
+$notification=$db->get_student_notification($student_id);
+
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
@@ -75,7 +79,8 @@ else{
             margin-left: 40px;
         }
         .mini-container{
-            background-color: #eae5e5;
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             padding: 20px;
             width: 70%;
             border-radius: 10px;
@@ -87,6 +92,53 @@ else{
         }
         .font-weight-heavy{
             font-weight: 600;
+        }
+        .custom-dropdown-btn {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 10px 110px;
+        }
+
+        .custom-dropdown-btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .custom-dropdown-icon {
+            display: block;
+            width: 32px; /* Set the width and height of your custom icon */
+            height: 32px; /* Adjust as needed */
+            /* Add any custom icon styles here */
+            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
+        }
+
+        .rotate-right {
+            transform: rotate(20deg);
+        }
+
+        .rotate-left {
+            transform: rotate(-20deg);
+        }
+        .dropdown-menu.dropdown-menu-right{
+            margin-right: 20px!important;
+            border-radius: 20px;
+            width: 650px;
+            max-height: 700px!important;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .notification{
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            background-color: white;
+            max-width: 600px;
+            padding: 10px;
+            margin: 15px 25px!important;
+            border-radius: 10px;
+        }
+        .notification:hover{
+            color: white!important;
+            background-color: #5840ba!important;
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -174,6 +226,25 @@ else{
             </li>
         </ul>
     </div>
+    <div class="dropdown">
+        <button class="custom-dropdown-btn" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="custom-dropdown-icon" src="notification_icon.png" alt="Notification Icon">
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+            <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
+            <?php if ($notification->num_rows > 0)
+            {
+                foreach ($notification as $row): ?>
+                    <div class="notification"><?= $row['message']?>
+                        <div><?= $row['created_at']?></div></div>
+                <?php endforeach;
+            }
+            else
+            {
+                echo "<h6 class='text-center m-5'>No notifications to show.</h6>";
+            } ?>
+        </div>
+    </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
@@ -242,6 +313,24 @@ else{
 </div>
 
 <script>
+    $(document).ready(function () {
+        var icon = $('.custom-dropdown-icon');
+
+        $('#notificationDropdown').on('click', function () {
+            if (!icon.hasClass('rotate-right') && !icon.hasClass('rotate-left')) {
+                icon.addClass('rotate-right');
+
+                setTimeout(function () {
+                    icon.removeClass('rotate-right');
+                    icon.addClass('rotate-left');
+
+                    setTimeout(function () {
+                        icon.removeClass('rotate-left');
+                    }, 300); // Delay for the left rotation animation (0.3s)
+                }, 300); // Delay before starting the left rotation animation (0.3s)
+            }
+        });
+    });
 </script>
 </body>
 </html>

@@ -69,7 +69,8 @@ else{
             justify-content: space-evenly;
         }
         .mini-container{
-            background-color: #eae5e5;
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             padding: 20px;
             width: 45%;
             border-radius: 10px;
@@ -361,7 +362,7 @@ $data= $result->fetch_row()?>
         </div>
     </div>
     <div class="mini-container">
-        <h5 class="mb-4 font-weight-heavy">Deadlines:</h5>
+        <h5 class="mb-4 font-weight-heavy">Calender:</h5>
         <div class="calendar">
             <div class="header">
                 <button id="prevBtn">&lt;</button>

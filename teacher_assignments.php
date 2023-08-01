@@ -83,7 +83,8 @@ else{
             margin-left: 40px;
         }
         .mini-container{
-            background-color: #eae5e5;
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             padding: 20px;
             width: 45%;
             border-radius: 10px;
@@ -279,8 +280,13 @@ else{
     $title=$_POST['title'];
     $description=$_POST['description'];
     $date=$_POST['date'];
+
     if ($_POST['course_id'] != "" && $_POST['course_id'] != "") {
     $db->teacher_assignments($course_id,$title,$description,$date);
+        $ct=$db->get_title_course($course_id);
+        $course_title = $ct->fetch_row()[0];
+    $message = "New assignment assigned named as " . $title.".\nFor course ".$course_title.".";
+    $db->student_notification($course_id, $message);
     } else {
     echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
     }

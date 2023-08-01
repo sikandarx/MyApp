@@ -94,6 +94,12 @@ class application
         $result = $this->conn->query($sql);
         return $result;
     }
+    public function get_student_id($username)
+    {
+
+        $result = $this->conn->query("SELECT student_id FROM `student` WHERE email='$username'");
+        return $result;
+    }
     public function get_data_student_grades($username){
         $result = $this->conn->query("SELECT sc.grade, c.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `course` c ON sc.course_id = c.course_id WHERE s.email = '$username'");
         return $result;
@@ -337,6 +343,22 @@ class application
         }
 
         return $sum / $count;
+    }
+    public function announcement_notification($message)
+    {
+        $course_id=0;
+        $currentDateTime = date("y-m-d h:i:s");
+        $this->conn->query("INSERT INTO `notifications` (course_id, message, created_at,type) VALUES ($course_id, '$message', '$currentDateTime', 'all')");
+    }
+    public function student_notification($course_id, $message)
+    {
+        $currentDateTime = date("y-m-d h:i:s");
+        $this->conn->query("INSERT INTO `notifications` (course_id, message, created_at,type) VALUES ($course_id, '$message', '$currentDateTime', 'student')");
+    }
+    public function get_student_notification($student_id)
+    {
+        $result=$this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n on n.course_id = sc.course_id WHERE sc.student_id= $student_id");
+        return $result;
     }
 }
 ?>
