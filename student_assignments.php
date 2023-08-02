@@ -15,7 +15,9 @@ $assignments=$db->get_teacher_assignments($username);
 
 $si=$db->get_student_id($username);
 $student_id = $si->fetch_row()[0];
-$notification=$db->get_student_notification($student_id);
+$notification=$db->get_student_course_notification($student_id);
+$notification_all=$db->get_all_notification();
+$notification_student=$db->get_student_notification();
 
 $folderPath = 'uploads/';
 $fileName = $username.'.jpg';
@@ -76,20 +78,29 @@ else{
             margin-left: 40px;
         }
         .mini-container{
-            border: #d9d9d9 1px solid;
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            width: 70%;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px auto;
+            margin: 50px 0;
         }
         .cont{
-            background-color: #5840ba;
+
+            width: 70%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            background-color: white;
             border-radius: 10px;
-            color: white;
             padding: 20px;
-            margin: 20px 0;
+            margin: 20px auto;
+        }
+        .cont:hover{
+            cursor: pointer;
+            background-color: #5840ba;
+            color: white;
+        }
+        .no_assignments{
+            width: 70%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
         }
         .font-weight-heavy{
             font-weight: 600;
@@ -138,6 +149,19 @@ else{
             border-radius: 10px;
         }
         .notification:hover{
+            color: white!important;
+            background-color: #5840ba!important;
+        }
+        .notification_all{
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+            background-color: #ff6969;
+            max-width: 600px;
+            padding: 10px;
+            margin: 15px 25px!important;
+            border-radius: 10px;
+        }
+        .notification_all:hover{
             color: white!important;
             background-color: #5840ba!important;
         }
@@ -233,12 +257,36 @@ else{
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
             <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
-            <?php if ($notification->num_rows > 0)
+            <?php
+            if($notification->num_rows > 0 || $notification_all->num_rows > 0)
             {
-                foreach ($notification as $row): ?>
-                    <div class="notification"><?= $row['message']?>
-                        <div><?= $row['created_at']?></div></div>
-                <?php endforeach;
+                if ($notification_all->num_rows > 0)
+                {
+                    foreach ($notification_all as $row):
+                        if($row['type']=="all"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+                if ($notification_student->num_rows > 0)
+                {
+                    foreach ($notification_student as $row):
+                        if($row['type']=="student"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+                if ($notification->num_rows > 0)
+                {
+                    foreach ($notification as $row):
+                        if($row['type']==""){
+                            ?>
+                            <div class="notification"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
             }
             else
             {
@@ -291,18 +339,14 @@ else{
             $course = $course_name->fetch_row()[0];
             echo $course;
             ?></h2>
-        <h3>Title: <span class="font-weight-light"><?=$row['title']?></span></h3>
-        <div class="my-4">
-            <p class="font-weight-heavy">Description:</p>
-            <p></p><?=$row['description']?></p>
-        </div>
+        <h3 class="font-weight-light"><?=$row['title']?></h3>
         <div class="text-right">
             <p><span class="font-weight-heavy">Deadline: </span><?=$row['deadline']?></p>
         </div>
     </div>
     <?php endforeach;}
     else{
-        echo "<h5 class='text-center m-5'>You have no Assignments.</h5>";
+        echo "<h5 class='no_assignments text-center'>You have no Assignments.</h5>";
     }?>
 </div>
 <script>

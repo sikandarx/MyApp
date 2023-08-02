@@ -173,7 +173,10 @@ if(isset($_POST['delete'])) {
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="create_account.php">Create Account</a>
+                <a class="nav-link" href="admin_announcement.php">Announcements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="admin_create_account.php">Create Account</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_student.php">Student</a>

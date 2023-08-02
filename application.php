@@ -7,7 +7,7 @@ class application
         $host = "localhost";
         $db_name = "my_app";
         $username = "root";
-        $password = "83110";
+        $password = "";
         $this->conn = new mysqli($host, $username, $password, $db_name);
         if ($this->conn->connect_error)
         {
@@ -15,7 +15,7 @@ class application
         }
     }
     //-------------//
-    //User Functions
+    //Student Functions
     //-------------//
     public function insert_student($name, $number,$batch,$email,$gender)
     {
@@ -198,11 +198,11 @@ class application
         $enroll=$this->conn->query($sql);
         if(!$enroll)
         {
-            echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
+            return false;
         }
         else
         {
-            echo "<p class='p-2 mx-5 text-white bg-success text-center' >Saved Successfully</p>";
+            return true;
         }
     }
     public function teacher_assignments($course_id,$title,$description,$date) {
@@ -353,11 +353,41 @@ class application
     public function student_notification($course_id, $message)
     {
         $currentDateTime = date("y-m-d h:i:s");
-        $this->conn->query("INSERT INTO `notifications` (course_id, message, created_at,type) VALUES ($course_id, '$message', '$currentDateTime', 'student')");
+        $this->conn->query("INSERT INTO `notifications` (course_id, message, created_at,type) VALUES ($course_id, '$message', '$currentDateTime', '')");
     }
-    public function get_student_notification($student_id)
+    public function admin_notification($type,$message)
+    {
+        $course_id=27;
+        $currentDateTime = date("y-m-d h:i:s");
+        $result=$this->conn->query("INSERT INTO `notifications` (course_id, message, created_at,type) VALUES ($course_id, '$message', '$currentDateTime', '$type')");
+        if(!$result)
+        {
+            echo "<p class='p-2 mx-5 text-white bg-danger text-center mx-5' >There is some issue with sending Anouncement!!</p>";
+        }
+        else
+        {
+            echo "<p class='p-2 mx-5 text-white bg-success text-center mx-5' >Anouncement sent to $type.</p>";
+        }
+
+    }
+    public function get_student_course_notification($student_id)
     {
         $result=$this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n ON n.course_id = sc.course_id WHERE sc.student_id = $student_id");
+        return $result;
+    }
+    public function get_student_notification()
+    {
+        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'student'");
+        return $result;
+    }
+    public function get_teacher_notification()
+    {
+        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'teacher'");
+        return $result;
+    }
+    public function get_all_notification()
+    {
+        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'all'");
         return $result;
     }
 }

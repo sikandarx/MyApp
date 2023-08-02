@@ -25,6 +25,12 @@ $db = new application();
 $tid = $db->get_teacher_id($username);
 $course_id= $db->get_teacher_enroll_data($tid);
 
+$notification_all=$db->get_all_notification();
+$notification_teacher=$db->get_teacher_notification();
+
+
+
+
 
 
 if(isset($_POST['course_title'])) {
@@ -149,6 +155,54 @@ if(isset($_POST['course_title'])) {
         .inputField{
             width: 35px!important;
         }
+        .custom-dropdown-btn {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 10px 110px;
+        }
+
+        .custom-dropdown-btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .custom-dropdown-icon {
+            display: block;
+            width: 32px; /* Set the width and height of your custom icon */
+            height: 32px; /* Adjust as needed */
+            /* Add any custom icon styles here */
+            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
+        }
+
+        .rotate-right {
+            transform: rotate(20deg);
+        }
+
+        .rotate-left {
+            transform: rotate(-20deg);
+        }
+        .dropdown-menu.dropdown-menu-right{
+            margin-right: 20px!important;
+            border-radius: 20px;
+            width: 650px;
+            max-height: 700px!important;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .notification_all{
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+            background-color: #ff6969;
+            max-width: 600px;
+            padding: 10px;
+            margin: 15px 25px!important;
+            border-radius: 10px;
+        }
+        .notification_all:hover{
+            color: white!important;
+            background-color: #5840ba!important;
+        }
         @media screen and (max-width:980px) {
             .mtop{
                 margin-top: 150px !important;
@@ -235,6 +289,40 @@ if(isset($_POST['course_title'])) {
             </li>
         </ul>
     </div>
+    <div class="dropdown">
+        <button class="custom-dropdown-btn" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="custom-dropdown-icon" src="notification_icon.png" alt="Notification Icon">
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+            <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
+            <?php
+            if($notification_teacher->num_rows > 0 || $notification_all->num_rows > 0)
+            {
+                if ($notification_all->num_rows > 0)
+                {
+                    foreach ($notification_all as $row):
+                        if($row['type']=="all"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+                if ($notification_teacher->num_rows > 0)
+                {
+                    foreach ($notification_teacher as $row):
+                        if($row['type']=="teacher"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+            }
+            else
+            {
+                echo "<h6 class='text-center m-5'>No notifications to show.</h6>";
+            } ?>
+        </div>
+    </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
@@ -318,48 +406,64 @@ $course = $course_name->fetch_row()[0];
             ?>
 
         </table>
+    <input type="hidden" name="array1" id="array1Input">
+    <input type="hidden" name="array2" id="array2Input">
     <button type="submit" name="save_button" id="save_button" class="btn btn-success">Save</button>
 </form>
-    <div>
-        <h3>Values in JavaScript Array:</h3>
-        <ul id="outputList">
-        </ul>
-    </div>
 </div>
 <?php } }
+if (isset($_POST["array1"]) && isset($_POST["array2"])){
+    $jsonArray1 = $_POST["array1"];
+    $array1 = json_decode($jsonArray1, true);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "starting";
-    // Retrieving the data from the POST request
-    if (isset($_POST['data1'])) {
-        echo "Data 1";
-        $jsonData1 = $_POST['data1'];
-        $phpArray1 = json_decode($jsonData1, true);
+    $jsonArray2 = $_POST["array2"];
+    $array2 = json_decode($jsonArray2, true);
+
+    foreach ($array1 as $index => $gradeValue) {
+        $idValue = $array2[$index];
+
+        $test=$db->teacher_grade($gradeValue,$idValue);
+
     }
-    if (isset($_POST['data2'])) {
-        echo "Data 2";
-        $jsonData2 = $_POST['data2'];
-        $phpArray2 = json_decode($jsonData2, true);
+    if (!$test)
+    {
+        echo "<p class='p-2 m-5 text-white bg-danger text-center' >There was some issue while saving the Grades</p>";
+    }
+    else{
+        echo "<p class='p-2 m-5 text-white bg-success text-center' >Saved Successfully</p>";
     }
 }
-
 ?>
 
 <script>
+    $(document).ready(function () {
+        var icon = $('.custom-dropdown-icon');
+
+        $('#notificationDropdown').on('click', function () {
+            if (!icon.hasClass('rotate-right') && !icon.hasClass('rotate-left')) {
+                icon.addClass('rotate-right');
+
+                setTimeout(function () {
+                    icon.removeClass('rotate-right');
+                    icon.addClass('rotate-left');
+
+                    setTimeout(function () {
+                        icon.removeClass('rotate-left');
+                    }, 300); // Delay for the left rotation animation (0.3s)
+                }, 300); // Delay before starting the left rotation animation (0.3s)
+            }
+        });
+    });
 
     const form = document.getElementById('save_table');
     const submitButton = document.getElementById('save');
     const inputFields = document.querySelectorAll('.inputField');
     const gradeIds = document.querySelectorAll('.grade_id');
-    const outputList = document.getElementById('outputList');
-    const outputId = document.getElementById('outputId');
 
     var valuesArray = [];
     var idsArray = [];
 
     function updateArray() {
-
-        outputList.innerHTML = '';
 
         valuesArray.length = 0;
         inputFields.forEach(inputField => {
@@ -371,22 +475,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             idsArray.push(grade_id.value);
         });
 
-        valuesArray.forEach((value) => {
-            const listItem = document.createElement('li');
-            listItem.textContent = value;
-            outputList.appendChild(listItem);
-        });
-
     }
 
     form.addEventListener('change', updateArray);
 
     form.addEventListener('submit', function(event) {
 
-        event.preventDefault();
         if (valuesArray.length === 0)
         {
-            alert("Cannot Save!!!\nNo Changes made in the Grades.");
+            alert("Cannot Save!!!\nNo Changes were made in the Grades.");
+            event.preventDefault();
         }
         else
         {
@@ -395,20 +493,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 
     function saveArrays() {
+        // Convert the JavaScript arrays to JSON strings
+        var json1 = JSON.stringify(valuesArray);
+        var json2 = JSON.stringify(idsArray);
 
-// Using AJAX to send the JavaScript arrays to a PHP script
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState === 4 && this.status === 200) {
-                alert("Data sent to PHP successfully!");
-            }
-        };
-        xhttp.open("POST", "teacher_grades.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-// Convert JavaScript arrays to JSON strings and send them as separate parameters
-        const dataToSend = "data1=" + JSON.stringify(valuesArray) + "&data2=" + JSON.stringify(idsArray);
-        xhttp.send(dataToSend);
+        // Set the values of the hidden inputs to the JSON strings
+        document.getElementById("array1Input").value = json1;
+        document.getElementById("array2Input").value = json2;
     }
 </script>
 

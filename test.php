@@ -5,7 +5,7 @@ $id = [101, 102, 103, 104];
 
 // Function that takes two parameters and does something with them
 function processValues($gradeValue, $idValue) {
-    echo "ID: $idValue, Grade: $gradeValue |" . PHP_EOL;
+    echo "ID: $idValue, Grade: $gradeValue ||||| ";
     // Your function logic here...
 }
 

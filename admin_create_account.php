@@ -159,7 +159,10 @@ if(isset($_POST['logout']))
                 <a class="nav-link" href="admin_home.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="create_account.php">Create Account</a>
+                <a class="nav-link" href="admin_announcement.php">Announcements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="admin_create_account.php">Create Account</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin_student.php">Student</a>
@@ -193,7 +196,7 @@ if(isset($_POST['logout']))
         </ul>
     </div>
 </nav>
-<form method="POST" action="create_account.php">
+<form method="POST" action="admin_create_account.php">
     <input type="hidden" name="logout">
     <button type="submit" class="btn logout" >
         <img src="logout_icon.png" alt="Power Sign" class="img">
@@ -204,7 +207,7 @@ if(isset($_POST['logout']))
 <h1 class="p-4 text-center text-white bg-primary">Create Account</h1>
 
 <div class="container my-5 mtop">
-    <form name="bio" method="POST" action="create_account.php">
+    <form name="bio" method="POST" action="admin_create_account.php">
         <div class="form-group">
             <label>Email<span class="text-danger"> *</span></label>
             <input type="email" class="form-control" id="username" name="username" placeholder="Enter Email" required>

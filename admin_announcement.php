@@ -1,17 +1,19 @@
 <?php
 require 'session.php';
-    $session=new session();
-    $session->admin();
-    if(isset($_POST['logout']))
-    {
-        session_destroy();
-        header("Location: login.php");
-    }
+$session=new session();
+$session->admin();
+if(isset($_POST['logout']))
+{
+    session_destroy();
+    header("Location: login.php");
+}
+require "application.php";
+$db=new application();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home Page</title>
+    <title>Announcements</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -24,6 +26,9 @@ require 'session.php';
             padding: 8px 0!important;
             margin-right: 20px!important;
             margin-left: 20px!important;
+        }
+        .nav-item.active{
+            padding: 8px 0 !important;
         }
         .nav-link.active{
             margin: 0!important;
@@ -155,9 +160,9 @@ require 'session.php';
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="admin_home.php">Home</a>
+                <a class="nav-link" href="admin_home.php">Home</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="admin_announcement.php">Announcements</a>
             </li>
             <li class="nav-item">
@@ -203,43 +208,58 @@ require 'session.php';
 </form>
 
 
-<h1 class="p-4 text-center text-white bg-primary">Home Page</h1>
+<h1 class="p-4 text-center text-white bg-primary">Announcement</h1>
 
-<h2 class="mt-5 ml-5 mtop">Number of students Registered in each course:</h2>
 
+<h2 class="mt-5 ml-5 mtop">Make an announcement:</h2>
 <div class="container my-5">
-    <div class="d-flex flex-wrap">
+    <form method="post" action="admin_announcement.php">
+        <div class="form-group">
+            <label for="type">Audience<span class="text-danger"> *</span></label>
+            <select class="form-control" id="type" name="type">
+                <option value="">(Select the audience)</option>
+                <option value="all">All</option>
+                <option value="student">Students</option>
+                <option value="teacher">Teachers</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="message">Message<span class="text-danger"> *</span></label>
+            <textarea class="form-control" rows="4" id="message" name="message" placeholder="Enter the Message" required></textarea>
+        </div>
         <?php
-        require 'application.php';
-        $db= new application();
-        $result=$db->get_data_course();
-
-        foreach ($result as $row) {
-            $c=$db->get_course_count($row['course_id']);
-            $count= $c->fetch_row();
-            ?>
-                <div class="course">
-                    <h4><span class="font-weight-light mr-3"><?= $row['course_title'];?>:</span><?= $count[0];?></h4>
-                </div>
-        <?php } ?>
-    </div>
+        if(isset($_POST['type']))
+        {
+            if($_POST['type'] != "")
+            {
+                $type=$_POST['type'];
+                $message=$_POST['message'];
+                $db->admin_notification($type,$message);
+            }
+            else{
+                echo "<p class='p-2 text-white bg-danger text-center' >Select the type!!</p>";
+            }
+        }
+        ?>
+        <button class="btn btn-primary" type="submit">Send</button>
+    </form>
 </div>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         var navbarToggler = document.querySelector('.navbar-toggler');
         var navbarCollapse = document.querySelector('.navbar-collapse');
         var body = document.querySelector('body');
 
         navbarToggler.addEventListener('click', function() {
-        navbarCollapse.classList.toggle('show');
-    });
+            navbarCollapse.classList.toggle('show');
+        });
 
         body.addEventListener('click', function(e) {
-        if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
-        navbarCollapse.classList.remove('show');
-    }
-    });
+            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
     });
 </script>
 </body>

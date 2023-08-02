@@ -16,7 +16,9 @@ $result=$db->get_username_info($username);
 $si=$db->get_student_id($username);
 $student_id = $si->fetch_row()[0];
 
-$notification=$db->get_student_notification($student_id);
+$notification=$db->get_student_course_notification($student_id);
+$notification_all=$db->get_all_notification();
+$notification_student=$db->get_student_notification();
 
 
 $folderPath = 'uploads/';
@@ -271,7 +273,19 @@ else{
             color: white!important;
             background-color: #5840ba!important;
         }
-
+        .notification_all{
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+            background-color: #ff6969;
+            max-width: 600px;
+            padding: 10px;
+            margin: 15px 25px!important;
+            border-radius: 10px;
+        }
+        .notification_all:hover{
+            color: white!important;
+            background-color: #5840ba!important;
+        }
 
         @media screen and (max-width:980px) {
             .mtop{
@@ -375,12 +389,36 @@ else{
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
             <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
-            <?php if ($notification->num_rows > 0)
+            <?php
+            if($notification->num_rows > 0 || $notification_all->num_rows > 0)
             {
-                foreach ($notification as $row): ?>
-                    <div class="notification"><?= $row['message']?>
-                        <div><?= $row['created_at']?></div></div>
-                <?php endforeach;
+                if ($notification_all->num_rows > 0)
+                {
+                    foreach ($notification_all as $row):
+                        if($row['type']=="all"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+                if ($notification_student->num_rows > 0)
+                {
+                    foreach ($notification_student as $row):
+                        if($row['type']=="student"){
+                            ?>
+                            <div class="notification_all"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
+                if ($notification->num_rows > 0)
+                {
+                    foreach ($notification as $row):
+                        if($row['type']==""){
+                            ?>
+                            <div class="notification"><?= $row['message']?>
+                                <div><?= $row['created_at']?></div></div>
+                        <?php } endforeach;
+                }
             }
             else
             {
