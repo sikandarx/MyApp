@@ -357,7 +357,7 @@ class application
     }
     public function get_student_notification($student_id)
     {
-        $result=$this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n on n.course_id = sc.course_id WHERE sc.student_id= $student_id");
+        $result=$this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n ON n.course_id = sc.course_id WHERE sc.student_id = $student_id");
         return $result;
     }
 }

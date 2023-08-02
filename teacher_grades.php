@@ -146,7 +146,7 @@ if(isset($_POST['course_title'])) {
             right: 0!important;
 
         }
-        #grade{
+        .inputField{
             width: 35px!important;
         }
         @media screen and (max-width:980px) {
@@ -289,7 +289,7 @@ if($_POST['course_title'] != "" && $_POST['course_title'] != "")
 $course_name=$db->get_title_course($_POST['course_title']);
 $course = $course_name->fetch_row()[0];
 ?>
-<form method="post" class="my-5" id="Table">
+<form method="post" class="my-5" id="save_table">
         <table class="table table-striped table-bordered my-5" id="myTable">
 
             <tr>
@@ -301,7 +301,6 @@ $course = $course_name->fetch_row()[0];
 
             <h2 class="mt-5"><?=$course?>:</h2>
             <?php
-            $index=0;
             foreach($enroll_data as $row):?>
 
                 <tr>
@@ -309,34 +308,108 @@ $course = $course_name->fetch_row()[0];
                     <td class="text-nowrap"><?= $row['Student Roll Number'] ?></td>
                     <td class="text-nowrap"><?= $row['Student Email'] ?></td>
                     <td class="text-nowrap">
-                        <input type="text" name="grade" id="grade" value="<?=$row['Grade']?>">
+                        <input type="text" class="inputField" name="grade"  value="<?=$row['Grade']?>">
+                        <input type="hidden" class="grade_id" value="<?=$row['Id']?>">
                     </td>
                 </tr>
 
             <?php
-            $data[$index]=$row['Id'];
-            /*$grade[$index]=$_POST['grade'];*/
-            $index++;
             endforeach;
-            if(isset($_POST['grade']))
-            {
-                echo"test";
-            }
             ?>
 
         </table>
-    <button type="submit" name="save" id="save" class="btn btn-success">Save</button>
+    <button type="submit" name="save_button" id="save_button" class="btn btn-success">Save</button>
 </form>
+    <div>
+        <h3>Values in JavaScript Array:</h3>
+        <ul id="outputList">
+        </ul>
+    </div>
 </div>
-<?php } } ?>
+<?php } }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "starting";
+    // Retrieving the data from the POST request
+    if (isset($_POST['data1'])) {
+        echo "Data 1";
+        $jsonData1 = $_POST['data1'];
+        $phpArray1 = json_decode($jsonData1, true);
+    }
+    if (isset($_POST['data2'])) {
+        echo "Data 2";
+        $jsonData2 = $_POST['data2'];
+        $phpArray2 = json_decode($jsonData2, true);
+    }
+}
+
+?>
+
 <script>
-    const form = document.getElementById('Table');
+
+    const form = document.getElementById('save_table');
     const submitButton = document.getElementById('save');
+    const inputFields = document.querySelectorAll('.inputField');
+    const gradeIds = document.querySelectorAll('.grade_id');
+    const outputList = document.getElementById('outputList');
+    const outputId = document.getElementById('outputId');
+
+    var valuesArray = [];
+    var idsArray = [];
+
+    function updateArray() {
+
+        outputList.innerHTML = '';
+
+        valuesArray.length = 0;
+        inputFields.forEach(inputField => {
+            valuesArray.push(inputField.value);
+        });
+
+        idsArray.length = 0;
+        gradeIds.forEach(grade_id => {
+            idsArray.push(grade_id.value);
+        });
+
+        valuesArray.forEach((value) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = value;
+            outputList.appendChild(listItem);
+        });
+
+    }
+
+    form.addEventListener('change', updateArray);
+
     form.addEventListener('submit', function(event) {
 
         event.preventDefault();
-
+        if (valuesArray.length === 0)
+        {
+            alert("Cannot Save!!!\nNo Changes made in the Grades.");
+        }
+        else
+        {
+            saveArrays();
+        }
     });
+
+    function saveArrays() {
+
+// Using AJAX to send the JavaScript arrays to a PHP script
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                alert("Data sent to PHP successfully!");
+            }
+        };
+        xhttp.open("POST", "teacher_grades.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+// Convert JavaScript arrays to JSON strings and send them as separate parameters
+        const dataToSend = "data1=" + JSON.stringify(valuesArray) + "&data2=" + JSON.stringify(idsArray);
+        xhttp.send(dataToSend);
+    }
 </script>
 
 </body>
