@@ -21,7 +21,7 @@ $notification_all=$db->get_all_notification();
 $notification_student=$db->get_student_notification();
 
 
-$folderPath = 'uploads/';
+$folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
 if(file_exists($file))
@@ -262,7 +262,7 @@ else{
             overflow-y: auto;
         }
         .notification{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
             background-color: white;
             max-width: 600px;
             padding: 10px;
@@ -274,7 +274,7 @@ else{
             background-color: #5840ba!important;
         }
         .notification_all{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
             color: white;
             background-color: #ff6969;
             max-width: 600px;
@@ -431,7 +431,7 @@ else{
                 style="width: 50px;
              height: 50px;
              border-radius: 50%;
-             background-image: url(uploads/<?= $name?>.jpg);
+             background-image: url(profile_picture/<?= $name?>.jpg);
              background-size: cover;
               background-repeat: no-repeat;
               background-position:center;"

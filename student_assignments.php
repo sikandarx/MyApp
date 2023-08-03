@@ -19,7 +19,7 @@ $notification=$db->get_student_course_notification($student_id);
 $notification_all=$db->get_all_notification();
 $notification_student=$db->get_student_notification();
 
-$folderPath = 'uploads/';
+$folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
 if(file_exists($file))
@@ -83,7 +83,7 @@ else{
         .cont{
 
             width: 70%;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
             background-color: white;
             border-radius: 10px;
             padding: 20px;
@@ -164,6 +164,53 @@ else{
         .notification_all:hover{
             color: white!important;
             background-color: #5840ba!important;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            align-items: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            border-radius: 15px;
+            background-color: #fff;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+        }
+        .modal-con{
+            margin: 30px 10px;
+            padding: 0 10px;
+        }
+        .close {
+            color: #868686;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .deadline{
+            font-size: 20px!important;
+            font-weight: 500;
+            text-align: right!important;
+        }
+        .d-flex.detail{
+            justify-content: space-between;
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -251,55 +298,12 @@ else{
             </li>
         </ul>
     </div>
-    <div class="dropdown">
-        <button class="custom-dropdown-btn" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="custom-dropdown-icon" src="notification_icon.png" alt="Notification Icon">
-        </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-            <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
-            <?php
-            if($notification->num_rows > 0 || $notification_all->num_rows > 0)
-            {
-                if ($notification_all->num_rows > 0)
-                {
-                    foreach ($notification_all as $row):
-                        if($row['type']=="all"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-                if ($notification_student->num_rows > 0)
-                {
-                    foreach ($notification_student as $row):
-                        if($row['type']=="student"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-                if ($notification->num_rows > 0)
-                {
-                    foreach ($notification as $row):
-                        if($row['type']==""){
-                            ?>
-                            <div class="notification"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-            }
-            else
-            {
-                echo "<h6 class='text-center m-5'>No notifications to show.</h6>";
-            } ?>
-        </div>
-    </div>
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-image: url(uploads/<?= $name?>.jpg);
+                    background-image: url(profile_picture/<?= $name?>.jpg);
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position:center;"
@@ -333,15 +337,15 @@ else{
     {
     foreach($assignments as $row):
     ?>
-    <div class="cont">
+    <div class="cont" onclick="openModal()">
         <h2>    <?php
             $course_name=$db->get_title_course($row['course_id']);
             $course = $course_name->fetch_row()[0];
             echo $course;
             ?></h2>
+        <div class="d-flex detail">
         <h3 class="font-weight-light"><?=$row['title']?></h3>
-        <div class="text-right">
-            <p><span class="font-weight-heavy">Deadline: </span><?=$row['deadline']?></p>
+            <p class="deadline">Deadline: <span class="font-weight-light"><?=$row['deadline']?></span></p>
         </div>
     </div>
     <?php endforeach;}
@@ -349,25 +353,46 @@ else{
         echo "<h5 class='no_assignments text-center'>You have no Assignments.</h5>";
     }?>
 </div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1 class="text-center"><?= $course?></h1>
+        <div class="modal-con">
+            <h3><?=$row['title']?></h3>
+            <p class="my-5"><?= $row['description']?></p>
+            <h4 class="text-right">Deadline: <?= $row['deadline']?></h4>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(function () {
-        var icon = $('.custom-dropdown-icon');
 
-        $('#notificationDropdown').on('click', function () {
-            if (!icon.hasClass('rotate-right') && !icon.hasClass('rotate-left')) {
-                icon.addClass('rotate-right');
+    // Function to open the modal
+    function openModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'flex';
 
-                setTimeout(function () {
-                    icon.removeClass('rotate-right');
-                    icon.addClass('rotate-left');
+        // Add an event listener to close the modal when clicked outside the content
+        window.addEventListener('click', outsideClick);
+    }
 
-                    setTimeout(function () {
-                        icon.removeClass('rotate-left');
-                    }, 300); // Delay for the left rotation animation (0.3s)
-                }, 300); // Delay before starting the left rotation animation (0.3s)
-            }
-        });
-    });
+    // Function to close the modal
+    function closeModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+
+    // Function to close the modal when clicked outside the content
+    function outsideClick(event) {
+        var modal = document.getElementById('myModal');
+        var modalContent = document.querySelector('.modal-content');
+
+        if (event.target == modal) {
+            modal.style.display = 'none';
+            window.removeEventListener('click', outsideClick);
+        }
+    }
 </script>
 </body>
 </html>

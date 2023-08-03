@@ -18,7 +18,7 @@ $course_id= $db->get_teacher_enroll_data($tid);
 $notification_all=$db->get_all_notification();
 $notification_teacher=$db->get_teacher_notification();
 
-$folderPath = 'uploads/';
+$folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
 if(file_exists($file))
@@ -267,46 +267,13 @@ else{
             </li>
         </ul>
     </div>
-    <div class="dropdown">
-        <button class="custom-dropdown-btn" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="custom-dropdown-icon" src="notification_icon.png" alt="Notification Icon">
-        </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-            <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
-            <?php
-            if($notification_teacher->num_rows > 0 || $notification_all->num_rows > 0)
-            {
-                if ($notification_all->num_rows > 0)
-                {
-                    foreach ($notification_all as $row):
-                        if($row['type']=="all"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-                if ($notification_teacher->num_rows > 0)
-                {
-                    foreach ($notification_teacher as $row):
-                        if($row['type']=="teacher"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-            }
-            else
-            {
-                echo "<h6 class='text-center m-5'>No notifications to show.</h6>";
-            } ?>
-        </div>
-    </div>
+
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-image: url(uploads/<?= $name?>.jpg);
+                    background-image: url(profile_picture/<?= $name?>.jpg);
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position:center;"
@@ -367,7 +334,7 @@ else{
     $db->teacher_assignments($course_id,$title,$description,$date);
         $ct=$db->get_title_course($course_id);
         $course_title = $ct->fetch_row()[0];
-    $message = "New assignment assigned named as " . $title.".\nFor course ".$course_title.".";
+    $message = "New assignment assigned named as \" ". $title." \".\nFor course <h6>".$course_title.".</h6>";
     $db->student_notification($course_id, $message);
     } else {
     echo "<p class='p-2 text-white bg-danger text-center' >Select The Course Title</p>";
@@ -380,24 +347,6 @@ else{
 </div>
 
 <script>
-    $(document).ready(function () {
-        var icon = $('.custom-dropdown-icon');
-
-        $('#notificationDropdown').on('click', function () {
-            if (!icon.hasClass('rotate-right') && !icon.hasClass('rotate-left')) {
-                icon.addClass('rotate-right');
-
-                setTimeout(function () {
-                    icon.removeClass('rotate-right');
-                    icon.addClass('rotate-left');
-
-                    setTimeout(function () {
-                        icon.removeClass('rotate-left');
-                    }, 300); // Delay for the left rotation animation (0.3s)
-                }, 300); // Delay before starting the left rotation animation (0.3s)
-            }
-        });
-    });
 </script>
 </body>
 </html>

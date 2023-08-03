@@ -20,7 +20,7 @@ $notification=$db->get_student_course_notification($student_id);
 $notification_all=$db->get_all_notification();
 $notification_student=$db->get_student_notification();
 
-$folderPath = 'uploads/';
+$folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
 if(file_exists($file))
@@ -279,55 +279,13 @@ else{
             </li>
         </ul>
     </div>
-    <div class="dropdown">
-        <button class="custom-dropdown-btn" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="custom-dropdown-icon" src="notification_icon.png" alt="Notification Icon">
-        </button>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-            <h5 class="mb-4 font-weight-heavy">Notifications:</h5>
-            <?php
-            if($notification->num_rows > 0 || $notification_all->num_rows > 0)
-            {
-                if ($notification_all->num_rows > 0)
-                {
-                    foreach ($notification_all as $row):
-                        if($row['type']=="all"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-                if ($notification_student->num_rows > 0)
-                {
-                    foreach ($notification_student as $row):
-                        if($row['type']=="student"){
-                            ?>
-                            <div class="notification_all"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-                if ($notification->num_rows > 0)
-                {
-                    foreach ($notification as $row):
-                        if($row['type']==""){
-                            ?>
-                            <div class="notification"><?= $row['message']?>
-                                <div><?= $row['created_at']?></div></div>
-                        <?php } endforeach;
-                }
-            }
-            else
-            {
-                echo "<h6 class='text-center m-5'>No notifications to show.</h6>";
-            } ?>
-        </div>
-    </div>
+
     <div class="btn-group mr-5" style="position: absolute; right: 0;">
         <button class="btn-lg"
                 style="width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-image: url(uploads/<?= $name?>.jpg);
+                    background-image: url(profile_picture/<?= $name?>.jpg);
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position:center;"
@@ -356,7 +314,7 @@ else{
 
 <div class="center">
     <div class="img-container">
-    <img src="uploads/<?=$username?>.jpg" alt="" class="img2">
+    <img src="profile_picture/<?=$username?>.jpg" alt="" class="img2">
         <div class="camera-icon">
             <form action="student_profile.php" method="post" enctype="multipart/form-data">
                 <div><input type="file" id="fileInput" name="image" accept="image/*"></div>
@@ -374,7 +332,7 @@ else{
 <?php
 if (isset($_POST["submit"])) {
 
-$targetDir = "uploads/";
+$targetDir = "profile_picture/";
 $originalFileName = $_FILES["image"]["name"];
 $imageFileType = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
 
@@ -426,24 +384,6 @@ $data= $result->fetch_row()?>
 <h5>Gender: <?=$data[5]?></h5>
 </div>
 <script>
-    $(document).ready(function () {
-        var icon = $('.custom-dropdown-icon');
-
-        $('#notificationDropdown').on('click', function () {
-            if (!icon.hasClass('rotate-right') && !icon.hasClass('rotate-left')) {
-                icon.addClass('rotate-right');
-
-                setTimeout(function () {
-                    icon.removeClass('rotate-right');
-                    icon.addClass('rotate-left');
-
-                    setTimeout(function () {
-                        icon.removeClass('rotate-left');
-                    }, 300); // Delay for the left rotation animation (0.3s)
-                }, 300); // Delay before starting the left rotation animation (0.3s)
-            }
-        });
-    });
     // Get references to the file input and submit button
     const fileInput = document.getElementById("fileInput");
     const submitButton = document.getElementById("submitButton");

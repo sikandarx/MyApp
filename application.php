@@ -206,7 +206,8 @@ class application
         }
     }
     public function teacher_assignments($course_id,$title,$description,$date) {
-        $result=$this->conn->query("INSERT INTO assignments (course_id,title,description,deadline) VALUES($course_id,'$title','$description','$date')");
+        $currentDateTime = date("y-m-d h:i:s");
+        $result=$this->conn->query("INSERT INTO assignments (course_id,title,description,deadline,upload_time) VALUES($course_id,'$title','$description','$date','$currentDateTime')");
         if(!$result)
         {
             echo "<p class='p-2 mx-5 text-white bg-danger text-center' >There is some issue with record creation</p>";
@@ -216,8 +217,8 @@ class application
             echo "<p class='p-2 mx-5 text-white bg-success text-center' >Saved Successfully</p>";
         }
     }
-    public function get_teacher_assignments($username){
-        $result = $this->conn->query("SELECT a.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `assignments` a ON sc.course_id = a.course_id WHERE s.email = '$username'");
+    public function get_teacher_assignments($username) {
+        $result = $this->conn->query("SELECT a.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `assignments` a ON sc.course_id = a.course_id WHERE s.email = '$username' ORDER BY a.upload_time DESC");
         return $result;
     }
     public function get_data_login($username,$password)
@@ -372,22 +373,24 @@ class application
     }
     public function get_student_course_notification($student_id)
     {
-        $result=$this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n ON n.course_id = sc.course_id WHERE sc.student_id = $student_id");
+        $result = $this->conn->query("SELECT n.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `notifications` n ON n.course_id = sc.course_id WHERE sc.student_id = $student_id ORDER BY n.created_at DESC");
         return $result;
     }
+
     public function get_student_notification()
     {
-        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'student'");
+        $result = $this->conn->query("SELECT * FROM `notifications` WHERE type = 'student' ORDER BY created_at DESC");
         return $result;
     }
+
     public function get_teacher_notification()
     {
-        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'teacher'");
+        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'teacher' ORDER BY created_at DESC");
         return $result;
     }
     public function get_all_notification()
     {
-        $result=$this->conn->query("SELECT * FROM `notifications`  WHERE type = 'all'");
+        $result = $this->conn->query("SELECT * FROM `notifications` WHERE type = 'all' ORDER BY created_at DESC");
         return $result;
     }
 }

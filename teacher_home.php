@@ -16,7 +16,7 @@ $result=$db->get_teacher_username_info($username);
 $notification_all=$db->get_all_notification();
 $notification_teacher=$db->get_teacher_notification();
 
-$folderPath = 'uploads/';
+$folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
 if(file_exists($file))
@@ -401,7 +401,7 @@ else{
                 style="width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-image: url(uploads/<?= $name?>.jpg);
+                    background-image: url(profile_picture/<?= $name?>.jpg);
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position:center;"
