@@ -95,65 +95,10 @@ else{
         .font-weight-heavy{
             font-weight: 600;
         }
-        .custom-dropdown-btn {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 10px 110px;
-        }
-
-        .custom-dropdown-btn:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        .custom-dropdown-icon {
-            display: block;
-            width: 32px; /* Set the width and height of your custom icon */
-            height: 32px; /* Adjust as needed */
-            /* Add any custom icon styles here */
-            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
-        }
-
-        .rotate-right {
-            transform: rotate(20deg);
-        }
-
-        .rotate-left {
-            transform: rotate(-20deg);
-        }
-        .dropdown-menu.dropdown-menu-right{
-            margin-right: 20px!important;
-            border-radius: 20px;
-            width: 650px;
-            max-height: 700px!important;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .notification{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            background-color: white;
-            max-width: 600px;
-            padding: 10px;
-            margin: 15px 25px!important;
-            border-radius: 10px;
-        }
-        .notification:hover{
-            color: white!important;
-            background-color: #5840ba!important;
-        }
-        .notification_all{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            color: white;
-            background-color: #ff6969;
-            max-width: 600px;
-            padding: 10px;
-            margin: 15px 25px!important;
-            border-radius: 10px;
-        }
-        .notification_all:hover{
-            color: white!important;
-            background-color: #5840ba!important;
+        .container{
+            border-radius: 15px;
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
         @media screen and (max-width:980px) {
             .mtop{
@@ -275,8 +220,8 @@ else{
 
 <h1 class="p-4 text-center text-white bg-primary">Grades</h1>
 
-<div class="container table-wrapper mtop">
-    <table class="table table-striped table-bordered mt-5">
+<div class="container table-wrapper mt-5 mtop">
+    <table class="table table-striped table-bordered mt-3">
 
         <tr>
             <th>No.</th>

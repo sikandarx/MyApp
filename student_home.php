@@ -527,6 +527,9 @@ $data= $result->fetch_row()?>
             }
         });
     });
+
+    // Your existing JavaScript code
+
     // Get the current date
     const today = new Date();
 
@@ -582,7 +585,12 @@ $data= $result->fetch_row()?>
             daysContainer.appendChild(dayElement);
 
             // Check if the current day is today and add the 'today' class
-            if (currentMonth === today.getMonth() && currentYear === today.getFullYear() && i === today.getDate()) {
+            const todayDate = new Date();
+            if (
+                currentMonth === todayDate.getMonth() &&
+                currentYear === todayDate.getFullYear() &&
+                i === todayDate.getDate()
+            ) {
                 dayElement.classList.add("today");
             }
         }
@@ -620,26 +628,25 @@ $data= $result->fetch_row()?>
                 modal.style.display = "block";
             }
 
-// Function to close the modal
+            // Function to close the modal
             function closeModal() {
                 const modal = document.getElementById("myModal");
                 modal.style.display = "none";
             }
 
-// Close the modal if clicked outside of it
-            window.onclick = function(event) {
+            // Close the modal if clicked outside of it
+            window.onclick = function (event) {
                 const modal = document.getElementById("myModal");
                 if (event.target === modal) {
                     closeModal();
                 }
             };
 
-// Attach a click event to the close button
+            // Attach a click event to the close button
             document.querySelector(".close").addEventListener("click", closeModal);
 
             const content = `You clicked on ${dayNumber}-${currentMonth + 1}-${currentYear}`;
             openModal(content);
-
         });
         return dayElement;
     }
@@ -668,5 +675,6 @@ $data= $result->fetch_row()?>
     renderCalendar();
 
 </script>
+
 </body>
 </html>

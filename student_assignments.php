@@ -19,6 +19,8 @@ $notification=$db->get_student_course_notification($student_id);
 $notification_all=$db->get_all_notification();
 $notification_student=$db->get_student_notification();
 
+
+
 $folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
 $file=$folderPath.$fileName;
@@ -83,7 +85,8 @@ else{
         .cont{
 
             width: 70%;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             background-color: white;
             border-radius: 10px;
             padding: 20px;
@@ -96,7 +99,8 @@ else{
         }
         .no_assignments{
             width: 70%;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             background-color: white;
             border-radius: 10px;
             padding: 20px;
@@ -105,66 +109,7 @@ else{
         .font-weight-heavy{
             font-weight: 600;
         }
-        .custom-dropdown-btn {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 10px 110px;
-        }
 
-        .custom-dropdown-btn:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        .custom-dropdown-icon {
-            display: block;
-            width: 32px; /* Set the width and height of your custom icon */
-            height: 32px; /* Adjust as needed */
-            /* Add any custom icon styles here */
-            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
-        }
-
-        .rotate-right {
-            transform: rotate(20deg);
-        }
-
-        .rotate-left {
-            transform: rotate(-20deg);
-        }
-        .dropdown-menu.dropdown-menu-right{
-            margin-right: 20px!important;
-            border-radius: 20px;
-            width: 650px;
-            max-height: 700px!important;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .notification{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            background-color: white;
-            max-width: 600px;
-            padding: 10px;
-            margin: 15px 25px!important;
-            border-radius: 10px;
-        }
-        .notification:hover{
-            color: white!important;
-            background-color: #5840ba!important;
-        }
-        .notification_all{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            color: white;
-            background-color: #ff6969;
-            max-width: 600px;
-            padding: 10px;
-            margin: 15px 25px!important;
-            border-radius: 10px;
-        }
-        .notification_all:hover{
-            color: white!important;
-            background-color: #5840ba!important;
-        }
         .modal {
             display: none;
             position: fixed;
@@ -175,7 +120,7 @@ else{
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.5);
         }
         .modal-content {
             border-radius: 15px;
@@ -205,7 +150,7 @@ else{
             cursor: pointer;
         }
         .deadline{
-            font-size: 20px!important;
+            font-size: 16px!important;
             font-weight: 500;
             text-align: right!important;
         }
@@ -338,16 +283,28 @@ else{
     foreach($assignments as $row):
     ?>
     <div class="cont" onclick="openModal()">
-        <h2>    <?php
+
+        <form id="myForm" action="student_assignments.php" method="post">
+        <h4>    <?php
             $course_name=$db->get_title_course($row['course_id']);
             $course = $course_name->fetch_row()[0];
             echo $course;
-            ?></h2>
+            ?></h4>
         <div class="d-flex detail">
-        <h3 class="font-weight-light"><?=$row['title']?></h3>
+        <h5 class="font-weight-light"><?=$row['title']?></h5>
             <p class="deadline">Deadline: <span class="font-weight-light"><?=$row['deadline']?></span></p>
         </div>
+
+            <input type="hidden" name="course_name" value="<?= $course?>"/>
+            <input type="hidden" name="title" value="<?= $row['title']?>"/>
+            <input type="hidden" name="description" value="<?= $row['description']?>"/>
+            <input type="hidden" name="deadline" value="<?= $row['deadline']?>"/>
+
+        </form>
+
     </div>
+
+
     <?php endforeach;}
     else{
         echo "<h5 class='no_assignments text-center'>You have no Assignments.</h5>";
@@ -357,6 +314,14 @@ else{
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
+<?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        echo "YES";
+        if (isset($_POST["course_name"]) || isset($_POST['title']) || isset($_POST['description']) || isset($_POST['deadline'])) {
+        echo "PASS";
+        }
+        }
+?>
         <h1 class="text-center"><?= $course?></h1>
         <div class="modal-con">
             <h3><?=$row['title']?></h3>
@@ -368,31 +333,53 @@ else{
 
 <script>
 
-    // Function to open the modal
     function openModal() {
+        // Get the form data
+        const form = document.getElementById('myForm');
+        const formData = new FormData(form);
+
+        // Send the form data using fetch
+        fetch('student_assignments.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Optional: Display a success message or handle the response data
+                    alert("Form submitted successfully!");
+                } else {
+                    // Handle errors, if any
+                    alert("Error: " + response.status);
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                alert("Error: " + error.message);
+            });
+
+        //////////////////////////////////////////////////////////////
+        // Display the modal here, after the successful form submission
         var modal = document.getElementById('myModal');
         modal.style.display = 'flex';
 
-        // Add an event listener to close the modal when clicked outside the content
         window.addEventListener('click', outsideClick);
     }
 
-    // Function to close the modal
+
     function closeModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'none';
     }
 
-    // Function to close the modal when clicked outside the content
     function outsideClick(event) {
         var modal = document.getElementById('myModal');
-        var modalContent = document.querySelector('.modal-content');
 
         if (event.target == modal) {
             modal.style.display = 'none';
             window.removeEventListener('click', outsideClick);
         }
     }
+
 </script>
 </body>
 </html>
