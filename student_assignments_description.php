@@ -169,7 +169,7 @@ else{
                 <a class="nav-link" href="student_grades.php">Grades</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="student_assignments.php">Assignments</a>
+                <a class="nav-link active" href="student_assignments.php">Assignments</a>
             </li>
         </ul>
     </div>
