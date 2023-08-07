@@ -219,7 +219,7 @@ if(isset($_POST['logout']))
         Log Out</button>
 </form>
 
-<h1 class="p-4 text-center text-white bg-primary">Teacher Info Table</h1>
+<h1 class="p-4 text-center text-white bg-primary">Teacher Enroll Table</h1>
 
 
 <div class="container mt-5 mtop">
@@ -263,7 +263,7 @@ if(isset($_POST['name']))
         ?>
         <div class="container table-wrapper">
 
-            <form method="post" id="myForm" action="admin_student_enroll_table.php">
+            <form method="post" id="myForm" action="admin_teacher_enroll_table.php">
                 <table class="table table-striped table-bordered my-5" id="myTable">
 
                     <tr>

@@ -8,17 +8,13 @@ if(isset($_POST['logout']))
     session_destroy();
     header("Location: login.php");
 }
-
 require "application.php";
 $db=new application();
-$assignments=$db->get_teacher_assignments($username);
 
-$si=$db->get_student_id($username);
-$student_id = $si->fetch_row()[0];
-$notification=$db->get_student_course_notification($student_id);
-$notification_all=$db->get_all_notification();
-$notification_student=$db->get_student_notification();
-
+if(isset($_POST['divId'])){
+    $id=$_POST['divId'];
+    $assignment=$db->get_teacher_assignments_id($id);
+}
 
 $folderPath = 'profile_picture/';
 $fileName = $username.'.jpg';
@@ -34,28 +30,20 @@ else{
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Assignments</title>
+    <title>Assignment description</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
         .nav-item{
             margin: auto 0!important;
         }
         .nav-link{
-            padding: 8px 0!important;
+            padding: 16px 0!important;
             margin-right: 20px!important;
             margin-left: 20px!important;
-        }
-        .active{
-            background-color: #5840ba!important;
-            padding: 16px 20px!important;
-            border-radius: 0!important;
-            margin: 0!important;
         }
         .navbar{
             padding: 0;
@@ -81,83 +69,24 @@ else{
             margin-left: 40px;
         }
         .mini-container{
-            margin: 50px 0;
-        }
-        .cont{
-
-            width: 70%;
             border: #d9d9d9 1px solid;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            background-color: white;
-            border-radius: 10px;
             padding: 20px;
-            margin: 20px auto;
-        }
-        .cont:hover{
-            cursor: pointer;
-            background-color: #5840ba;
-            color: white;
-        }
-        .no_assignments{
             width: 70%;
-            border: #d9d9d9 1px solid;
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            background-color: white;
             border-radius: 10px;
-            padding: 20px;
             margin: 20px auto;
         }
-        .font-weight-heavy{
-            font-weight: 600;
+        .btn{
+            border-radius:20%!important;
+            color:white;
+            background-color:#5840ba;
+            border: #d9d9d9 1px solid;
+        }
+        .btn:hover{
+            color:black!important;
+            background-color:white !important;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            align-items: center;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            border-radius: 15px;
-            background-color: #fff;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-        }
-        .modal-con{
-            margin: 30px 10px;
-            padding: 0 10px;
-        }
-        .close {
-            color: #868686;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .deadline{
-            font-size: 16px!important;
-            font-weight: 500;
-            text-align: right!important;
-        }
-        .d-flex.detail{
-            justify-content: space-between;
-        }
         @media screen and (max-width:980px) {
             .mtop{
                 margin-top: 150px !important;
@@ -240,7 +169,7 @@ else{
                 <a class="nav-link" href="student_grades.php">Grades</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="student_assignments.php">Assignments</a>
+                <a class="nav-link" href="student_assignments.php">Assignments</a>
             </li>
         </ul>
     </div>
@@ -274,60 +203,26 @@ else{
     </div>
 </nav>
 
-
-<h1 class="p-4 text-center text-white bg-primary">Assignments</h1>
-
-<form id="myForm" action="student_assignments_description.php" method="post">
-  <input type="hidden" id="divIdInput" name="divId" value="">
-</form>
-
-<div class="mini-container" id="container">
-    <?php
-    if ($assignments->num_rows > 0)
-    {
-    foreach($assignments as $row):
-    ?>
-    <div class="cont"  id="<?=$row['id']?>">
-
-        <h4>    <?php
-            $course_name=$db->get_title_course($row['course_id']);
+<?php
+$assignment_open=$assignment->fetch_row();
+?>
+<h1 class="p-4 text-center text-white bg-primary">
+    <?php $course_name=$db->get_title_course($assignment_open[1]);
             $course = $course_name->fetch_row()[0];
             echo $course;
-            ?></h4>
-        <div class="d-flex detail">
-        <h5 class="font-weight-light"><?=$row['title']?></h5>
-            <p class="deadline">Deadline: <span class="font-weight-light"><?=$row['deadline']?></span></p>
-        </div>
-
-    </div>
-
-
-    <?php 
-    endforeach;}
-    else{
-        echo "<h5 class='no_assignments text-center'>You have no Assignments.</h5>";
-    }
     ?>
+</h1>
+
+<div class="container my-3">
+<button onclick="window.location.href='student_assignments.php';" class="btn">Back</button>
+</div>
+
+<div class="mini-container mb-5">
+<h2 class="mt-3 mb-5"><?= $assignment_open[2]?></h2>
+<p><?=$assignment_open[3]?></p>
+<h4 class="text-right mb-3 mt-5">Deadline: <?=$assignment_open[4]?></h4>
 </div>
 <script>
-
-const container = document.getElementById("container");
-const divIdInput = document.getElementById("divIdInput");
-const myForm = document.getElementById("myForm");
-
-container.addEventListener("click", function(event) {
-  let clickedDiv = event.target;
-  while (clickedDiv !== container && !clickedDiv.classList.contains("cont")) {
-    clickedDiv = clickedDiv.parentElement;
-  }
-  if (clickedDiv.classList.contains("cont")) {
-    const divId = clickedDiv.id;
-
-    divIdInput.value = divId;
-    myForm.submit();
-  }
-});
-
 </script>
 </body>
 </html>

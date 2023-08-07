@@ -211,7 +211,6 @@ $db=new application();
 <h1 class="p-4 text-center text-white bg-primary">Announcement</h1>
 
 
-<h2 class="mt-5 ml-5 mtop">Make an announcement:</h2>
 <div class="container my-5">
     <form method="post" action="admin_announcement.php">
         <div class="form-group">

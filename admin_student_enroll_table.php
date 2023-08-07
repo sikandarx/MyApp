@@ -24,12 +24,6 @@ if(isset($_POST['course_title']))
     }
 }
 
-if(isset($_POST['delete'])) {
-
-    $id = $_POST['delete'];
-    $db->delete_student_enroll($id);  // Delete item
-
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -250,7 +244,16 @@ if(isset($_POST['delete'])) {
     <label for="course_title">Course Title</label>
     <select class="form-control sel" id="course_title" name="course_title">
         <option value="">Select Course Title</option>
-        <?php foreach($course_id as $row): ?>
+        <?php
+
+        if(isset($_POST['delete'])) {
+
+            $id = $_POST['delete'];
+            $db->delete_student_enroll($id);  // Delete item
+
+        }
+
+        foreach($course_id as $row): ?>
             <option value="<?= $row['course_id'] ?>"><?= $row['course_title'] ?></option>
         <?php endforeach; ?>
     </select>

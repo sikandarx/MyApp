@@ -7,7 +7,7 @@ class application
         $host = "localhost";
         $db_name = "my_app";
         $username = "root";
-        $password = "";
+        $password = "83110";
         $this->conn = new mysqli($host, $username, $password, $db_name);
         if ($this->conn->connect_error)
         {
@@ -219,6 +219,10 @@ class application
     }
     public function get_teacher_assignments($username) {
         $result = $this->conn->query("SELECT a.* FROM `student` s JOIN `student_course` sc ON s.student_id = sc.student_id JOIN `assignments` a ON sc.course_id = a.course_id WHERE s.email = '$username' ORDER BY a.upload_time DESC");
+        return $result;
+    }
+    public function get_teacher_assignments_id($id) {
+        $result = $this->conn->query("SELECT * FROM `assignments` WHERE id = $id");
         return $result;
     }
     public function get_data_login($username,$password)
