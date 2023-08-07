@@ -41,9 +41,15 @@ else{
             margin: auto 0!important;
         }
         .nav-link{
-            padding: 16px 0!important;
+            padding: 8px 0!important;
             margin-right: 20px!important;
             margin-left: 20px!important;
+        }
+        .active{
+            background-color: #5840ba!important;
+            padding: 16px 20px!important;
+            border-radius: 0!important;
+            margin: 0!important;
         }
         .navbar{
             padding: 0;
