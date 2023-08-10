@@ -65,7 +65,6 @@ else{
             border-radius: 10px;
             overflow: hidden;
             display: flex;
-            flex: 1 1 100%;
             align-items: stretch;
             justify-content: space-between;
             box-shadow: 0 0 20px 6px #090b6f85;
@@ -101,8 +100,35 @@ else{
         .btn.btn-primary{
             font-weight: bold!important;
         }
-
-
+        @media screen and (max-width:738px) {
+            h1{
+                margin:10px 0;
+            }
+            h5{
+                text-align:center;
+                font-size:35px;
+                margin: 10px;
+            }
+            p{
+                margin: 10px;
+            }
+            .login-box{
+                flex-wrap:wrap;
+                width:90%;
+                justify-content:space-around;
+                margin:20px auto;
+            }
+            .right{
+                width:100%;
+                padding:20px;
+            }
+            .leftoverlay{
+                padding:20px;
+            }
+            .btn-primary{
+                margin-top:20px;
+            }
+        }
     </style>
 </head>
 <body>
