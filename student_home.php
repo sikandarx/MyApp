@@ -241,10 +241,9 @@ else{
 
         .custom-dropdown-icon {
             display: block;
-            width: 32px; /* Set the width and height of your custom icon */
-            height: 32px; /* Adjust as needed */
-            /* Add any custom icon styles here */
-            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
+            width: 32px; 
+            height: 32px; 
+            transition: transform 0.3s ease-in-out; 
         }
 
         .rotate-right {
@@ -288,59 +287,20 @@ else{
             background-color: #5840ba!important;
         }
 
-        @media screen and (max-width:980px) {
-            .mtop{
-                margin-top: 150px !important;
-            }
-            .img{
-                max-width: 0px!important;
-            }
-            p{
-                font-size: 40px!important;
-            }
-            h1{
-                font-size: 85px !important;
-            }
-            h2{
-                font-size: 50px !important;
-            }
-            h4{
-                font-size: 45px !important;
-            }
-            h5{
-                font-size: 40px!important;
-            }
-            .navbar-nav{
-                margin: 0!important;
-            }
-            .nav-link{
-                margin-left: 0!important;
-                padding: 16px 20px!important;
-                font-size: 40px!important;
-            }
-            .navbar-toggler-icon {
-                font-size: 3.5rem;
-            }
-            .navbar-toggler{
-                margin: 25px;
-            }
-            .nav-item{
-                margin: 20px 0!important;
-            }
+        @media screen and (max-width:738px) {
             .navbar-collapse {
                 position: fixed;
                 top: 0;
                 left: 0;
                 bottom: 0;
                 width: 50%;
-                background-color: #343a40; /* Adjust the background color as needed */
-                padding: 1rem;
+                background-color: #343a40;
+                padding: 20px 0;
                 z-index: 1000;
                 transition-duration: 0s;
                 animation: slideIn 0.3s forwards;
                 transform: translateX(-100%);
             }
-
             @keyframes slideIn {
                 from {
                     transform: translateX(-100%);
@@ -349,12 +309,32 @@ else{
                     transform: translateX(0);
                 }
             }
-            .mini-container{
-                max-width: 100% !important;
+            .navbar-toggler{
+                margin:15px;
             }
-            .calendar{
-                font-size: 40px !important;
-                width: 100%!important;
+            .navbar-nav{
+                margin:0;
+            }
+            .mini-container{
+                width:90%;
+            }
+            .nav-item{
+                font-size:25px;
+            }
+            .dropdown-menu{
+                left:-100px !important;
+            }
+            .btn-group{
+                margin-right: 15px !important;
+            }
+            .custom-dropdown-btn{
+                margin-right: 75px;
+            }
+            .dropdown-menu.dropdown-menu-right{
+                width:300px;
+            }
+            .notification{
+                margin:15px 0 !important;
             }
         }
     </style>
@@ -440,7 +420,7 @@ else{
                 class="dropdown-toggle"
                 data-bs-toggle="dropdown">
         </button>
-        <div class="dropdown-menu p-3" style="left: -100px;">
+        <div class="dropdown-menu" style="left: -75px;">
             <div class="dropdown-item">
                 <button onclick="window.location.href='student_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
             </div>
@@ -675,6 +655,21 @@ $data= $result->fetch_row()?>
     // Render the initial calendar
     renderCalendar();
 
+    document.addEventListener('DOMContentLoaded', function() {
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var navbarCollapse = document.querySelector('.navbar-collapse');
+        var body = document.querySelector('html');
+
+        navbarToggler.addEventListener('click', function() {
+            navbarCollapse.classList.toggle('show');
+        });
+
+        body.addEventListener('click', function(e) {
+            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    });
 </script>
 
 </body>

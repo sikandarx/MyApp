@@ -77,169 +77,34 @@ if(isset($_POST['course_title'])) {
         .navbar{
             padding: 0;
         }
+        .mini-container{
+            border-radius: 15px;
+            border: #d9d9d9 1px solid;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            margin-bottom:15px;
+        }
+        .table-wrapper{
+            overflow-y:auto;
+        }
         .bg-primary{
             background-color: #5840ba!important;
         }
         .img{
             max-width: 20px;
         }
-        .img2{
-            max-width: 250px;
-            border: #5840ba 5px solid;
-            border-radius: 50%;
-        }
-        .info>*{
-            background-color: #d8d8d8;
-            padding: 20px;
-            margin: 10px 0;
-        }
-        .d-flex{
-            gap: 50px;
-        }
-        .d-flex>*{
-            max-width: 1000px;
-        }
         .navbar-nav{
             margin-left: 40px;
         }
-        .mini-container{
-            border: #d9d9d9 1px solid;
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            width: 45%;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px auto;
-        }
-        .mini-container>*{
-            text-align: center;
-            color: white;
-            background-color: #5840ba;
-            padding: 15px;
-            border-radius: 5px;
-            margin:20px;
-        }
         .font-weight-heavy{
             font-weight: bolder;
-        }
-        .camera-icon {
-            position: absolute;
-            left: 20px;
-            bottom: 0;
         }
         .center {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        .camera-icon img {
-            width: 55px;
-            height: 50px;
-            border-radius: 50%;
-            padding: 5px;
-            background-color: #5840ba;
-            cursor: pointer;
-        }
-        .img-container {
-            position: relative;
-            display: inline-block;
-        }
-        /* Hide the default file input */
-        #fileInput {
-            display: none;
-        }
-        .btn.btn-upload{
-            position: absolute;
-            right: 0!important;
-
-        }
-        .inputField{
-            width: 35px!important;
-        }
-        .custom-dropdown-btn {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 10px 110px;
-        }
-
-        .custom-dropdown-btn:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        .custom-dropdown-icon {
-            display: block;
-            width: 32px; /* Set the width and height of your custom icon */
-            height: 32px; /* Adjust as needed */
-            /* Add any custom icon styles here */
-            transition: transform 0.3s ease-in-out; /* Transition for the rotation animation */
-        }
-
-        .rotate-right {
-            transform: rotate(20deg);
-        }
-
-        .rotate-left {
-            transform: rotate(-20deg);
-        }
-        .dropdown-menu.dropdown-menu-right{
-            margin-right: 20px!important;
-            border-radius: 20px;
-            width: 650px;
-            max-height: 700px!important;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .notification_all{
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            color: white;
-            background-color: #ff6969;
-            max-width: 600px;
-            padding: 10px;
-            margin: 15px 25px!important;
-            border-radius: 10px;
-        }
-        .notification_all:hover{
-            color: white!important;
-            background-color: #5840ba!important;
-        }
-        @media screen and (max-width:980px) {
-            .mtop{
-                margin-top: 150px !important;
-            }
-            .img{
-                max-width: 0px!important;
-            }
-            .info>*{
-                width: 800px !important;
-            }
-            h1{
-                font-size: 85px !important;
-            }
-            h2{
-                font-size: 50px !important;
-            }
-            h4{
-                font-size: 40px !important;
-            }
-            .navbar-nav{
-                margin: 0!important;
-            }
-            .nav-link{
-                margin-left: 0!important;
-                padding: 16px 20px!important;
-                font-size: 40px!important;
-            }
-            .navbar-toggler-icon {
-                font-size: 3.5rem;
-            }
-            .navbar-toggler{
-                margin: 25px;
-            }
-            .nav-item{
-                margin: 20px 0!important;
-            }
+        @media screen and (max-width:738px) {
             .navbar-collapse {
                 position: fixed;
                 top: 0;
@@ -247,7 +112,7 @@ if(isset($_POST['course_title'])) {
                 bottom: 0;
                 width: 50%;
                 background-color: #343a40; /* Adjust the background color as needed */
-                padding: 1rem;
+                padding: 20px 0;
                 z-index: 1000;
                 transition-duration: 0s;
                 animation: slideIn 0.3s forwards;
@@ -260,6 +125,21 @@ if(isset($_POST['course_title'])) {
                 to {
                     transform: translateX(0);
                 }
+            }
+            .navbar-toggler{
+                margin:15px;
+            }
+            .navbar-nav{
+                margin:0;
+            }
+            .nav-item{
+                font-size:25px;
+            }
+            .dropdown-menu{
+                left:-100px !important;
+            }
+            .btn-group{
+                margin-right: 15px !important;
             }
 
         }
@@ -304,7 +184,7 @@ if(isset($_POST['course_title'])) {
                 class="dropdown-toggle"
                 data-bs-toggle="dropdown">
         </button>
-        <div class="dropdown-menu p-3" style="left: -100px;">
+        <div class="dropdown-menu" style="left: -75px;">
             <div class="dropdown-item">
                 <button onclick="window.location.href='teacher_profile.php';" class="btn"><img src="profile_icon.png" alt="profile icon" class="img mr-1">Profile</button>
             </div>
@@ -345,8 +225,10 @@ if($_POST['course_title'] != "" && $_POST['course_title'] != "")
 $course_name=$db->get_title_course($_POST['course_title']);
 $course = $course_name->fetch_row()[0];
 ?>
+<h2 class="mt-4"><?=$course?>:</h2>
 <form method="post" class="my-5" id="save_table">
-        <table class="table table-striped table-bordered my-5" id="myTable">
+<div class="mini-container table-wrapper">
+        <table class="table table-striped table-bordered" id="myTable">
 
             <tr>
                 <th>Student Name</th>
@@ -355,7 +237,6 @@ $course = $course_name->fetch_row()[0];
                 <th>Grade</th>
             </tr>
 
-            <h2 class="mt-5"><?=$course?>:</h2>
             <?php
             foreach($enroll_data as $row):?>
 
@@ -374,6 +255,7 @@ $course = $course_name->fetch_row()[0];
             ?>
 
         </table>
+        </div>
     <input type="hidden" name="array1" id="array1Input">
     <input type="hidden" name="array2" id="array2Input">
     <button type="submit" name="save_button" id="save_button" class="btn btn-success">Save</button>
@@ -451,6 +333,22 @@ if (isset($_POST["array1"]) && isset($_POST["array2"])){
         document.getElementById("array1Input").value = json1;
         document.getElementById("array2Input").value = json2;
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var navbarCollapse = document.querySelector('.navbar-collapse');
+        var body = document.querySelector('html');
+
+        navbarToggler.addEventListener('click', function() {
+            navbarCollapse.classList.toggle('show');
+        });
+
+        body.addEventListener('click', function(e) {
+            if (!navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    });
 </script>
 
 </body>
