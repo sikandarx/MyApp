@@ -332,9 +332,13 @@ else{
             }
             .dropdown-menu.dropdown-menu-right{
                 width:300px;
+                height:500px;
             }
             .notification{
                 margin:15px 0 !important;
+            }
+            .info>*{
+                margin: 15px 0 !important;
             }
         }
     </style>

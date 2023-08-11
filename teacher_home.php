@@ -317,6 +317,9 @@ else{
             .notification{
                 margin:15px 0 !important;
             }
+            .info>*{
+                margin: 15px 0 !important;
+            }
         }
     </style>
 </head>
