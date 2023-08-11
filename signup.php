@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,7 +152,6 @@
             </div>
             <input type="hidden" name="type" value="student">
             <?php
-            session_start();
 
             if (isset($_POST['type'])) {
                 $type = $_POST['type'];

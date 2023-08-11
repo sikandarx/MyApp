@@ -8,6 +8,27 @@ else{
     $rememberuser="";
     $rememberpassword="";
 }
+
+if(isset($_POST['remember']))
+{
+    setcookie("username", $_POST['username']);
+    setcookie("password", $_POST['password']);
+}
+
+if (isset($_POST['username']))
+{
+    // Get form values
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    require 'application.php';
+    $db = new application();
+    $result = $db->get_data_login($username, $password);
+
+    require 'session.php';
+    $session = new session();
+    $session->login($result, $username);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,29 +176,7 @@ else{
         </div>
         <input type="checkbox" id="remember" name="remember" class="remember" >
         <label for="remember">Remember Me</label>
-        <?php
 
-        if(isset($_POST['remember']))
-        {
-            setcookie("username", $_POST['username']);
-            setcookie("password", $_POST['password']);
-        }
-
-        if (isset($_POST['username']))
-        {
-            // Get form values
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            require 'application.php';
-            $db = new application();
-            $result = $db->get_data_login($username, $password);
-
-            require 'session.php';
-            $session = new session();
-            $session->login($result, $username);
-        }
-        ?>
         <div class="center">
             <button type="submit" class="btn btn-primary">Login</button>
         </div>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,7 +150,6 @@
         <button type="submit" class="btn btn-secondary mt-3">Skip</button>
         </form>
         <?php
-        session_start();
         if(isset($_GET['done'])){
             echo "<p class='p-2 m-5 text-white bg-success text-center' >Account created, Now <a href='login.php'>Go to Login Page</a>.</p>";
         }
@@ -188,7 +190,7 @@
                 echo "Sorry, your file was not uploaded.";
             } else {
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-                    echo "The file has been uploaded as successfully.";
+                    echo "The file has been uploaded successfully.";
                     echo "<p class='p-2 m-5 text-white bg-success text-center' >Account created, Now <a href='login.php'>Go to Login Page</a>.</p>";
                 } else {
                     echo "Sorry, there was an error uploading your file.";

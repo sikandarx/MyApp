@@ -261,7 +261,7 @@ class application
         }
         else
         {
-            header("location:image.php");
+            echo "<script>window.location.href = 'image.php';</script>";
             exit;
         }
     }
