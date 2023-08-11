@@ -80,58 +80,14 @@ $db=new application();
         .navbar-nav{
             margin-left: 40px;
         }
-        @media screen and (max-width:980px) {
-            .mtop{
-                margin-top: 150px !important;
-            }
-            .logout{
-                font-size: 45px;
-                margin: 25px 40PX!important;
-                padding: 15px !important;
-                border-radius: 10px!important;
-            }
-            .img{
-                max-width: 0px!important;
-            }
-            .course{
-                width: 800px !important;
-            }
-            h1{
-                font-size: 85px !important;
-            }
-            h2{
-                font-size: 50px !important;
-            }
-            h4{
-                font-size: 40px !important;
-            }
-            .navbar-nav{
-                margin: 0!important;
-            }
-            .nav-link{
-                margin-left: 0!important;
-                padding: 16px 20px!important;
-                font-size: 40px!important;
-            }
-            .dropdown-item{
-                font-size: 40px !important;
-            }
-            .navbar-toggler-icon {
-                font-size: 3.5rem;
-            }
-            .navbar-toggler{
-                margin: 25px;
-            }
-            .nav-item{
-                margin: 20px 0!important;
-            }
+        @media screen and (max-width:738px) {
             .navbar-collapse {
                 position: fixed;
                 top: 0;
                 left: 0;
                 bottom: 0;
                 width: 50%;
-                background-color: #343a40; /* Adjust the background color as needed */
+                background-color: #343a40;
                 padding: 1rem;
                 z-index: 1000;
                 transition-duration: 0s;
